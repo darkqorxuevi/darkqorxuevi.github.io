@@ -122,17 +122,48 @@ header{
 
 /* REZERVASİYA BUTTON */
 .reserve-btn{
-    margin-top:60px;
-    padding:18px 50px;
-    background:red;
+    margin-top:80px;
+    padding:20px 60px;
+    background:linear-gradient(45deg, #8b0000, red);
     color:white;
     text-decoration:none;
-    font-weight:bold;
-    border-radius:40px;
-    font-size:18px;
-    box-shadow:0 0 20px red;
-    transition:0.3s;
+    font-weight:700;
+    font-size:20px;
+    border-radius:50px;
+    letter-spacing:1px;
+    box-shadow:0 0 15px red,
+               0 0 30px red,
+               0 0 60px darkred;
+    transition:0.4s;
+    position:relative;
+    overflow:hidden;
 }
+
+/* Hover effekti */
+.reserve-btn:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 25px red,
+               0 0 50px red,
+               0 0 90px darkred;
+}
+
+/* İçindən işıq keçmə effekti */
+.reserve-btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,0.2);
+    transform:skewX(-30deg);
+    transition:0.5s;
+}
+
+.reserve-btn:hover::before{
+    left:120%;
+}
+
 
 .reserve-btn:hover{
     background:darkred;
