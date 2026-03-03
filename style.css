@@ -54,13 +54,11 @@ header{
     z-index:10;
 }
 
-/* Səhifə adı */
 .topbar-title{
     font-weight:bold;
     font-size:20px;
 }
 
-/* Burger normal vəziyyət */
 .burger{
     position:absolute;
     right:25px;
@@ -69,12 +67,9 @@ header{
     transition:0.3s;
 }
 
-/* X aktiv olanda */
 .burger.close{
-    color:#8b0000; /* dark qırmızı */
+    color:#8b0000;
 }
-
-
 
 /* SIDE MENU */
 .side-menu{
@@ -139,32 +134,6 @@ header{
     overflow:hidden;
 }
 
-/* Hover effekti */
-.reserve-btn:hover{
-    transform:scale(1.1);
-    box-shadow:0 0 25px red,
-               0 0 50px red,
-               0 0 90px darkred;
-}
-
-/* İçindən işıq keçmə effekti */
-.reserve-btn::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
-    height:100%;
-    background:rgba(255,255,255,0.2);
-    transform:skewX(-30deg);
-    transition:0.5s;
-}
-
-.reserve-btn:hover::before{
-    left:120%;
-}
-
-
 .reserve-btn:hover{
     background:darkred;
     transform:scale(1.08);
@@ -181,7 +150,6 @@ header{
     }
 }
 
-
 /* ===== HERO SECTION ===== */
 
 .hero{
@@ -195,7 +163,6 @@ header{
     overflow:hidden;
 }
 
-/* Qaranlıq overlay */
 .overlay{
     position:absolute;
     width:100%;
@@ -204,21 +171,19 @@ header{
     backdrop-filter:blur(3px);
 }
 
-/* Məzmun */
 .hero-content{
     position:relative;
     z-index:2;
     padding:20px;
 }
 
-/* Logo neon effekti */
 .hero-logo{
-    width:200px;
+    width:75%;
+    max-width:350px;
     margin-bottom:20px;
-    filter:drop-shadow(0 0 15px red);
+    filter:drop-shadow(0 0 20px red);
 }
 
-/* Başlıq */
 .hero-title{
     color:#ff0000;
     font-size:22px;
@@ -227,7 +192,6 @@ header{
     font-weight:bold;
 }
 
-/* Düymə */
 .hero-btn{
     display:inline-block;
     padding:15px 40px;
@@ -247,48 +211,54 @@ header{
     box-shadow:0 0 25px red;
 }
 
+/* ===== GAMES PAGE WINDOW ===== */
 
-/* ===== ANIMATION ===== */
-
-/* Kart animasiyalı */
-.game-card{
-    opacity:0;
-    transform:translateY(40px);
-    animation:fadeUp 1s ease forwards, glowPulse 3s infinite alternate;
+.games-section{
+    padding:120px 20px 40px;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
 }
 
-/* Başlıq flicker */
-.game-title{
-    animation:flicker 2s infinite;
+.game-window{
+    width:100%;
+    max-width:500px;
+    background:rgba(0,0,0,0.75);
+    backdrop-filter:blur(8px);
+    border:1px solid #8b0000;
+    border-radius:15px;
+    box-shadow:0 0 30px rgba(255,0,0,0.6);
+    overflow:hidden;
+    animation:fadeUpWindow 1s ease forwards;
 }
 
-/* Fade Up */
-@keyframes fadeUp{
+.window-header{
+    background:rgba(139,0,0,0.2);
+    color:#ff0000;
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    padding:20px;
+    letter-spacing:3px;
+    text-shadow:0 0 15px red;
+}
+
+.window-body{
+    padding:25px;
+    color:#f1f1f1;
+    line-height:1.8;
+    font-size:15px;
+    font-family:'Segoe UI', sans-serif;
+}
+
+/* Window animasiya */
+@keyframes fadeUpWindow{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
     to{
         opacity:1;
         transform:translateY(0);
     }
 }
-
-/* Glow nəfəs effekti */
-@keyframes glowPulse{
-    from{
-        box-shadow:0 0 15px rgba(139,0,0,0.4);
-    }
-    to{
-        box-shadow:0 0 35px rgba(255,0,0,0.8);
-    }
-}
-
-/* Neon titrəmə */
-@keyframes flicker{
-    0%,18%,22%,25%,53%,57%,100%{
-        text-shadow:0 0 10px red, 0 0 20px red;
-    }
-    20%,24%,55%{
-        text-shadow:none;
-    }
-}
-
-
-
