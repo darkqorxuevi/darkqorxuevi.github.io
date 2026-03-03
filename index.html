@@ -47,11 +47,14 @@ function toggleMenu(){
 
     if(menu.classList.contains("active")){
         burger.innerHTML = "✕";
+        burger.classList.add("close");
     } else {
         burger.innerHTML = "☰";
+        burger.classList.remove("close");
     }
 }
 
+/* Scroll edəndə bağlansın */
 window.addEventListener("scroll", function(){
     const menu = document.getElementById("menu");
     const burger = document.getElementById("burger");
@@ -59,9 +62,11 @@ window.addEventListener("scroll", function(){
     if(menu.classList.contains("active")){
         menu.classList.remove("active");
         burger.innerHTML = "☰";
+        burger.classList.remove("close");
     }
 });
 </script>
+
 
 </body>
 </html>
