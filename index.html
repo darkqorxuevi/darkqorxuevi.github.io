@@ -18,10 +18,9 @@
 <header>
 
     <div class="topbar">
-    <div class="topbar-title">Ana Səhifə</div>
-    <div class="burger" onclick="toggleMenu()">☰</div>
-</div>
-
+        <div class="topbar-title">Ana Səhifə</div>
+        <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+    </div>
 
     <div class="logo">
         <img src="logo.png" alt="Logo">
@@ -41,8 +40,27 @@
 
 <script>
 function toggleMenu(){
-    document.getElementById("menu").classList.toggle("active");
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+
+    menu.classList.toggle("active");
+
+    if(menu.classList.contains("active")){
+        burger.innerHTML = "✕";
+    } else {
+        burger.innerHTML = "☰";
+    }
 }
+
+window.addEventListener("scroll", function(){
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+
+    if(menu.classList.contains("active")){
+        menu.classList.remove("active");
+        burger.innerHTML = "☰";
+    }
+});
 </script>
 
 </body>
