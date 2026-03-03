@@ -60,13 +60,20 @@ header{
     font-size:20px;
 }
 
-/* Burger */
+/* Burger normal vəziyyət */
 .burger{
     position:absolute;
     right:25px;
     font-size:28px;
     cursor:pointer;
+    transition:0.3s;
 }
+
+/* X aktiv olanda */
+.burger.close{
+    color:#8b0000; /* dark qırmızı */
+}
+
 
 
 /* SIDE MENU */
