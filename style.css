@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:url("forest.jpg") no-repeat center center;
+    background-size:cover;
+    font-family:Arial, sans-serif;
+    color:white;
+    text-align:center;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.88);
+    z-index:0;
+}
+
+header{
+    position:relative;
+    z-index:2;
+    padding:30px 0;
+}
+
+nav{
+    margin-bottom:20px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 20px;
+    font-size:18px;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:red;
+}
+
+.logo{
+    margin-top:30px;
+}
+
+.logo img{
+    width:300px;
+    max-width:80%;
+}
+
+.slogan{
+    margin-top:25px;
+    font-family:'Creepster', cursive;
+    font-size:32px;
+    color:red;
+    text-shadow:0 0 20px red;
+}
+
+.content{
+    position:relative;
+    z-index:2;
+    padding:80px 20px;
+}
