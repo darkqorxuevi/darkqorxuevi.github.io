@@ -6,123 +6,176 @@
 <title>Dark Qorxu Evi</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    background: url("forest.jpg") no-repeat center center/cover;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    color: white;
+html,body{
+    height:100%;
+    font-family:Arial, sans-serif;
+    scroll-behavior:smooth;
 }
 
-/* Qaraltma layer */
-body::after {
-    content: "";
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.75);
-    top: 0;
-    left: 0;
-    z-index: 0;
+body{
+    background:url("forest.jpg") no-repeat center center;
+    background-size:cover;
+    color:white;
+}
+
+/* Dark overlay */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    z-index:0;
 }
 
 /* NAVBAR */
-nav {
-    position: fixed;
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    z-index: 2;
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(6px);
+    z-index:10;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    transition: 0.3s;
+.nav-left{
+    display:flex;
+    gap:25px;
 }
 
-nav a:hover {
-    color: red;
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:16px;
+    transition:0.3s;
 }
 
-/* CENTER CONTENT */
-.center {
-    position: relative;
-    z-index: 2;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+nav a:hover{
+    color:red;
 }
 
-/* LOGO */
-.center img {
-    width: 80%;
-    max-width: 500px;
+/* Hamburger */
+.hamburger{
+    font-size:28px;
+    cursor:pointer;
 }
 
-/* TEXT */
-.tagline {
-    margin-top: 20px;
-    font-size: 20px;
-    letter-spacing: 2px;
-    opacity: 0.8;
+/* Dropdown menu */
+.menu{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:70%;
+    height:100%;
+    background:#0a0a0a;
+    padding:60px 30px;
+    transition:0.4s;
+    z-index:20;
 }
 
-/* BUTTON */
-.button {
-    margin-top: 30px;
+.menu a{
+    display:block;
+    margin:20px 0;
+    font-size:18px;
 }
 
-.button a {
-    background: red;
-    padding: 15px 40px;
-    text-decoration: none;
-    color: white;
-    border-radius: 30px;
-    font-size: 18px;
-    box-shadow: 0 0 20px red;
-    transition: 0.3s;
+.menu.active{
+    right:0;
 }
 
-.button a:hover {
-    background: darkred;
-    box-shadow: 0 0 40px red;
+/* CENTER */
+.center{
+    position:relative;
+    z-index:2;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.center img{
+    width:85%;
+    max-width:500px;
+}
+
+.tagline{
+    margin-top:20px;
+    font-size:18px;
+}
+
+/* Sections */
+section{
+    position:relative;
+    z-index:2;
+    padding:100px 20px;
+    text-align:center;
+    background:rgba(0,0,0,0.85);
+}
+
+section h2{
+    margin-bottom:20px;
+    color:red;
 }
 </style>
 </head>
+
 <body>
 
 <nav>
-    <a href="#">Ana Səhifə</a>
-    <a href="#">Haqqımızda</a>
-    <a href="#">Whatsap Qurupu</a>
-    <a href="#">Qiymətlər</a>
-    <a href="#">Məkan</a>
+    <div class="nav-left">
+        <a href="#home">Ana Səhifə</a>
+        <a href="#about">Haqqımızda</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
 </nav>
 
-<div class="center">
-    <img src="logo.png" alt="Logo">
+<div class="menu" id="menu">
+    <a href="#home" onclick="toggleMenu()">Ana Səhifə</a>
+    <a href="#about" onclick="toggleMenu()">Haqqımızda</a>
+    <a href="https://chat.whatsapp.com/YOURGROUPLINK" target="_blank">WhatsApp Qrupu</a>
+    <a href="#prices" onclick="toggleMenu()">Qiymətlər</a>
+    <a href="#location" onclick="toggleMenu()">Məkan</a>
+</div>
 
+<div class="center" id="home">
+    <img src="logo.png" alt="Logo">
     <div class="tagline">
         Qorxunun Ən Dərin Nöqtəsinə Hazırsan?
     </div>
-
-    <div class="button">
-        <a href="https://wa.me/994XXXXXXXXX" target="_blank">
-            Rezervasiya
-        </a>
-    </div>
 </div>
+
+<section id="about">
+    <h2>Haqqımızda</h2>
+    <p>Dark Qorxu Evi şəhərin ən qorxulu və realistik qorxu təcrübəsini təqdim edir.</p>
+</section>
+
+<section id="prices">
+    <h2>Qiymətlər</h2>
+    <p>1 nəfər - 10 AZN<br>2 nəfər - 18 AZN<br>Qrup endirimləri mövcuddur.</p>
+</section>
+
+<section id="location">
+    <h2>Məkan</h2>
+    <p>Ünvan: Sumqayıt şəhəri (dəqiq ünvan rezervasiya zamanı bildirilir).</p>
+</section>
+
+<script>
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("active");
+}
+</script>
 
 </body>
 </html>
