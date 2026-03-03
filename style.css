@@ -248,4 +248,47 @@ header{
 }
 
 
+/* ===== ANIMATION ===== */
+
+/* Kart animasiyalı */
+.game-card{
+    opacity:0;
+    transform:translateY(40px);
+    animation:fadeUp 1s ease forwards, glowPulse 3s infinite alternate;
+}
+
+/* Başlıq flicker */
+.game-title{
+    animation:flicker 2s infinite;
+}
+
+/* Fade Up */
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Glow nəfəs effekti */
+@keyframes glowPulse{
+    from{
+        box-shadow:0 0 15px rgba(139,0,0,0.4);
+    }
+    to{
+        box-shadow:0 0 35px rgba(255,0,0,0.8);
+    }
+}
+
+/* Neon titrəmə */
+@keyframes flicker{
+    0%,18%,22%,25%,53%,57%,100%{
+        text-shadow:0 0 10px red, 0 0 20px red;
+    }
+    20%,24%,55%{
+        text-shadow:none;
+    }
+}
+
+
 
