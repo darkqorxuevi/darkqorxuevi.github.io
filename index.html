@@ -6,21 +6,27 @@
 <title>Dark Qorxu Evi</title>
 <link rel="stylesheet" href="style.css">
 
-<!-- Google Font (Azərbaycan əlifbasını dəstəkləyir) -->
+<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
 <body>
 
+<!-- SIDE MENU -->
+<div class="side-menu" id="menu">
+    <a href="about.html">Haqqımızda</a>
+    <a href="games.html">Oyunlarımız</a>
+    <a href="prices.html">Qiymətlər</a>
+    <a href="location.html">Məkan</a>
+</div>
+
 <header>
 
-    <nav>
-        <a href="index.html">Ana Səhifə</a>
-        <a href="about.html">Haqqımızda</a>
-        <a href="games.html">Oyunlarımız</a>
-        <a href="prices.html">Qiymətlər</a>
-        <a href="location.html">Məkan</a>
-    </nav>
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <div class="page-title">Ana Səhifə</div>
+        <div class="burger" onclick="toggleMenu()">☰</div>
+    </div>
 
     <div class="logo">
         <img src="logo.png" alt="Logo">
@@ -33,10 +39,16 @@
     <a class="reserve-btn" 
        href="https://wa.me/994993121709?text=Salam,%20rezervasiya%20etmək%20istəyirəm" 
        target="_blank">
-       Rezervasiya Et
+       Rezervasiya
     </a>
 
 </header>
+
+<script>
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("active");
+}
+</script>
 
 </body>
 </html>
