@@ -9,112 +9,35 @@
 body{
     background:url("forest.jpg") no-repeat center center;
     background-size:cover;
-    font-family:'Montserrat', sans-serif; /* Azərbaycan əlifbasını dəstəkləyir */
+    font-family:'Montserrat', sans-serif;
     color:white;
     text-align:center;
     min-height:100vh;
 }
 
-/* Arxa fonu daha qaranlıq etmək */
+/* Qaranlıq effekt */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.88);
+    background:rgba(0,0,0,0.9);
     z-index:0;
 }
 
 header{
     position:relative;
     z-index:2;
-    padding:30px 20px;
-    min-height:100vh;
+    height:100vh;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
 }
 
-/* NAVBAR */
-nav{
+/* TOP BAR */
+.topbar{
     position:absolute;
-    top:25px;
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    margin:0 20px;
-    font-size:18px;
-    font-weight:700;
-    transition:0.3s;
-}
-
-nav a:hover{
-    color:red;
-}
-
-/* LOGO */
-.logo{
-    margin-top:30px;
-}
-
-.logo img{
-    width:300px;
-    max-width:80%;
-}
-
-/* SLOQAN */
-.slogan{
-    margin-top:30px;
-    font-family:'Creepster', cursive;
-    font-size:42px;
-    color:red;
-    text-shadow:0 0 25px red;
-}
-
-/* REZERVASIYA BUTTON */
-.reserve-btn{
-    margin-top:40px;
-    display:inline-block;
-    padding:15px 40px;
-    background:red;
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    border-radius:40px;
-    transition:0.3s;
-    box-shadow:0 0 20px red;
-}
-
-.reserve-btn:hover{
-    background:darkred;
-    transform:scale(1.1);
-    box-shadow:0 0 40px red;
-}
-
-/* Content səhifələr üçün */
-.content{
-    position:relative;
-    z-index:2;
-    padding:120px 20px;
-}
-
-/* Telefon üçün uyğunlaşma */
-@media(max-width:768px){
-
-    .logo img{
-        width:200px;
-    }
-
-    .slogan{
-        font-size:28px;
-        padding:0 10px;
-    }
-
-    nav a{
-        margin:0 10px;
-        font-size:16px;
-    }
-
-}
+    top:20px;
+    width:100%;
+    display:flex;
+    justify-content:center;
