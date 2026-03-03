@@ -3,25 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Haqqımızda - Dark Qorxu Evi</title>
+<title>Haqqımızda</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="side-menu" id="menu">
+    <a href="index.html">Ana Səhifə</a>
+    <a href="games.html">Oyunlarımız</a>
+    <a href="prices.html">Qiymətlər</a>
+    <a href="location.html">Məkan</a>
+</div>
+
 <header>
-    <nav>
-        <a href="index.html">Ana Səhifə</a>
-        <a href="about.html">Haqqımızda</a>
-    </nav>
+
+    <div class="burger" onclick="toggleMenu()">☰</div>
+
+    <div class="content">
+        <h1>Haqqımızda</h1>
+        <p>
+            Dark Qorxu Evi şəhərin ən qorxulu məkanıdır...
+            Sumqayıt şəhərinin tək və yek Qorxu Evi😈
+        </p>
+    </div>
+
 </header>
 
-<div class="content">
-    <h1 style="color:red; margin-bottom:20px;">Haqqımızda</h1>
-    <p>
-        Dark Qorxu Evi şəhərin ən qorxulu və realistik qorxu təcrübəsini təqdim edir.
-        Burada səni gözləyən yalnız qaranlıq deyil...
-    </p>
-</div>
+<script>
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("active");
+}
+</script>
 
 </body>
 </html>
