@@ -41,3 +41,89 @@ header{
     width:100%;
     display:flex;
     justify-content:center;
+    align-items:center;
+}
+
+.page-title{
+    font-weight:bold;
+    font-size:20px;
+}
+
+.burger{
+    position:absolute;
+    right:25px;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* SIDE MENU */
+.side-menu{
+    position:fixed;
+    top:0;
+    right:-250px;
+    width:250px;
+    height:100vh;
+    background:black;
+    padding-top:80px;
+    transition:0.4s;
+    z-index:5;
+}
+
+.side-menu a{
+    display:block;
+    padding:15px;
+    color:white;
+    text-decoration:none;
+    border-bottom:1px solid #222;
+}
+
+.side-menu a:hover{
+    background:red;
+}
+
+.side-menu.active{
+    right:0;
+}
+
+/* LOGO */
+.logo img{
+    width:280px;
+    max-width:80%;
+}
+
+/* SLOGAN */
+.slogan{
+    margin-top:25px;
+    font-family:'Creepster', cursive;
+    font-size:40px;
+    color:red;
+    text-shadow:0 0 25px red;
+}
+
+/* REZERVASİYA BUTTON */
+.reserve-btn{
+    margin-top:60px;
+    display:inline-block;
+    padding:18px 50px;
+    background:red;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:40px;
+    font-size:18px;
+    box-shadow:0 0 20px red;
+    transition:0.3s;
+}
+
+.reserve-btn:hover{
+    background:darkred;
+    transform:scale(1.1);
+}
+
+/* Telefon */
+@media(max-width:768px){
+    .slogan{
+        font-size:28px;
+        padding:0 15px;
+    }
+}
