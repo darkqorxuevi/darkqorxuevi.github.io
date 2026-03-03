@@ -3,56 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dark Horror House</title>
+<title>Dark Qorxu Evi</title>
 
 <style>
 body {
     margin: 0;
     padding: 0;
-    background: black;
+    background: url("forest.jpg") no-repeat center center/cover;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     font-family: Arial, sans-serif;
 }
 
-.logo-container img {
-    width: 90%;
-    max-width: 600px;
-    height: auto;
+/* Qaraltma effekti */
+body::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.65);
+    top: 0;
+    left: 0;
 }
 
-/* Rezervasiya düyməsi */
+.logo {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.logo img {
+    width: 80%;
+    max-width: 500px;
+}
+
 .button {
     margin-top: 30px;
-    padding: 15px 40px;
+}
+
+.button a {
     background: red;
     color: white;
+    padding: 15px 35px;
     text-decoration: none;
     font-size: 18px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px red;
+    border-radius: 30px;
+    box-shadow: 0 0 20px red;
     transition: 0.3s;
 }
 
-.button:hover {
+.button a:hover {
     background: darkred;
-    box-shadow: 0 0 25px red;
+    box-shadow: 0 0 40px red;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="logo-container">
-    <img src="logo.png" alt="Dark Horror House">
-</div>
+<div class="logo">
+    <img src="logo.png" alt="Dark Qorxu Evi Logo">
 
-<a class="button" href="https://wa.me/994XXXXXXXXX" target="_blank">
-    REZERVASİYA
-</a>
+    <div class="button">
+        <a href="https://wa.me/994993121709" target="_blank">
+            Rezervasiya
+        </a>
+    </div>
+</div>
 
 </body>
 </html>
