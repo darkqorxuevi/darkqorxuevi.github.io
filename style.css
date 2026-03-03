@@ -7,21 +7,27 @@
 }
 
 body{
-    background:url("forest.jpg") no-repeat center center;
-    background-size:cover;
+    background:url("forest.jpg") center/cover no-repeat;
     font-family:'Montserrat', sans-serif;
     color:white;
-    text-align:center;
     min-height:100vh;
+    overflow-x:hidden;
+    animation:fadeIn 1.2s ease;
 }
 
-/* Qaranlıq effekt */
+/* Orta səviyyə qaranlıq */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.9);
+    background:rgba(0,0,0,0.75);
     z-index:0;
+}
+
+/* Səhifə açılma animasiyası */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
 }
 
 header{
@@ -32,19 +38,15 @@ header{
     flex-direction:column;
     align-items:center;
     justify-content:center;
+    text-align:center;
 }
 
-/* TOP BAR */
+/* YUXARI BAR */
 .topbar{
     position:absolute;
-    top:20px;
+    top:25px;
     width:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.page-title{
+    text-align:center;
     font-weight:bold;
     font-size:20px;
 }
@@ -52,6 +54,7 @@ header{
 .burger{
     position:absolute;
     right:25px;
+    top:0;
     font-size:28px;
     cursor:pointer;
 }
@@ -59,12 +62,12 @@ header{
 /* SIDE MENU */
 .side-menu{
     position:fixed;
+    right:-260px;
     top:0;
-    right:-250px;
-    width:250px;
+    width:260px;
     height:100vh;
-    background:black;
-    padding-top:80px;
+    background:rgba(0,0,0,0.95);
+    padding-top:100px;
     transition:0.4s;
     z-index:5;
 }
@@ -87,15 +90,15 @@ header{
 
 /* LOGO */
 .logo img{
-    width:280px;
-    max-width:80%;
+    width:320px;
+    max-width:85%;
 }
 
 /* SLOGAN */
 .slogan{
     margin-top:25px;
     font-family:'Creepster', cursive;
-    font-size:40px;
+    font-size:42px;
     color:red;
     text-shadow:0 0 25px red;
 }
@@ -103,7 +106,6 @@ header{
 /* REZERVASİYA BUTTON */
 .reserve-btn{
     margin-top:60px;
-    display:inline-block;
     padding:18px 50px;
     background:red;
     color:white;
@@ -117,13 +119,16 @@ header{
 
 .reserve-btn:hover{
     background:darkred;
-    transform:scale(1.1);
+    transform:scale(1.08);
 }
 
-/* Telefon */
+/* Telefon uyğunlaşma */
 @media(max-width:768px){
     .slogan{
         font-size:28px;
         padding:0 15px;
+    }
+    .logo img{
+        width:220px;
     }
 }
