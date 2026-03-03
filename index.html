@@ -4,179 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dark Qorxu Evi</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html,body{
-    height:100%;
-    font-family:Arial, sans-serif;
-    scroll-behavior:smooth;
-}
-
-body{
-    background:url("forest.jpg") no-repeat center center;
-    background-size:cover;
-    color:white;
-}
-
-/* Dark overlay */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.85);
-    z-index:0;
-}
-
-/* NAVBAR */
-nav{
-    position:fixed;
-    top:0;
-    width:100%;
-    padding:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:rgba(0,0,0,0.6);
-    backdrop-filter:blur(6px);
-    z-index:10;
-}
-
-.nav-left{
-    display:flex;
-    gap:25px;
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    font-size:16px;
-    transition:0.3s;
-}
-
-nav a:hover{
-    color:red;
-}
-
-/* Hamburger */
-.hamburger{
-    font-size:28px;
-    cursor:pointer;
-}
-
-/* Dropdown menu */
-.menu{
-    position:fixed;
-    top:0;
-    right:-100%;
-    width:70%;
-    height:100%;
-    background:#0a0a0a;
-    padding:60px 30px;
-    transition:0.4s;
-    z-index:20;
-}
-
-.menu a{
-    display:block;
-    margin:20px 0;
-    font-size:18px;
-}
-
-.menu.active{
-    right:0;
-}
-
-/* CENTER */
-.center{
-    position:relative;
-    z-index:2;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-}
-
-.center img{
-    width:85%;
-    max-width:500px;
-}
-
-.tagline{
-    margin-top:20px;
-    font-size:18px;
-}
-
-/* Sections */
-section{
-    position:relative;
-    z-index:2;
-    padding:100px 20px;
-    text-align:center;
-    background:rgba(0,0,0,0.85);
-}
-
-section h2{
-    margin-bottom:20px;
-    color:red;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<nav>
-    <div class="nav-left">
-        <a href="#home">Ana Səhifə</a>
-        <a href="#about">Haqqımızda</a>
+<header>
+    <nav>
+        <a href="index.html">Ana Səhifə</a>
+        <a href="about.html">Haqqımızda</a>
+    </nav>
+
+    <div class="logo">
+        <img src="logo.png" alt="Logo">
     </div>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-</nav>
 
-<div class="menu" id="menu">
-    <a href="#home" onclick="toggleMenu()">Ana Səhifə</a>
-    <a href="#about" onclick="toggleMenu()">Haqqımızda</a>
-    <a href="https://chat.whatsapp.com/YOURGROUPLINK" target="_blank">WhatsApp Qrupu</a>
-    <a href="#prices" onclick="toggleMenu()">Qiymətlər</a>
-    <a href="#prices" onclick="toggleMenu()">Oyunlarımız</a>
-    <a href="#location" onclick="toggleMenu()">Məkan</a>
-</div>
-
-<div class="center" id="home">
-    <img src="logo.png" alt="Logo">
-    <div class="tagline">
+    <div class="slogan">
         Qorxunun Ən Qaranlıq Nöqtəsinə Hazırsan?
     </div>
-</div>
-
-<section id="about">
-    <h2>Haqqımızda</h2>
-    <p>Dark Qorxu Evi şəhərin ən qorxulu və realistik qorxu təcrübəsini təqdim edir.</p>
-</section>
-
-<section id="prices">
-    <h2>Qiymətlər</h2>
-    <p>1 nəfər - 10 AZN<br><br>Qrup endirimləri mövcuddur.</p>
-</section>
-
-<section id="location">
-    <h2>Məkan</h2>
-    <p>Ünvan: Sumqayıt şəhər, Mərkəzi poçt ilə üzbə-üz, Təbiət Elmlər Təmayüllü Gimnaziyanın yanı</p>
-</section>
-
-<script>
-function toggleMenu(){
-    document.getElementById("menu").classList.toggle("active");
-}
-</script>
+</header>
 
 </body>
 </html>
