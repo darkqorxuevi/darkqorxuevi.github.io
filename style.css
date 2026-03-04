@@ -377,3 +377,20 @@ header{
     border:1px solid red;
     box-shadow:0 0 30px rgba(255,0,0,0.7);
 }
+
+
+.azrail{
+    border:1px solid #b30000;
+    box-shadow:0 0 25px rgba(179,0,0,0.6);
+}
+
+.azrail h2{
+    color:#ff1a1a;
+    text-shadow:0 0 15px red;
+}
+
+.azrail:hover{
+    transform:scale(1.03);
+    box-shadow:0 0 40px red;
+}
+
