@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modlar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SIDE MENU -->
+<div class="side-menu" id="menu">
+    <a href="index.html">Ana Səhifə</a>
+    <a href="about.html">Haqqımızda</a>
+    <a href="games.html">Oyunlar</a>
+    <a href="prices.html">Qiymətlər</a>
+    <a href="location.html">Məkan</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="topbar-title">REJİMLƏR</div>
+    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+</div>
+
+<section class="mods-section">
+
+    <div class="mods-container">
+
+        <div class="mode-card">
+            <h2>LIGHT(8+)</h2>
+            <p>
+            Bu mod qorxu ilə yeni tanış olanlar üçündür.
+            Aktyor olmur. Atmosfer, işıq effektləri,
+            qəfil səslər və psixoloji gərginlik əsasdır.
+            Qaranlıq, səs və gözlənilməzlik sizi sınağa çəkəcək.
+            </p>
+        </div>
+
+        <div class="mode-card">
+            <h2>STANDART(10+)</h2>
+            <p>
+            Aktyor iştirak edir.
+            Qəfil qarşılaşmalar və yaxın məsafədən qorxu səhnələri olur.
+            Fiziki toxunuş yoxdur, lakin psixoloji təzyiq maksimum səviyyədədir.
+            </p>
+        </div>
+
+        <div class="mode-card">
+            <h2>HARD(16+)</h2>
+            <p>
+            Aktyor aktiv şəkildə iştirak edir.
+            Qəfil yaxınlaşmalar, sürətli hərəkətlər.
+            Bədənə yüngül toxunuşlar, aktyor saçdan tutur, ayağdan tutur,
+            sürütləyir.
+            Adrenalin sevənlər üçün ideal seçimdir.
+            </p>
+        </div>
+
+        <div class="mode-card ultra">
+            <h2>ULTRA HARD(18+)</h2>
+            <p>
+            Ən yüksək qorxu səviyyəsi.
+            Tam immersiv təcrübə, qaranlıq mühit,
+            intensiv aktyor performansı və maksimum gərginlik.
+            Bədənə sərt toxunuşlar(zərbə)
+            Bu mod yalnız həqiqətən cəsarətli olanlar üçündür.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+function toggleMenu(){
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+
+    menu.classList.toggle("active");
+
+    if(menu.classList.contains("active")){
+        burger.innerHTML = "✕";
+        burger.classList.add("close");
+    } else {
+        burger.innerHTML = "☰";
+        burger.classList.remove("close");
+    }
+}
+</script>
+
+</body>
+</html>
