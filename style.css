@@ -51,7 +51,7 @@ header{
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:1000; /* aşağı saldıq */
+    z-index:10000; /* aşağı saldıq */
 }
 
 
@@ -76,15 +76,16 @@ header{
 /* SIDE MENU */
 .side-menu{
     position:fixed;
-    right:-100%;
     top:0;
-    width:100%;
+    right:-50%;
+    width:50%;
     height:100vh;
-    background:rgba(0,0,0,0.98);
+    background:rgba(0,0,0,0.97);
     padding-top:100px;
-    transition:0.4s;
-    z-index:20000;
+    transition:0.4s ease;
+    z-index:5000;
 }
+
 
 
 
