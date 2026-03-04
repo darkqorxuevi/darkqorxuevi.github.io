@@ -51,8 +51,9 @@ header{
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:10000; /* Side menudan da yuxarı */
+    z-index:1000; /* aşağı saldıq */
 }
+
 
 
 .topbar-title{
@@ -102,6 +103,11 @@ header{
 .side-menu.active{
     right:0;
 }
+
+.side-menu.active{
+    right:0;
+}
+
 
 /* LOGO */
 .logo img{
