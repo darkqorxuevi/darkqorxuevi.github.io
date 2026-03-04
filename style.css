@@ -75,15 +75,16 @@ header{
 /* SIDE MENU */
 .side-menu{
     position:fixed;
-    right:-260px;
+    right:-100%;
     top:0;
-    width:260px;
+    width:100%;
     height:100vh;
-    background:rgba(0,0,0,0.97);
+    background:rgba(0,0,0,0.98);
     padding-top:100px;
     transition:0.4s;
-    z-index:9999; /* Həmişə üstdə olacaq */
+    z-index:20000;
 }
+
 
 
 .side-menu a{
