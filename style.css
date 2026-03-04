@@ -51,8 +51,11 @@ header{
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:10000; /* aşağı saldıq */
+    background:rgba(0,0,0,0.85);
+    backdrop-filter:blur(6px);
+    z-index:9999;
 }
+
 
 
 
