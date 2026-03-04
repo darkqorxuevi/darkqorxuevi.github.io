@@ -226,11 +226,10 @@ header{
 /* ===== GAMES PAGE WINDOW ===== */
 
 .games-section{
-    padding:120px 20px 40px;
+    padding:40px 20px;
     min-height:100vh;
-    display:flex;
-    justify-content:center;
 }
+
 
 .game-window{
     width:100%;
