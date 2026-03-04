@@ -327,3 +327,51 @@ header{
         transform:translateY(0);
     }
 }
+
+
+/* ===== MODS PAGE ===== */
+
+.mods-section{
+    padding:120px 20px 60px;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+}
+
+.mods-container{
+    width:100%;
+    max-width:700px;
+}
+
+.mode-card{
+    background:rgba(0,0,0,0.75);
+    border:1px solid #8b0000;
+    border-radius:12px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 0 20px rgba(255,0,0,0.4);
+    transition:0.4s;
+}
+
+.mode-card h2{
+    color:#ff0000;
+    margin-bottom:15px;
+    letter-spacing:3px;
+    text-shadow:0 0 10px red;
+}
+
+.mode-card p{
+    line-height:1.8;
+    font-size:15px;
+    color:#f1f1f1;
+}
+
+.mode-card:hover{
+    transform:scale(1.03);
+    box-shadow:0 0 30px red;
+}
+
+.ultra{
+    border:1px solid red;
+    box-shadow:0 0 30px rgba(255,0,0,0.7);
+}
