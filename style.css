@@ -78,11 +78,12 @@ header{
     top:0;
     width:260px;
     height:100vh;
-    background:rgba(0,0,0,0.95);
+    background:rgba(0,0,0,0.97);
     padding-top:100px;
     transition:0.4s;
-    z-index:5;
+    z-index:9999; /* Həmişə üstdə olacaq */
 }
+
 
 .side-menu a{
     display:block;
