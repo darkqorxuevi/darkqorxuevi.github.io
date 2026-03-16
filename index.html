@@ -104,6 +104,18 @@ function sendReserve(){
 let date=document.getElementById("date").value;
 let time=document.getElementById("time").value;
 
+let slot=date+"-"+time;
+
+let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
+
+if(reserved.includes(slot)){
+alert("Bu saat əvvəlcədən rezerv olunub");
+return;
+}
+
+reserved.push(slot);
+localStorage.setItem("reservedSlots",JSON.stringify(reserved));
+
 let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
 
 let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
@@ -111,6 +123,7 @@ let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
 window.open(url,"_blank");
 
 }
+
 
 </script>
 
