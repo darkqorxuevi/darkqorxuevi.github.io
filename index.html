@@ -30,14 +30,35 @@
         Qorxunun Ən Qaranlıq Nöqtəsinə Hazırsan?
     </div>
 
-    <a class="reserve-btn"
-       href="https://wa.me/994993121709?text=Salam,%20rezervasiya%20etmək%20istəyirəm"
-       target="_blank">
-       Rezervasiya Et
-    </a>
+    <button class="reserve-btn" onclick="openReserve()">
+Rezervasiya Et
+</button>
+
 
 </header>
 
+    <div class="reserve-popup" id="reservePopup">
+
+<div class="reserve-box">
+
+<div class="close-btn" onclick="closeReserve()">✕</div>
+
+<h2>Rezervasiya</h2>
+
+<label>Tarix seç</label>
+<input type="date" id="date">
+
+<label>Saat seç</label>
+<input type="time" id="time">
+
+<button class="confirm-btn" onclick="sendReserve()">
+Rezerv Et
+</button>
+
+</div>
+</div>
+
+    
 <script>
 function toggleMenu(){
     const menu = document.getElementById("menu");
@@ -67,6 +88,30 @@ window.addEventListener("scroll", function(){
 });
 </script>
 
+<script>
+
+function openReserve(){
+document.getElementById("reservePopup").style.display="flex";
+}
+
+function closeReserve(){
+document.getElementById("reservePopup").style.display="none";
+}
+
+function sendReserve(){
+
+let date=document.getElementById("date").value;
+let time=document.getElementById("time").value;
+
+let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
+
+let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
+
+window.open(url,"_blank");
+
+}
+
+</script>
 
 </body>
 </html>
