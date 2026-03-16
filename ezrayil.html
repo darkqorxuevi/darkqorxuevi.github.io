@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Murad Hekayə</title>
+
+<style>
+
+body{
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:serif;
+color:#111;
+}
+
+.book{
+width:700px;
+background:#f4e7c5;
+padding:40px;
+border-radius:10px;
+box-shadow:0 0 40px black;
+font-size:20px;
+line-height:1.8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="book">
+<p id="story"></p>
+</div>
+
+<script>
+
+const text = `Bu ev adi qorxu evi deyil...
+
+Bura qışqırmaq üçün tikilməyib.
+Bura etiraf etmək üçündür.
+
+Deyirlər Əzrayil hər zaman can almağa gəlmir.
+Bəzən gəlir... dinləmək üçün.
+
+Bu qapıdan içəri girən hər kəs
+bir günahını gizlədib.
+
+Və unutma...
+
+Əgər günahını etiraf etməsən
+Əzrayil tək gəlməyəcək.`;
+
+
+let i = 0;
+
+function typeWriter(){
+if(i < text.length){
+document.getElementById("story").innerHTML += text.charAt(i);
+i++;
+setTimeout(typeWriter,40);
+}
+}
+
+typeWriter();
+
+</script>
+
+</body>
+</html>
