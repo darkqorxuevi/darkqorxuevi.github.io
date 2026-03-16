@@ -5,139 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ana Səhifə</title>
 <link rel="stylesheet" href="style.css">
-<style>
-/* --- Burger Side Menu --- */
-.side-menu {
-    position: fixed;
-    top: 0;
-    right: -250px; /* Başlanğıcda gizli */
-    width: 250px;
-    height: 100%;
-    background-color: #222;
-    display: flex;
-    flex-direction: column;
-    padding-top: 60px;
-    transition: right 0.3s ease;
-    z-index: 999;
-}
-
-.side-menu.active {
-    right: 0; /* Açıq olduqda */
-}
-
-.side-menu a {
-    color: white;
-    text-decoration: none;
-    padding: 15px 20px;
-    font-size: 18px;
-    border-bottom: 1px solid #444;
-}
-
-.side-menu a:hover {
-    background-color: #333;
-}
-
-/* --- Top Bar --- */
-.topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #111;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
-
-.topbar-title {
-    font-size: 20px;
-}
-
-/* --- Burger --- */
-.burger {
-    font-size: 28px;
-    cursor: pointer;
-}
-
-/* --- Logo --- */
-.logo {
-    margin-top: 80px;
-    text-align: center;
-}
-
-.logo img {
-    width: 200px;
-}
-
-/* --- Rezervasiya Popup --- */
-.reserve-popup {
-    display: none;
-    position: fixed;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-    z-index: 1001;
-}
-
-.reserve-box {
-    background: #222;
-    padding: 30px;
-    border-radius: 8px;
-    color: white;
-    width: 300px;
-}
-
-.reserve-box h2 {
-    margin-top: 0;
-}
-
-.reserve-box input {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-}
-
-.close-btn {
-    color: red;
-    font-size: 24px;
-    cursor: pointer;
-    float: right;
-}
-
-.confirm-btn {
-    width: 100%;
-    padding: 10px;
-    background: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-}
-</style>
 </head>
 <body>
 
-<!-- --- Side Menu --- -->
 <div class="side-menu" id="menu">
     <a href="about.html">Haqqımızda</a>
     <a href="games.html">Oyunlarımız</a>
     <a href="prices.html">Qiymətlər</a>
     <a href="location.html">Məkan</a>
-    <a href="rejimler.html">Rejimlər</a> <!-- BURAYA ELAVE EDILDI -->
 </div>
 
-<!-- --- Top Bar --- -->
 <header>
+
     <div class="topbar">
         <div class="topbar-title">Ana Səhifə</div>
         <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
@@ -147,24 +26,39 @@
         <img src="logo.png" alt="Logo">
     </div>
 
-    <button class="reserve-btn" onclick="openReserve()">Rezervasiya Et</button>
+   
+
+    <button class="reserve-btn" onclick="openReserve()">
+Rezervasiya Et
+</button>
+
+
 </header>
 
-<!-- --- Rezervasiya Popup --- -->
-<div class="reserve-popup" id="reservePopup">
-    <div class="reserve-box">
-        <div class="close-btn" onclick="closeReserve()">✕</div>
-        <h2>Rezervasiya</h2>
-        <label>Tarix seç</label>
-        <input type="date" id="date">
-        <label>Saat seç</label>
-        <input type="time" id="time" step="1800">
-        <button class="confirm-btn" onclick="sendReserve()">Rezerv Et</button>
-    </div>
+    <div class="reserve-popup" id="reservePopup">
+
+<div class="reserve-box">
+
+<div class="close-btn" onclick="closeReserve()">✕</div>
+
+<h2>Rezervasiya</h2>
+
+<label>Tarix seç</label>
+<input type="date" id="date">
+
+<label>Saat seç</label>
+<input type="time" id="time" step="1800">
+
+
+<button class="confirm-btn" onclick="sendReserve()">
+Rezerv Et
+</button>
+
+</div>
 </div>
 
+    
 <script>
-// --- Burger Toggle ---
 function toggleMenu(){
     const menu = document.getElementById("menu");
     const burger = document.getElementById("burger");
@@ -173,39 +67,69 @@ function toggleMenu(){
 
     if(menu.classList.contains("active")){
         burger.innerHTML = "✕";
+        burger.classList.add("close");
     } else {
         burger.innerHTML = "☰";
+        burger.classList.remove("close");
     }
 }
 
-// Scroll edəndə menu bağlansın
+/* Scroll edəndə bağlansın */
 window.addEventListener("scroll", function(){
     const menu = document.getElementById("menu");
     const burger = document.getElementById("burger");
+
     if(menu.classList.contains("active")){
         menu.classList.remove("active");
         burger.innerHTML = "☰";
+        burger.classList.remove("close");
     }
 });
+</script>
 
-// --- Rezervasiya Popup ---
-function openReserve(){ document.getElementById("reservePopup").style.display="flex"; }
-function closeReserve(){ document.getElementById("reservePopup").style.display="none"; }
-function sendReserve(){
-    let date=document.getElementById("date").value;
-    let time=document.getElementById("time").value;
-    let slot=date+"-"+time;
-    let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
-    if(reserved.includes(slot)){
-        alert("Bu saat əvvəlcədən rezerv olunub");
-        return;
-    }
-    reserved.push(slot);
-    localStorage.setItem("reservedSlots",JSON.stringify(reserved));
-    let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
-    let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
-    window.open(url,"_blank");
+<script>
+
+function openReserve(){
+document.getElementById("reservePopup").style.display="flex";
 }
+
+function closeReserve(){
+document.getElementById("reservePopup").style.display="none";
+}
+
+function sendReserve(){
+
+let date=document.getElementById("date").value;
+let time=document.getElementById("time").value;
+
+let slot=date+"-"+time;
+
+let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
+
+if(reserved.includes(slot)){
+alert("Bu saat əvvəlcədən rezerv olunub");
+return;
+}
+
+reserved.push(slot);
+localStorage.setItem("reservedSlots",JSON.stringify(reserved));
+
+let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
+
+let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
+
+window.open(url,"_blank");
+
+}
+
+
+</script>
+<script>
+  const burger = document.getElementById("burger-menu");
+  burger.addEventListener("click", () => {
+    // Burger kliklənəndə rejimler.html səhifəsini aç
+    window.location.href = 'rejimler.html';
+  });
 </script>
 
 </body>
