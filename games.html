@@ -5,131 +5,167 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Oyunlar</title>
 <link rel="stylesheet" href="style.css">
+
+<style>
+
+.games-container{
+display:flex;
+justify-content:center;
+gap:40px;
+margin-top:60px;
+flex-wrap:wrap;
+}
+
+.game-card{
+width:220px;
+height:220px;
+background:#111;
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+transition:0.3s;
+text-align:center;
+}
+
+.game-card:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px rgba(255,0,0,0.5);
+}
+
+.game-card img{
+width:100%;
+height:160px;
+object-fit:cover;
+}
+
+.game-card h2{
+color:white;
+margin-top:8px;
+}
+
+.story-box{
+max-width:800px;
+margin:60px auto;
+color:white;
+font-size:18px;
+line-height:1.6;
+text-align:center;
+padding:20px;
+}
+
+</style>
+
 </head>
 <body>
 
 <!-- SIDE MENU -->
 <div class="side-menu" id="menu">
-    <a href="index.html">Ana Səhifə</a>
-    <a href="about.html">Haqqımızda</a>
-    <a href="prices.html">Qiymətlər</a>
-    <a href="location.html">Məkan</a>
+<a href="index.html">Ana Səhifə</a>
+<a href="about.html">Haqqımızda</a>
+<a href="prices.html">Qiymətlər</a>
+<a href="location.html">Məkan</a>
 </div>
 
 <!-- TOPBAR -->
 <div class="topbar">
-    <div class="topbar-title">OYUNLAR</div>
-    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+<div class="topbar-title">OYUNLAR</div>
+<div class="burger" onclick="toggleMenu()" id="burger">☰</div>
 </div>
 
-<!-- CONTENT -->
-<section class="games-section">
+<!-- GAME CARDS -->
 
-    <div class="game-window">
+<section class="games-container">
 
-        <div class="window-header">
-            MURAD
-        </div>
+<div class="game-card" onclick="showStory('murad')">
+<img src="murad.jpg">
+<h2>Murad</h2>
+</div>
 
-        <div class="window-body">
-            Muradın 10 yaşı var idi. 10 il əvvəl onun anasına cin musallat oldu.
-            Qaranlıq gecədə ailənin bütün üzvləri – 6 yaşlı bacısı, atası,
-            nənəsi və babası – amansız şəkildə öldürüldü.
-
-            Murad öldürülərkən ifrit onun ruhuna aşiq oldu və onu həmin evdə həbs etdi.
-
-            Paşa baba və Fatma nənə Muradın ruhunu azad etmək üçün öz ruhlarını da
-            həmin evdə saxladılar.
-
-            Lakin zaman keçdikcə onların hamısı ifritin köləsinə çevrildi...
-
-            İndi isə sən o evə daxil olacaqsan.
-            Muradı xilas edə biləcəksən?
-        </div>
-
-    </div>
-
-
-    <div class="game-card azrail">
-    <h2>ƏZRAYİL</h2>
-    <p>
-    Bu ev adi qorxu evi deyil.
-Bura qışqırmaq, qaçmaq, gizlənmək üçün yaradılmayıb.
-Bura susmaq üçün tikilib.
-Bura etiraf etmək üçündür.
-
-Deyirlər, Əzrail hər zaman can almağa gəlmir.
-Bəzən gəlir… dinləmək üçün.
-Sənin səsini yox,
-vicdanının çırpınışını dinləmək üçün.
-
-Bu qapıdan içəri girən hər kəs
-bir dəfə yalan danışıb,
-birinin qəlbini qırıb,
-heç kimə demədiyi bir günahı özündə gizlədib,
-vicdanının səsini isə öz əli ilə boğub.
-
-Burada gizlənən yoxdur.
-Burada susan daha tez tutulur.
-
-Çünki Əzrail sənin nə dediyini yox,
-nəyi gizlətdiyini bilir.
-Nəyi unutduğunu yox,
-nədən qaçdığını görür.
-
-Bu evdə qorxu divarlardan gəlmir.
-Qorxu sənin içindən çıxır.
-Səninlə bura qədər gələn hər günah,
-burada oyanır.
-
-Və unutma…
-Əgər günahını etiraf etməsən,
-Əzrail tək gəlməyəcək.
-
-O gecə Şeytan da bu evdə olacaq.
-Və onlar birlikdə
-sənə ən zülmlü gecəni yaşadacaqlar.
-
-Bu gecə ya vicdanın danışacaq…
-ya da onlar.
-
-Əzrail səni izləyir.
-Sən içəri girməmişdən əvvəl də bilirdi.
-İndi isə…
-səni dinləyir.
-
-    </p>
+<div class="game-card" onclick="showStory('ezrail')">
+<img src="ezrail.jpg">
+<h2>Əzrayil</h2>
 </div>
 
 </section>
 
+<div id="storyBox" class="story-box"></div>
 
 <script>
+
 function toggleMenu(){
-    const menu = document.getElementById("menu");
-    const burger = document.getElementById("burger");
+const menu = document.getElementById("menu");
+const burger = document.getElementById("burger");
 
-    menu.classList.toggle("active");
+menu.classList.toggle("active");
 
-    if(menu.classList.contains("active")){
-        burger.innerHTML = "✕";
-        burger.style.color = "#8b0000";
-    } else {
-        burger.innerHTML = "☰";
-        burger.style.color = "white";
-    }
+if(menu.classList.contains("active")){
+burger.innerHTML = "✕";
+burger.style.color = "#8b0000";
+}else{
+burger.innerHTML = "☰";
+burger.style.color = "white";
+}
 }
 
-window.addEventListener("scroll", function(){
-    const menu = document.getElementById("menu");
-    const burger = document.getElementById("burger");
+function showStory(game){
 
-    if(menu.classList.contains("active")){
-        menu.classList.remove("active");
-        burger.innerHTML = "☰";
-        burger.style.color = "white";
-    }
+let story = "";
+
+if(game === "murad"){
+story = `
+Muradın 10 yaşı var idi. 10 il əvvəl onun anasına cin musallat oldu.
+Qaranlıq gecədə ailənin bütün üzvləri – 6 yaşlı bacısı, atası,
+nənəsi və babası – amansız şəkildə öldürüldü.
+
+Murad öldürülərkən ifrit onun ruhuna aşiq oldu və onu həmin evdə həbs etdi.
+
+Paşa baba və Fatma nənə Muradın ruhunu azad etmək üçün öz ruhlarını da
+həmin evdə saxladılar.
+
+Lakin zaman keçdikcə onların hamısı ifritin köləsinə çevrildi...
+
+İndi isə sən o evə daxil olacaqsan.
+Muradı xilas edə biləcəksən?
+`;
+}
+
+if(game === "ezrail"){
+story = `
+Bu ev adi qorxu evi deyil.
+Bura qışqırmaq, qaçmaq, gizlənmək üçün yaradılmayıb.
+Bura susmaq üçün tikilib.
+Bura etiraf etmək üçündür.
+
+Deyirlər, Əzrayil hər zaman can almağa gəlmir.
+Bəzən gəlir… dinləmək üçün.
+
+Bu qapıdan içəri girən hər kəs
+bir dəfə yalan danışıb,
+birinin qəlbini qırıb,
+heç kimə demədiyi bir günahı gizlədib.
+
+Burada gizlənən yoxdur.
+Burada susan daha tez tutulur.
+
+Çünki Əzrayil sənin nə dediyini yox,
+nəyi gizlətdiyini bilir.
+
+Əgər günahını etiraf etməsən,
+Əzrayil tək gəlməyəcək.
+
+O gecə Şeytan da bu evdə olacaq...
+`;
+}
+
+document.getElementById("storyBox").innerText = story;
+
+window.scrollTo({
+top: document.getElementById("storyBox").offsetTop - 100,
+behavior: "smooth"
 });
+
+}
+
 </script>
 
 </body>
