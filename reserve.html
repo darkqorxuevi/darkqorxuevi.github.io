@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
+<!-- TOPBAR -->
 <div class="topbar">
     <div class="back-btn" onclick="goBack()">←</div>
     <div class="topbar-title">Online Rezervasiya</div>
@@ -16,92 +16,122 @@
 
 <div class="reserve-page">
 
-    <!-- TARİX -->
-    <h2 id="selectedDate"></h2>
+    <!-- TARİX SELECT -->
+    <select id="dateSelect"></select>
 
     <!-- SAATLAR -->
     <div class="time-grid" id="timeGrid"></div>
 
 </div>
 
-<script>
-const times = ["14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+<!-- POPUP FORM -->
+<div class="popup" id="popup">
 
-let selectedTime = "";
-let selectedDate = "";
+<div class="popup-box">
+
+<h3 id="chosenTime"></h3>
+
+<input type="text" id="name" placeholder="Ad Soyad">
+<input type="tel" id="phone" placeholder="Telefon">
+<input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
+
+<button id="reserveBtn" disabled>Rezerv et</button>
+<button onclick="closePopup()">Geri dön</button>
+
+</div>
+</div>
+
+<script>
 
 function goBack(){
-    window.location.href = "index.html";
+    window.location.href="index.html";
 }
 
-// BUGÜN + 5 GÜN
+/* ===== TARİX (3 GÜN LIMİT) ===== */
+let dateSelect = document.getElementById("dateSelect");
+
 function generateDates(){
     let today = new Date();
-    selectedDate = today.toISOString().split('T')[0];
 
-    document.getElementById("selectedDate").innerText =
-        formatDate(today);
+    for(let i=0;i<4;i++){
+        let d = new Date();
+        d.setDate(today.getDate()+i);
 
-    generateTimes();
-}
+        let option = document.createElement("option");
 
-// TARİX FORMAT
-function formatDate(date){
-    return date.toLocaleDateString("az-AZ", {
-        day: "numeric",
-        month: "long",
-        weekday: "long"
-    });
-}
+        option.value = d.toISOString().split('T')[0];
+        option.innerText = d.toLocaleDateString("az-AZ", {
+            day:"numeric",
+            month:"long"
+        });
 
-// SAATLAR
-function generateTimes(){
-    let grid = document.getElementById("timeGrid");
-    grid.innerHTML = "";
-
-    times.forEach(time=>{
-        let div = document.createElement("div");
-        div.className = "time-box";
-        div.innerText = time;
-
-        div.onclick = () => selectTime(div, time);
-
-        grid.appendChild(div);
-    });
-}
-
-// SEÇİM
-function selectTime(el, time){
-    document.querySelectorAll(".time-box").forEach(b=>b.classList.remove("active"));
-    el.classList.add("active");
-    selectedTime = time;
-
-    showConfirm();
-}
-
-// CONFIRM POPUP
-function showConfirm(){
-    let confirm = confirm("Rezerv etmək istəyirsən?\nSaat: " + selectedTime);
-
-    if(confirm){
-        openForm();
+        dateSelect.appendChild(option);
     }
-}
-
-// FORM
-function openForm(){
-    let ad = prompt("Ad Soyad:");
-    let tel = prompt("Telefon nömrə:");
-
-    if(!ad || !tel){
-        alert("Ad və nömrə vacibdir!");
-        return;
-    }
-
-    alert("Rezervasiya uğurla tamamlandı ✅");
 }
 
 generateDates();
+
+/* ===== SAATLAR ===== */
+const times = ["14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+
+let selectedTime="";
+
+let grid=document.getElementById("timeGrid");
+
+times.forEach(time=>{
+    let div=document.createElement("div");
+    div.className="time-box";
+    div.innerText=time;
+
+    div.onclick=()=>{
+        selectedTime=time;
+        openPopup(time);
+    };
+
+    grid.appendChild(div);
+});
+
+/* ===== POPUP ===== */
+
+function openPopup(time){
+    document.getElementById("popup").style.display="flex";
+    document.getElementById("chosenTime").innerText="Saat: "+time;
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display="none";
+}
+
+/* ===== VALIDATION ===== */
+
+let nameInput=document.getElementById("name");
+let phoneInput=document.getElementById("phone");
+let reserveBtn=document.getElementById("reserveBtn");
+
+[nameInput, phoneInput].forEach(input=>{
+    input.addEventListener("input", ()=>{
+        if(nameInput.value.trim() && phoneInput.value.trim()){
+            reserveBtn.disabled=false;
+        }else{
+            reserveBtn.disabled=true;
+        }
+    });
+});
+
+/* ===== RESERVE CLICK ===== */
+
+reserveBtn.onclick=function(){
+
+    let date=dateSelect.value;
+    let name=nameInput.value;
+    let phone=phoneInput.value;
+    let people=document.getElementById("people").value;
+
+    alert("Rezervasiya uğurla tamamlandı ✅");
+
+    closePopup();
+}
+
 </script>
 
 </body>
