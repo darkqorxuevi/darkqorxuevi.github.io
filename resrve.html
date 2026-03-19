@@ -8,97 +8,100 @@
 </head>
 <body>
 
+<!-- TOP BAR -->
 <div class="topbar">
-    <div onclick="goBack()" style="position:absolute; left:20px; cursor:pointer;">←</div>
-    <div class="topbar-title">ONLINE REZERVASİYA</div>
+    <div class="back-btn" onclick="goBack()">←</div>
+    <div class="topbar-title">Online Rezervasiya</div>
 </div>
 
 <div class="reserve-page">
 
-<h3>Tarix seç</h3>
-<input type="date" id="date">
+    <!-- TARİX -->
+    <h2 id="selectedDate"></h2>
 
-<h3>Saat seç</h3>
-<select id="time">
-<option>14:00</option>
-<option>15:00</option>
-<option>16:00</option>
-<option>17:00</option>
-<option>18:00</option>
-<option>19:00</option>
-<option>20:00</option>
-<option>21:00</option>
-<option>22:00</option>
-<option>23:00</option>
-</select>
-
-<button onclick="openForm()" class="confirm-btn">Rezerv et</button>
-
-</div>
-
-<!-- FORM -->
-<div class="form-popup" id="formPopup">
-
-<div class="form-box">
-
-<h2>Rezervasiya</h2>
-
-<input type="text" id="name" placeholder="Ad Soyad">
-<input type="tel" id="phone" placeholder="Telefon">
-<input type="number" id="people" placeholder="Neçə nəfər">
-
-<button id="sendBtn" onclick="sendData()" disabled>
-Rezerv et
-</button>
-
-<button onclick="closeForm()">Geri dön</button>
-
-</div>
+    <!-- SAATLAR -->
+    <div class="time-grid" id="timeGrid"></div>
 
 </div>
 
 <script>
+const times = ["14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+
+let selectedTime = "";
+let selectedDate = "";
 
 function goBack(){
-window.location.href="index.html";
+    window.location.href = "index.html";
 }
 
+// BUGÜN + 5 GÜN
+function generateDates(){
+    let today = new Date();
+    selectedDate = today.toISOString().split('T')[0];
+
+    document.getElementById("selectedDate").innerText =
+        formatDate(today);
+
+    generateTimes();
+}
+
+// TARİX FORMAT
+function formatDate(date){
+    return date.toLocaleDateString("az-AZ", {
+        day: "numeric",
+        month: "long",
+        weekday: "long"
+    });
+}
+
+// SAATLAR
+function generateTimes(){
+    let grid = document.getElementById("timeGrid");
+    grid.innerHTML = "";
+
+    times.forEach(time=>{
+        let div = document.createElement("div");
+        div.className = "time-box";
+        div.innerText = time;
+
+        div.onclick = () => selectTime(div, time);
+
+        grid.appendChild(div);
+    });
+}
+
+// SEÇİM
+function selectTime(el, time){
+    document.querySelectorAll(".time-box").forEach(b=>b.classList.remove("active"));
+    el.classList.add("active");
+    selectedTime = time;
+
+    showConfirm();
+}
+
+// CONFIRM POPUP
+function showConfirm(){
+    let confirm = confirm("Rezerv etmək istəyirsən?\nSaat: " + selectedTime);
+
+    if(confirm){
+        openForm();
+    }
+}
+
+// FORM
 function openForm(){
-document.getElementById("formPopup").style.display="flex";
+    let ad = prompt("Ad Soyad:");
+    let tel = prompt("Telefon nömrə:");
+
+    if(!ad || !tel){
+        alert("Ad və nömrə vacibdir!");
+        return;
+    }
+
+    alert("Rezervasiya uğurla tamamlandı ✅");
 }
 
-function closeForm(){
-document.getElementById("formPopup").style.display="none";
-}
-
-const nameInput=document.getElementById("name");
-const phoneInput=document.getElementById("phone");
-const sendBtn=document.getElementById("sendBtn");
-
-[nameInput, phoneInput].forEach(input=>{
-input.addEventListener("input", ()=>{
-if(nameInput.value && phoneInput.value){
-sendBtn.disabled=false;
-} else{
-sendBtn.disabled=true;
-}
-});
-});
-
-function sendData(){
-
-let date=document.getElementById("date").value;
-let time=document.getElementById("time").value;
-let name=nameInput.value;
-let phone=phoneInput.value;
-let people=document.getElementById("people").value;
-
-alert("Rezervasiya uğurla tamamlandı ✅");
-
-// TELEGRAM BOT BURDA OLACAQ
-
-}
-
+generateDates();
 </script>
 
 </body>
