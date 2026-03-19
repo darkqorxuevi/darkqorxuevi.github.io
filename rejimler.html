@@ -4,24 +4,68 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rejimlər</title>
-<style>
-  body { font-family: Arial; margin:0; padding:0; background:#111; color:white; }
-  .top-bar { display:flex; justify-content:space-between; align-items:center; padding:20px; background:#222; }
-  .close-btn { color:red; font-size:24px; cursor:pointer; }
-  ul { list-style:none; padding:20px; }
-  li { margin-bottom:15px; line-height:1.5; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="top-bar">
-    <h1>Rejimlər</h1>
-    <span class="close-btn" onclick="window.location.href='index.html'">X</span>
-  </div>
-  <ul>
-    <li><strong>LİGHT</strong> (8+ yaş) – Aktyorsuz, effekti və qorxusu az.</li>
-    <li><strong>STANDART</strong> (10+ yaş) – Aktyorla, toxunuşsuz, effekti və qorxusu normal.</li>
-    <li><strong>HARD</strong> (16+ yaş) – Aktyorla, yüngün toxunuşla, effektlər və qorxusu yüksək.</li>
-    <li><strong>ULTRA HARD</strong> (18+ yaş) – Aktyorla, sərt toxunuşlu (zərbə), effektləri və qorxusu xüsusi yüksək.</li>
-  </ul>
+
+<!-- SIDE MENU -->
+<div class="side-menu" id="menu">
+    <a href="index.html">Ana Səhifə</a>
+    <a href="about.html">Haqqımızda</a>
+    <a href="games.html">Oyunlar</a>
+    <a href="prices.html">Qiymətlər</a>
+    <a href="location.html">Məkan</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="topbar-title">REJİMLƏR</div>
+    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+</div>
+
+<!-- CONTENT -->
+<section class="mods-section">
+
+<div class="mods-container">
+
+<div class="mode-card">
+<h2>LIGHT</h2>
+<p>Aktyor yoxdur. İşıq effektləri və səslərlə qorxu yaradılır. Yeni başlayanlar üçün idealdır.</p>
+</div>
+
+<div class="mode-card">
+<h2>STANDART</h2>
+<p>Aktyor var, lakin toxunuş yoxdur. Qəfil səhnələr və psixoloji qorxu üstünlük təşkil edir.</p>
+</div>
+
+<div class="mode-card">
+<h2>HARD</h2>
+<p>Aktyor aktivdir. Yüngül toxunuşlar və yüksək gərginlik səviyyəsi mövcuddur.</p>
+</div>
+
+<div class="mode-card ultra">
+<h2>ULTRA HARD</h2>
+<p>Ən yüksək qorxu səviyyəsi. Tam immersiv mühit, intensiv aktyor performansı və maksimum adrenalin.</p>
+</div>
+
+</div>
+
+</section>
+
+<script>
+function toggleMenu(){
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+
+    menu.classList.toggle("active");
+
+    if(menu.classList.contains("active")){
+        burger.innerHTML = "✕";
+    } else {
+        burger.innerHTML = "☰";
+    }
+}
+</script>
+
 </body>
 </html>
