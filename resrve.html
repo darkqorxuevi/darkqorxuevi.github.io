@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Rezervasiya</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+    <div onclick="goBack()" style="position:absolute; left:20px; cursor:pointer;">←</div>
+    <div class="topbar-title">ONLINE REZERVASİYA</div>
+</div>
+
+<div class="reserve-page">
+
+<h3>Tarix seç</h3>
+<input type="date" id="date">
+
+<h3>Saat seç</h3>
+<select id="time">
+<option>14:00</option>
+<option>15:00</option>
+<option>16:00</option>
+<option>17:00</option>
+<option>18:00</option>
+<option>19:00</option>
+<option>20:00</option>
+<option>21:00</option>
+<option>22:00</option>
+<option>23:00</option>
+</select>
+
+<button onclick="openForm()" class="confirm-btn">Rezerv et</button>
+
+</div>
+
+<!-- FORM -->
+<div class="form-popup" id="formPopup">
+
+<div class="form-box">
+
+<h2>Rezervasiya</h2>
+
+<input type="text" id="name" placeholder="Ad Soyad">
+<input type="tel" id="phone" placeholder="Telefon">
+<input type="number" id="people" placeholder="Neçə nəfər">
+
+<button id="sendBtn" onclick="sendData()" disabled>
+Rezerv et
+</button>
+
+<button onclick="closeForm()">Geri dön</button>
+
+</div>
+
+</div>
+
+<script>
+
+function goBack(){
+window.location.href="index.html";
+}
+
+function openForm(){
+document.getElementById("formPopup").style.display="flex";
+}
+
+function closeForm(){
+document.getElementById("formPopup").style.display="none";
+}
+
+const nameInput=document.getElementById("name");
+const phoneInput=document.getElementById("phone");
+const sendBtn=document.getElementById("sendBtn");
+
+[nameInput, phoneInput].forEach(input=>{
+input.addEventListener("input", ()=>{
+if(nameInput.value && phoneInput.value){
+sendBtn.disabled=false;
+} else{
+sendBtn.disabled=true;
+}
+});
+});
+
+function sendData(){
+
+let date=document.getElementById("date").value;
+let time=document.getElementById("time").value;
+let name=nameInput.value;
+let phone=phoneInput.value;
+let people=document.getElementById("people").value;
+
+alert("Rezervasiya uğurla tamamlandı ✅");
+
+// TELEGRAM BOT BURDA OLACAQ
+
+}
+
+</script>
+
+</body>
+</html>
