@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ünvanımız</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SIDE MENU -->
+<div class="side-menu" id="menu">
+    <a href="index.html">Ana Səhifə</a>
+    <a href="about.html">Haqqımızda</a>
+    <a href="games.html">Oyunlar</a>
+    <a href="prices.html">Qiymətlər</a>
+    <a href="rejimler.html">Rejimlər</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="topbar-title">ÜNVANIMIZ</div>
+    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+</div>
+
+<!-- CONTENT -->
+<section class="location-section">
+
+<div class="location-box">
+
+<h2>Ünvanımız</h2>
+
+<p>
+Sumqayıt şəhəri, mərkəzi poçt ilə üzbə-üz, gimnaziyanın yanı
+</p>
+
+<a href="https://www.google.com/maps/search/?api=1&query=Sumqayit+merkezi+poct"
+   target="_blank"
+   class="map-btn">
+📍 Xəritədə bax
+</a>
+
+</div>
+
+</section>
+
+<script>
+
+function toggleMenu(){
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+
+    menu.classList.toggle("active");
+
+    if(menu.classList.contains("active")){
+        burger.innerHTML = "✕";
+        burger.style.color = "red";
+    } else {
+        burger.innerHTML = "☰";
+        burger.style.color = "white";
+    }
+}
+
+</script>
+
+</body>
+</html>
