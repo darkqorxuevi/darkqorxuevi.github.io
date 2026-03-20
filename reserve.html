@@ -62,6 +62,7 @@
 </div>
 
 <script>
+let reservedTimes = JSON.parse(localStorage.getItem("reservedTimes")) || {};
 
 document.addEventListener("DOMContentLoaded", function(){
 
@@ -93,19 +94,32 @@ for(let i=0;i<4;i++){
 let times = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","00:00","01:00","02:00"];
 let grid = document.getElementById("timeGrid");
 
-times.forEach(function(time){
+times.forEach(time=>{
+    let div=document.createElement("div");
+    div.className="time-box";
+    div.innerText=time;
 
-    let div = document.createElement("div");
-    div.className = "time-box";
-    div.innerText = time;
+    let selectedDate = dateSelect.value;
 
-    div.addEventListener("click", function(){
+    if(reservedTimes[selectedDate] && reservedTimes[selectedDate].includes(time)){
+        div.classList.add("disabled");
+    }
+
+    div.onclick=()=>{
+        let selectedDate = dateSelect.value;
+
+        if(reservedTimes[selectedDate] && reservedTimes[selectedDate].includes(time)){
+            alert("Bu saat öncədən rezerv olunub ❌");
+            return;
+        }
+
+        selectedTime=time;
         openPopup(time);
-    });
+    };
 
     grid.appendChild(div);
-
 });
+
 
 /* POPUP */
 function openPopup(time){
