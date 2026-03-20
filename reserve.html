@@ -62,8 +62,9 @@
 </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function(){
+let reserved = JSON.parse(localStorage.getItem("reserved")) || [];
+
 
 /* BACK */
 window.goBack = function(){
@@ -94,6 +95,32 @@ let times = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19
 let grid = document.getElementById("timeGrid");
 
 times.forEach(function(time){
+
+    let div = document.createElement("div");
+    div.className = "time-box";
+    div.innerText = time;
+
+    let selectedDate = dateSelect.value;
+    let key = selectedDate + "_" + time;
+
+    if(reserved.includes(key)){
+        div.classList.add("disabled");
+
+        div.addEventListener("click", function(){
+            alert("Bu saat artıq rezerv olunub ❌");
+        });
+
+    } else {
+
+        div.addEventListener("click", function(){
+            selectedTime = time;
+            openPopup(time);
+        });
+
+    }
+
+    grid.appendChild(div);
+});
 
     let div = document.createElement("div");
     div.className = "time-box";
@@ -135,9 +162,18 @@ phoneInput.addEventListener("input", checkInputs);
 
 /* BUTTON */
 reserveBtn.addEventListener("click", function(){
+
+    let date = dateSelect.value;
+    let key = date + "_" + selectedTime;
+
+    reserved.push(key);
+    localStorage.setItem("reserved", JSON.stringify(reserved));
+
     alert("Rezervasiya uğurla tamamlandı ✅");
-    closePopup();
+
+    location.reload();
 });
+
 
 });
 
