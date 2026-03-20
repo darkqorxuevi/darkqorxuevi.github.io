@@ -758,5 +758,14 @@ cursor:pointer;
     z-index:100000;
 }
 
+.time-box.disabled{
+    background:#222;
+    color:#777;
+    border:1px solid #555;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+
 
 
