@@ -688,3 +688,12 @@ cursor:pointer;
     background:#555;
     cursor:not-allowed;
 }
+.back-btn{
+    position:fixed;
+    top:20px;
+    left:20px;
+    font-size:26px;
+    color:white;
+    z-index:99999;
+    cursor:pointer;
+}
