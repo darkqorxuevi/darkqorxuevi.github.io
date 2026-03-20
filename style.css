@@ -558,10 +558,12 @@ letter-spacing:3px;
 
 
 
-    .reserve-page{
-    padding:120px 20px;
-    text-align:center;
+  .reserve-page{
+    padding-top:100px; /* BU ƏN VACİB */
+    padding-left:20px;
+    padding-right:20px;
 }
+
 
 .form-popup{
 position:fixed;
