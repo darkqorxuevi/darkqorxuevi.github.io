@@ -21,7 +21,7 @@ body::before{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,0.60);
-    z-index:0;
+    z-index:1;
 }
 
 /* Səhifə açılma animasiyası */
@@ -697,3 +697,23 @@ cursor:pointer;
     z-index:99999;
     cursor:pointer;
 }
+
+
+/* CLICK FIX */
+.reserve-page{
+    position:relative;
+    z-index:5;
+}
+
+.time-grid{
+    position:relative;
+    z-index:10;
+}
+
+.time-box{
+    position:relative;
+    z-index:20;
+    pointer-events:auto;
+}
+
+
