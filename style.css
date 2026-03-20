@@ -753,3 +753,10 @@ cursor:pointer;
     box-shadow:none;
 }
 
+.popup-box{
+    position:relative;
+    z-index:100000;
+}
+
+
+
