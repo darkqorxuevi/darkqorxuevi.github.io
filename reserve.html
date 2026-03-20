@@ -89,6 +89,11 @@ for(let i=0;i<4;i++){
 
     dateSelect.appendChild(option);
 }
+    
+dateSelect.addEventListener("change", ()=>{
+    loadTimes();
+});
+loadTimes();
 
 /* SAATLAR */
 let times = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","00:00","01:00","02:00"];
@@ -154,6 +159,33 @@ reserveBtn.addEventListener("click", function(){
 });
 
 });
+function loadTimes(){
+    grid.innerHTML="";
+
+    times.forEach(time=>{
+        let div=document.createElement("div");
+        div.className="time-box";
+        div.innerText=time;
+
+        let selectedDate = dateSelect.value;
+
+        if(reservedTimes[selectedDate] && reservedTimes[selectedDate].includes(time)){
+            div.classList.add("disabled");
+        }
+
+        div.onclick=()=>{
+            if(reservedTimes[selectedDate] && reservedTimes[selectedDate].includes(time)){
+                alert("Bu saat öncədən rezerv olunub ❌");
+                return;
+            }
+
+            selectedTime=time;
+            openPopup(time);
+        };
+
+        grid.appendChild(div);
+    });
+}
 
 </script>
 
