@@ -44,11 +44,14 @@
 
 <script>
 
+document.addEventListener("DOMContentLoaded", function(){
+
+// SƏNİN BÜTÜN KOD BURDA QALIR
+
 function goBack(){
     window.location.href="index.html";
 }
 
-/* ===== TARİX (3 GÜN LIMİT) ===== */
 let dateSelect = document.getElementById("dateSelect");
 
 function generateDates(){
@@ -72,11 +75,9 @@ function generateDates(){
 
 generateDates();
 
-/* ===== SAATLAR ===== */
 const times = ["14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
 
 let selectedTime="";
-
 let grid=document.getElementById("timeGrid");
 
 times.forEach(time=>{
@@ -92,8 +93,6 @@ times.forEach(time=>{
     grid.appendChild(div);
 });
 
-/* ===== POPUP ===== */
-
 function openPopup(time){
     document.getElementById("popup").style.display="flex";
     document.getElementById("chosenTime").innerText="Saat: "+time;
@@ -102,8 +101,6 @@ function openPopup(time){
 function closePopup(){
     document.getElementById("popup").style.display="none";
 }
-
-/* ===== VALIDATION ===== */
 
 let nameInput=document.getElementById("name");
 let phoneInput=document.getElementById("phone");
@@ -119,21 +116,15 @@ let reserveBtn=document.getElementById("reserveBtn");
     });
 });
 
-/* ===== RESERVE CLICK ===== */
-
 reserveBtn.onclick=function(){
-
-    let date=dateSelect.value;
-    let name=nameInput.value;
-    let phone=phoneInput.value;
-    let people=document.getElementById("people").value;
-
     alert("Rezervasiya uğurla tamamlandı ✅");
-
     closePopup();
 }
 
+}); // BU ƏN VACİB SƏTİR
+
 </script>
+
 
 </body>
 </html>
