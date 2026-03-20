@@ -17,13 +17,32 @@
 
 <div class="reserve-page">
 
-    <!-- TARİX SELECT -->
     <select id="dateSelect"></select>
 
-    <!-- SAATLAR -->
     <div class="time-grid" id="timeGrid"></div>
 
 </div>
+
+
+<!-- BURDAN SONRA ƏLAVƏ EDİRSƏN -->
+<div class="popup" id="popup">
+
+<div class="popup-box">
+
+<div class="popup-back" onclick="closePopup()">←</div>
+
+<h3 id="chosenTime"></h3>
+
+<input type="text" id="name" placeholder="Ad Soyad">
+<input type="tel" id="phone" placeholder="Telefon">
+<input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
+
+<button id="reserveBtn" disabled>Rezerv et</button>
+<button onclick="closePopup()">Geri dön</button>
+
+</div>
+</div>
+
 
 <!-- POPUP FORM -->
 <div class="popup" id="popup">
