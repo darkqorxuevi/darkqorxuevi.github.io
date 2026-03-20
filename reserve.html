@@ -46,84 +46,84 @@
 
 document.addEventListener("DOMContentLoaded", function(){
 
-// SƏNİN BÜTÜN KOD BURDA QALIR
-
-function goBack(){
+/* BACK */
+window.goBack = function(){
     window.location.href="index.html";
 }
 
+/* TARIX */
 let dateSelect = document.getElementById("dateSelect");
 
-function generateDates(){
-    let today = new Date();
+let today = new Date();
 
-    for(let i=0;i<4;i++){
-        let d = new Date();
-        d.setDate(today.getDate()+i);
+for(let i=0;i<4;i++){
+    let d = new Date();
+    d.setDate(today.getDate()+i);
 
-        let option = document.createElement("option");
+    let option = document.createElement("option");
+    option.value = d.toISOString().split('T')[0];
+    option.innerText = d.toLocaleDateString("az-AZ", {
+        day:"numeric",
+        month:"long"
+    });
 
-        option.value = d.toISOString().split('T')[0];
-        option.innerText = d.toLocaleDateString("az-AZ", {
-            day:"numeric",
-            month:"long"
-        });
-
-        dateSelect.appendChild(option);
-    }
+    dateSelect.appendChild(option);
 }
 
-generateDates();
+/* SAATLAR */
+let times = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","00:00","01:00","02:00"];
+let grid = document.getElementById("timeGrid");
 
-const times = ["14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+times.forEach(function(time){
 
-let selectedTime="";
-let grid=document.getElementById("timeGrid");
+    let div = document.createElement("div");
+    div.className = "time-box";
+    div.innerText = time;
 
-times.forEach(time=>{
-    let div=document.createElement("div");
-    div.className="time-box";
-    div.innerText=time;
-
-    div.onclick=()=>{
-        selectedTime=time;
+    div.addEventListener("click", function(){
         openPopup(time);
-    };
+    });
 
     grid.appendChild(div);
+
 });
 
+/* POPUP */
 function openPopup(time){
     document.getElementById("popup").style.display="flex";
-    document.getElementById("chosenTime").innerText="Saat: "+time;
+    document.getElementById("chosenTime").innerText="Saat: " + time;
 }
 
-function closePopup(){
+window.closePopup = function(){
     document.getElementById("popup").style.display="none";
 }
 
-let nameInput=document.getElementById("name");
-let phoneInput=document.getElementById("phone");
-let reserveBtn=document.getElementById("reserveBtn");
+/* INPUTLAR */
+let nameInput = document.getElementById("name");
+let phoneInput = document.getElementById("phone");
+let reserveBtn = document.getElementById("reserveBtn");
 
-[nameInput, phoneInput].forEach(input=>{
-    input.addEventListener("input", ()=>{
-        if(nameInput.value.trim() && phoneInput.value.trim()){
-            reserveBtn.disabled=false;
-        }else{
-            reserveBtn.disabled=true;
-        }
-    });
-});
-
-reserveBtn.onclick=function(){
-    alert("Rezervasiya uğurla tamamlandı ✅");
-    closePopup();
+function checkInputs(){
+    if(nameInput.value.trim() !== "" && phoneInput.value.trim() !== ""){
+        reserveBtn.disabled = false;
+    }else{
+        reserveBtn.disabled = true;
+    }
 }
 
-}); // BU ƏN VACİB SƏTİR
+nameInput.addEventListener("input", checkInputs);
+phoneInput.addEventListener("input", checkInputs);
+
+/* BUTTON */
+reserveBtn.addEventListener("click", function(){
+    alert("Rezervasiya uğurla tamamlandı ✅");
+    closePopup();
+});
+
+});
 
 </script>
+
 
 
 </body>
