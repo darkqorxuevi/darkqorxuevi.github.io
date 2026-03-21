@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
     <div class="back-btn" onclick="goBack()">←</div>
     <div class="topbar-title">Online Rezervasiya</div>
@@ -19,7 +18,6 @@
     <div class="time-grid" id="timeGrid"></div>
 </div>
 
-<!-- POPUP -->
 <div class="popup" id="popup">
 <div class="popup-box">
 
@@ -114,29 +112,48 @@ phoneInput.addEventListener("input", checkInputs);
 /* 🔥 TELEGRAM GÖNDƏN BUTTON */
 reserveBtn.addEventListener("click", async function(){
 
-    let data = {
-        name: nameInput.value,
-        phone: phoneInput.value,
-        people: document.getElementById("people").value,
-        date: dateSelect.value,
-        time: selectedTime
-    };
+    // Məlumatları toplayırıq
+    let name = nameInput.value;
+    let phone = phoneInput.value;
+    let people = document.getElementById("people").value || "Qeyd edilməyib";
+    let date = dateSelect.options[dateSelect.selectedIndex].text; // Tarixin adını götürürük
+    let time = selectedTime;
+
+    // Telegramda görünəcək mesajın formati
+    let message = `🆕 Yeni Rezervasiya!\n\n👤 Ad Soyad: ${name}\n📞 Telefon: ${phone}\n👥 Neçə nəfər: ${people}\n📅 Tarix: ${date}\n⏰ Saat: ${time}`;
+
+    // Sənin token və ID-n
+    let token = "8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ";
+    let chatId = "7766487634";
+    let url = `https://api.telegram.org/bot${token}/sendMessage`;
 
     try{
-        await fetch("http://localhost:3000/rezerv", {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
+        let response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message
+            })
         });
 
-        alert("Rezervasiya uğurla tamamlandı ✅");
+        if(response.ok) {
+            alert("Rezervasiya uğurla tamamlandı ✅");
+            
+            // Popup-ı bağla və inputları təmizlə
+            closePopup();
+            nameInput.value = "";
+            phoneInput.value = "";
+            document.getElementById("people").value = "";
+            checkInputs(); // Butonu yenidən deaktiv et
+        } else {
+            alert("Xəta baş verdi ❌ (Telegrama göndərilə bilmədi)");
+        }
 
-        closePopup();
-
-    }catch{
-        alert("Xəta baş verdi ❌ (server işləmir)");
+    }catch(error){
+        alert("Xəta baş verdi ❌ (İnternet bağlantınızı yoxlayın)");
     }
 
 });
