@@ -63,23 +63,16 @@
 </head>
 <body>
 
-<!-- SIDE MENU -->
 <div class="side-menu" id="menu">
     <a href="index.html">Ana Səhifə</a>
     <a href="about.html">Haqqımızda</a>
     <a href="games.html">Oyunlar</a>
-    <a href="location.htm">Rejimlər</a>
-</div>
-
-<!-- TOPBAR -->
-<div class="topbar">
-    <div class="topbar-title">HAQQIMIZDA</div>
-    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+    <a href="rejimler.html">Rejimlər</a>
 </div>
 
 <div class="topbar">
-    <div class="back-btn" onclick="history.back()">←</div>
     <div class="topbar-title">Ünvanımız</div>
+    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
 </div>
 
 <div class="unvan-container">
@@ -99,6 +92,20 @@
         </a>
     </div>
 </div>
+
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        var burger = document.getElementById("burger");
+        if (menu.classList.contains("active")) {
+            menu.classList.remove("active");
+            burger.innerText = "☰";
+        } else {
+            menu.classList.add("active");
+            burger.innerText = "✕";
+        }
+    }
+</script>
 
 </body>
 </html>
