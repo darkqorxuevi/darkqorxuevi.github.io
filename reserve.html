@@ -6,25 +6,29 @@
 <title>Online Rezervasiya</title>
 <link rel="stylesheet" href="style.css">
 <script>
-    // 🔥 SƏNİN GOOGLE LİNKİN BURA GƏLİR
-    const SCRIPT_URL = "BURAYA_LİNKİ_YAPIŞDIR";
+    // 🔥 GOOGLE-DAN KOPYALADIĞIN O UZUN LİNKİ BU DIRNAQLARIN ARASINA QOY
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZWnxyN5UWXJbcWBClQBuCHZ_m2nCJtdwvZ9VW7G3MinCnQDSYMf5wKINFxJvfjVN7/exec";
 </script>
 <style>
-    /* DOLU SAATIN GÖRÜNÜŞÜ - SAAT GİZLƏNİR, BU YAZI ÇIXIR */
+    /* DOLU SAATIN GÖRÜNÜŞÜ */
     .disabled-time {
-        background-color: #2a2a2a !important; 
-        color: #ff4d4d !important; 
-        opacity: 0.9;
+        background-color: #333 !important; 
+        color: #777 !important;
+        opacity: 0.5;
         cursor: not-allowed !important;
         pointer-events: none !important;
-        font-size: 11px !important;
-        font-weight: bold;
+        position: relative;
         border: 1px solid #444 !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        line-height: 1.2;
+    }
+    .disabled-time::after {
+        content: "DOLU";
+        font-size: 10px;
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ff4d4d;
+        font-weight: bold;
     }
 </style>
 </head>
@@ -46,7 +50,7 @@
         <h3 id="chosenTime"></h3>
         <input type="text" id="name" placeholder="Ad Soyad">
         <input type="tel" id="phone" placeholder="Telefon">
-        <input type="number" id="people" placeholder="Neçə nəfər">
+        <input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
         <button id="reserveBtn" disabled>Rezerv et</button>
         <button onclick="closePopup()">Geri dön</button>
     </div>
@@ -64,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function(){
     let reserveBtn = document.getElementById("reserveBtn");
     let selectedTime = "";
 
-    // TARİXLƏR
+    // 4 GÜNLÜK TARİX SİYAHISI
     let today = new Date();
     for(let i=0; i<4; i++){
         let d = new Date();
@@ -77,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const times = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","00:00","01:00","02:00"];
 
+    // BAZADAN DOLU SAATLARI ÇƏKƏN FUNKSİYA
     async function loadStatus() {
         grid.innerHTML = "<div style='grid-column: 1/-1; text-align:center;'>Yüklənir...</div>";
         try {
@@ -84,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function(){
             let reservedSlots = await response.json();
             renderGrid(reservedSlots);
         } catch (error) {
+            console.error("Xəta:", error);
             renderGrid([]);
         }
     }
@@ -95,14 +101,13 @@ document.addEventListener("DOMContentLoaded", function(){
         times.forEach(time => {
             let div = document.createElement("div");
             div.className = "time-box";
+            div.innerText = time;
 
             let slotKey = selectedDate + "_" + time;
 
             if (reservedSlots.includes(slotKey)) {
                 div.classList.add("disabled-time");
-                div.innerText = "REZERV EDİLİB"; // 👈 Saatı sildik, yerinə bunu yazdıq
             } else {
-                div.innerText = time;
                 div.addEventListener("click", () => {
                     selectedTime = time;
                     document.getElementById("popup").style.display="flex";
@@ -116,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function(){
     dateSelect.addEventListener("change", loadStatus);
     loadStatus();
 
+    // INPUTLARI YOXLA
     function checkInputs(){
         reserveBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
     }
@@ -124,12 +130,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
     window.closePopup = () => document.getElementById("popup").style.display="none";
 
+    // REZERV ET
     reserveBtn.addEventListener("click", async function(){
         let data = {
             slotKey: dateSelect.value + "_" + selectedTime,
             name: nameInput.value,
             phone: phoneInput.value,
-            people: document.getElementById("people").value || "1",
+            people: document.getElementById("people").value || "Qeyd edilməyib",
             dateText: dateSelect.options[dateSelect.selectedIndex].text,
             time: selectedTime
         };
@@ -138,22 +145,26 @@ document.addEventListener("DOMContentLoaded", function(){
         reserveBtn.disabled = true;
 
         try {
+            // 1. Google Sheets-ə göndər
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
-            let msg = `🆕 Rezerv!\n👤: ${data.name}\n📞: ${data.phone}\n📅: ${data.dateText}\n⏰: ${data.time}`;
+
+            // 2. Telegram-a göndər
+            let msg = `🆕 Rezervasiya!\n👤: ${data.name}\n📞: ${data.phone}\n👥: ${data.people}\n📅: ${data.dateText}\n⏰: ${data.time}`;
             await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ chat_id: "7766487634", text: msg })
             });
 
-            alert("Uğurla rezerv edildi! ✅");
+            alert("Rezervasiya tamamlandı! ✅ Artıq bu saat hamı üçün dolu görünəcək.");
             closePopup();
-            loadStatus(); 
+            loadStatus(); // Siyahını yenilə ki, saat dərhal bozarsın
         } catch (e) {
-            alert("Xəta baş verdi!");
+            alert("Xəta baş verdi ❌");
         } finally {
             reserveBtn.innerText = "Rezerv et";
-            nameInput.value = ""; phoneInput.value = "";
+            nameInput.value = "";
+            phoneInput.value = "";
         }
     });
 });
