@@ -1,73 +1,90 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ünvanımız</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ünvan - Biz Haradayıq?</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .unvan-container {
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .address-text {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px dashed #777;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .map-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        /* Google Maps rəngi */
+        .google-btn {
+            background-color: #4285F4;
+        }
+
+        /* Waze rəngi */
+        .waze-btn {
+            background-color: #33CCFF;
+            color: #000;
+        }
+
+        .map-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 <body>
 
-<!-- SIDE MENU -->
-<div class="side-menu" id="menu">
-    <a href="index.html">Ana Səhifə</a>
-    <a href="about.html">Haqqımızda</a>
-    <a href="games.html">Oyunlar</a>
-    <a href="prices.html">Qiymətlər</a>
-    <a href="rejimler.html">Rejimlər</a>
-</div>
-
-<!-- TOPBAR -->
 <div class="topbar">
-    <div class="topbar-title">ÜNVANIMIZ</div>
-    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+    <div class="back-btn" onclick="history.back()">←</div>
+    <div class="topbar-title">Ünvanımız</div>
 </div>
 
-<!-- CONTENT -->
-<section class="location-section">
+<div class="unvan-container">
+    <div class="address-text">
+        📍 <b>Sumqayıt şəhəri</b><br>
+        Mərkəzi poçtla üzbəüz,<br>
+        Gimnaziyanın yanı
+    </div>
 
-<div class="location-box">
+    <div class="btn-group">
+        <a href="https://www.google.com/maps/search/?api=1&query=Sumqayıt+Gimnaziya" target="_blank" class="map-btn google-btn">
+            Məkan (Google Maps)
+        </a>
 
-<h2>Ünvanımız</h2>
-
-<p>
-Sumqayıt şəhəri, mərkəzi poçt ilə üzbə-üz, gimnaziyanın yanı
-</p>
-
-<a href="https://www.google.com/maps/search/?api=1&query=Sumqayit+merkezi+poct"
-   target="_blank"
-   class="map-btn">
-📍 Xəritədə bax
-</a>
-
-<a href="https://www.google.com/maps/dir/?api=1&destination=Sumqayit+merkezi+poct"
-   target="_blank"
-   class="route-btn">
-🧭 Yol tap
-</a>
-
+        <a href="https://waze.com/ul?q=Sumqayıt+Gimnaziya&navigate=yes" target="_blank" class="map-btn waze-btn">
+            Yolu göstər (Waze)
+        </a>
+    </div>
 </div>
-
-</section>
-
-<script>
-
-function toggleMenu(){
-    const menu = document.getElementById("menu");
-    const burger = document.getElementById("burger");
-
-    menu.classList.toggle("active");
-
-    if(menu.classList.contains("active")){
-        burger.innerHTML = "✕";
-        burger.style.color = "red";
-    } else {
-        burger.innerHTML = "☰";
-        burger.style.color = "white";
-    }
-}
-
-</script>
 
 </body>
 </html>
