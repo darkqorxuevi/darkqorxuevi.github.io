@@ -9,66 +9,83 @@
         body { background-color: #0b0b0b; font-family: 'Segoe UI', sans-serif; }
         
         .unvan-container {
-            padding: 30px 20px;
+            padding: 40px 20px;
             text-align: center;
             color: white;
-            margin-top: 30px;
-            animation: fadeIn 0.8s ease-in;
+            margin-top: 20px;
         }
 
+        /* Ünvan Kartı - Daha aydın və işıqlı */
         .address-card {
-            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            background: rgba(255, 255, 255, 0.05);
             padding: 30px;
             border-radius: 20px;
-            border: 1px solid #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             margin-bottom: 40px;
         }
 
-        .address-card b { color: #ff4d4d; font-size: 22px; display: block; margin-bottom: 10px; }
-        .address-card p { font-size: 16px; color: #ccc; line-height: 1.6; }
+        .address-card b { 
+            color: #ff4d4d; 
+            font-size: 24px; 
+            display: block; 
+            margin-bottom: 15px; 
+            text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+        }
 
+        .address-card p { 
+            font-size: 18px; 
+            color: #ffffff; 
+            line-height: 1.6; 
+            margin: 0;
+        }
+
+        /* Düymə Qrupu */
         .btn-group {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            max-width: 300px;
+            gap: 20px;
+            max-width: 320px;
             margin: 0 auto;
         }
 
+        /* Düymələrin ümumi stili - Qaranlıq deyil, canlı rənglər */
         .map-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 16px;
-            border-radius: 12px;
-            font-weight: bold;
+            padding: 18px;
+            border-radius: 15px;
+            font-weight: 800;
             text-decoration: none;
             color: white;
-            font-size: 16px;
+            font-size: 17px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
         }
 
-        /* Google Maps Düyməsi */
+        /* Google Maps - Parlaq Göy */
         .google-btn {
-            background: #4285F4;
-            border-bottom: 4px solid #3367d6;
+            background: linear-gradient(135deg, #4285F4, #34a853);
+            box-shadow: 0 5px 20px rgba(66, 133, 244, 0.4);
         }
-        .google-btn:hover { background: #357ae8; transform: translateY(-2px); }
 
-        /* Waze Düyməsi */
+        /* Waze - Parlaq Mavi */
         .waze-btn {
-            background: #33CCFF;
-            color: #002d33;
-            border-bottom: 4px solid #29a3cc;
+            background: linear-gradient(135deg, #33CCFF, #29a3cc);
+            color: #000;
+            box-shadow: 0 5px 20px rgba(51, 204, 255, 0.4);
         }
-        .waze-btn:hover { background: #2bbbe6; transform: translateY(-2px); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .map-btn:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .map-btn:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
@@ -93,11 +110,11 @@
     </div>
 
     <div class="btn-group">
-        <a href="https://www.google.com/maps/search/?api=1&query=40.5902,49.6702" target="_blank" class="map-btn google-btn">
+        <a href="https://www.google.com/maps/search/?api=1&query=Sumqayıt+Özəl+Gimnaziyası" target="_blank" class="map-btn google-btn">
              Məkan (Google Maps)
         </a>
 
-        <a href="https://waze.com/ul?ll=40.5902,49.6702&navigate=yes" target="_blank" class="map-btn waze-btn">
+        <a href="https://waze.com/ul?ll=40.590244,49.670183&navigate=yes" target="_blank" class="map-btn waze-btn">
              Yolu göstər (Waze)
         </a>
     </div>
