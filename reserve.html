@@ -5,6 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Online Rezervasiya</title>
 <link rel="stylesheet" href="style.css">
+<script>
+    // 🔥 GOOGLE-DAN KOPYALADIĞIN O UZUN LİNKİ BU DIRNAQLARIN ARASINA QOY
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZWnxyN5UWXJbcWBClQBuCHZ_m2nCJtdwvZ9VW7G3MinCnQDSYMf5wKINFxJvfjVN7/exec";
+</script>
+<style>
+    /* DOLU SAATIN GÖRÜNÜŞÜ */
+    .disabled-time {
+        background-color: #333 !important; 
+        color: #777 !important;
+        opacity: 0.5;
+        cursor: not-allowed !important;
+        pointer-events: none !important;
+        position: relative;
+        border: 1px solid #444 !important;
+    }
+    .disabled-time::after {
+        content: "DOLU";
+        font-size: 10px;
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ff4d4d;
+        font-weight: bold;
+    }
+</style>
 </head>
 <body>
 
@@ -15,152 +41,133 @@
 
 <div class="reserve-page">
     <select id="dateSelect"></select>
-    <div class="time-grid" id="timeGrid"></div>
+    <div class="time-grid" id="timeGrid">Yüklənir...</div>
 </div>
 
 <div class="popup" id="popup">
-<div class="popup-box">
-
-<div class="popup-back" onclick="closePopup()">←</div>
-
-<h3 id="chosenTime"></h3>
-
-<input type="text" id="name" placeholder="Ad Soyad">
-<input type="tel" id="phone" placeholder="Telefon">
-<input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
-
-<button id="reserveBtn" disabled>Rezerv et</button>
-<button onclick="closePopup()">Geri dön</button>
-
-</div>
+    <div class="popup-box">
+        <div class="popup-back" onclick="closePopup()">←</div>
+        <h3 id="chosenTime"></h3>
+        <input type="text" id="name" placeholder="Ad Soyad">
+        <input type="tel" id="phone" placeholder="Telefon">
+        <input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
+        <button id="reserveBtn" disabled>Rezerv et</button>
+        <button onclick="closePopup()">Geri dön</button>
+    </div>
 </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function(){
 
-/* BACK */
-window.goBack = function(){
-    window.location.href="index.html";
-}
+    window.goBack = () => window.location.href="index.html";
 
-/* TARIX */
-let dateSelect = document.getElementById("dateSelect");
-let today = new Date();
+    let dateSelect = document.getElementById("dateSelect");
+    let grid = document.getElementById("timeGrid");
+    let nameInput = document.getElementById("name");
+    let phoneInput = document.getElementById("phone");
+    let reserveBtn = document.getElementById("reserveBtn");
+    let selectedTime = "";
 
-for(let i=0;i<4;i++){
-    let d = new Date();
-    d.setDate(today.getDate()+i);
-
-    let option = document.createElement("option");
-    option.value = d.toISOString().split('T')[0];
-    option.innerText = d.toLocaleDateString("az-AZ", {
-        day:"numeric",
-        month:"long"
-    });
-
-    dateSelect.appendChild(option);
-}
-
-/* SAATLAR */
-let times = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","00:00","01:00","02:00"];
-let grid = document.getElementById("timeGrid");
-
-let selectedTime = "";
-
-times.forEach(function(time){
-
-    let div = document.createElement("div");
-    div.className = "time-box";
-    div.innerText = time;
-
-    div.addEventListener("click", function(){
-        selectedTime = time;
-        openPopup(time);
-    });
-
-    grid.appendChild(div);
-
-});
-
-/* POPUP */
-function openPopup(time){
-    document.getElementById("popup").style.display="flex";
-    document.getElementById("chosenTime").innerText="Saat: " + time;
-}
-
-window.closePopup = function(){
-    document.getElementById("popup").style.display="none";
-}
-
-/* INPUTLAR */
-let nameInput = document.getElementById("name");
-let phoneInput = document.getElementById("phone");
-let reserveBtn = document.getElementById("reserveBtn");
-
-function checkInputs(){
-    if(nameInput.value.trim() !== "" && phoneInput.value.trim() !== ""){
-        reserveBtn.disabled = false;
-    }else{
-        reserveBtn.disabled = true;
+    // 4 GÜNLÜK TARİX SİYAHISI
+    let today = new Date();
+    for(let i=0; i<4; i++){
+        let d = new Date();
+        d.setDate(today.getDate()+i);
+        let option = document.createElement("option");
+        option.value = d.toISOString().split('T')[0];
+        option.innerText = d.toLocaleDateString("az-AZ", { day:"numeric", month:"long" });
+        dateSelect.appendChild(option);
     }
-}
 
-nameInput.addEventListener("input", checkInputs);
-phoneInput.addEventListener("input", checkInputs);
+    const times = ["11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","00:00","01:00","02:00"];
 
-/* 🔥 TELEGRAM GÖNDƏN BUTTON */
-reserveBtn.addEventListener("click", async function(){
+    // BAZADAN DOLU SAATLARI ÇƏKƏN FUNKSİYA
+    async function loadStatus() {
+        grid.innerHTML = "<div style='grid-column: 1/-1; text-align:center;'>Yüklənir...</div>";
+        try {
+            let response = await fetch(SCRIPT_URL);
+            let reservedSlots = await response.json();
+            renderGrid(reservedSlots);
+        } catch (error) {
+            console.error("Xəta:", error);
+            renderGrid([]);
+        }
+    }
 
-    // Məlumatları toplayırıq
-    let name = nameInput.value;
-    let phone = phoneInput.value;
-    let people = document.getElementById("people").value || "Qeyd edilməyib";
-    let date = dateSelect.options[dateSelect.selectedIndex].text; // Tarixin adını götürürük
-    let time = selectedTime;
+    function renderGrid(reservedSlots) {
+        grid.innerHTML = "";
+        let selectedDate = dateSelect.value;
 
-    // Telegramda görünəcək mesajın formati
-    let message = `🚨 Yeni Rezervasiya! 🚨\n\n👤 Ad Soyad: ${name}\n📞 Telefon: ${phone}\n👥 Neçə nəfər: ${people}\n📅 Tarix: ${date}\n⏰ Saat: ${time}`;
+        times.forEach(time => {
+            let div = document.createElement("div");
+            div.className = "time-box";
+            div.innerText = time;
 
-    // Sənin token və ID-n
-    let token = "8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ";
-    let chatId = "7766487634";
-    let url = `https://api.telegram.org/bot${token}/sendMessage`;
+            let slotKey = selectedDate + "_" + time;
 
-    try{
-        let response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: message
-            })
+            if (reservedSlots.includes(slotKey)) {
+                div.classList.add("disabled-time");
+            } else {
+                div.addEventListener("click", () => {
+                    selectedTime = time;
+                    document.getElementById("popup").style.display="flex";
+                    document.getElementById("chosenTime").innerText="Saat: " + time;
+                });
+            }
+            grid.appendChild(div);
         });
+    }
 
-        if(response.ok) {
-            alert("Rezervasiya uğurla tamamlandı ✅");
-            
-            // Popup-ı bağla və inputları təmizlə
+    dateSelect.addEventListener("change", loadStatus);
+    loadStatus();
+
+    // INPUTLARI YOXLA
+    function checkInputs(){
+        reserveBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
+    }
+    nameInput.addEventListener("input", checkInputs);
+    phoneInput.addEventListener("input", checkInputs);
+
+    window.closePopup = () => document.getElementById("popup").style.display="none";
+
+    // REZERV ET
+    reserveBtn.addEventListener("click", async function(){
+        let data = {
+            slotKey: dateSelect.value + "_" + selectedTime,
+            name: nameInput.value,
+            phone: phoneInput.value,
+            people: document.getElementById("people").value || "Qeyd edilməyib",
+            dateText: dateSelect.options[dateSelect.selectedIndex].text,
+            time: selectedTime
+        };
+
+        reserveBtn.innerText = "Göndərilir...";
+        reserveBtn.disabled = true;
+
+        try {
+            // 1. Google Sheets-ə göndər
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+
+            // 2. Telegram-a göndər
+            let msg = `🆕 Rezervasiya!\n👤: ${data.name}\n📞: ${data.phone}\n👥: ${data.people}\n📅: ${data.dateText}\n⏰: ${data.time}`;
+            await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: "7766487634", text: msg })
+            });
+
+            alert("Rezervasiya tamamlandı! ✅ Artıq bu saat hamı üçün dolu görünəcək.");
             closePopup();
+            loadStatus(); // Siyahını yenilə ki, saat dərhal bozarsın
+        } catch (e) {
+            alert("Xəta baş verdi ❌");
+        } finally {
+            reserveBtn.innerText = "Rezerv et";
             nameInput.value = "";
             phoneInput.value = "";
-            document.getElementById("people").value = "";
-            checkInputs(); // Butonu yenidən deaktiv et
-        } else {
-            alert("Xəta baş verdi ❌ (Telegrama göndərilə bilmədi)");
         }
-
-    }catch(error){
-        alert("Xəta baş verdi ❌ (İnternet bağlantınızı yoxlayın)");
-    }
-
+    });
 });
-
-});
-
 </script>
-
 </body>
 </html>
