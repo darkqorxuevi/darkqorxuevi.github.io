@@ -768,6 +768,33 @@ cursor:pointer;
     box-shadow:none;
 }
 
+/* Admin Giriş Yazısı */
+.admin-footer {
+    text-align: center;
+    padding: 40px 0;
+    opacity: 0.2; /* Çox sönük görünür ki, müştərilər fikir verməsin */
+    transition: 0.3s;
+}
+.admin-footer:hover {
+    opacity: 1; /* Üstünə gələndə aydınlaşır */
+}
+.admin-link {
+    cursor: pointer;
+    color: #555;
+    font-size: 13px;
+    text-decoration: none;
+    font-family: sans-serif;
+}
 
+/* Şifrə Popup Dizaynı */
+#adminPopup {
+    display: none; /* Başlanğıcda gizli */
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
 
 
