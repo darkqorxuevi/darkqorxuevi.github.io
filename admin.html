@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <title>Dark - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: #0a0a0a; color: white; text-align: center; padding-top: 50px; }
+        .admin-container { max-width: 600px; margin: 0 auto; }
+        .admin-btn {
+            display: block;
+            width: 100%;
+            padding: 25px;
+            margin: 20px 0;
+            background: linear-gradient(45deg, #8b0000, red);
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 15px;
+            box-shadow: 0 0 15px red;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .admin-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .back-arrow { position: fixed; top: 20px; left: 20px; font-size: 30px; color: red; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-arrow">←</a>
+
+    <div class="admin-container">
+        <h1 style="text-shadow: 0 0 20px red; color: red; margin-bottom: 40px;">ADMİN PANEL</h1>
+        
+        <button class="admin-btn" onclick="showSection('games')">🎮 OYUNLAR</button>
+        
+        <button class="admin-btn" onclick="showSection('about')">ℹ️ HAQQIMIZDA</button>
+    </div>
+
+    <div id="editorSection" style="display:none; margin-top: 50px;">
+        <h2 id="sectionTitle">Redaktə Paneli</h2>
+        </div>
+
+</body>
+</html>
