@@ -174,5 +174,46 @@ function openReservePage(){
 }
 </script>
 
+<footer class="admin-footer">
+    <span class="admin-link" onclick="openAdminPopup()">Admin Panel</span>
+</footer>
+
+<div id="adminPopup">
+    <div class="popup-box" style="background:#111; padding:30px; border:1px solid red; border-radius:15px; text-align:center; width:90%; max-width:320px;">
+        <h2 style="color:red; margin-bottom:20px;">Giriş</h2>
+        <input type="password" id="adminPass" placeholder="Şifrə..." style="width:100%; padding:12px; background:#000; border:1px solid red; color:white; margin-bottom:15px;">
+        <button onclick="checkAdminPassword()" style="width:100%; padding:12px; background:red; border:none; color:white; font-weight:bold; cursor:pointer;">DAXİL OL</button>
+        <button onclick="closeAdminPopup()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Ləğv et</button>
+        <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-size:14px;">Şifrə səhvdir!</p>
+    </div>
+</div>
+
+<script>
+function openAdminPopup() {
+    document.getElementById("adminPopup").style.display = "flex";
+}
+
+function closeAdminPopup() {
+    document.getElementById("adminPopup").style.display = "none";
+    document.getElementById("errorMsg").style.display = "none";
+}
+
+function checkAdminPassword() {
+    var pass = document.getElementById("adminPass").value;
+    // Sənin istədiyin şifrə
+    if (pass === "admindark1903") {
+        window.location.href = "admin.html";
+    } else {
+        document.getElementById("errorMsg").style.display = "block";
+    }
+}
+
+// "Enter" düyməsi ilə daxil olmaq üçün
+document.getElementById("adminPass").addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+        checkAdminPassword();
+    }
+});
+</script>
 </body>
 </html>
