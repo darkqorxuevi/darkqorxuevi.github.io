@@ -1,128 +1,121 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oyunlar</title>
-    <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="logo.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oyunlar</title>
+<link rel="stylesheet" href="style.css">
 
-    <style>
-        .games-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 60px;
-            flex-wrap: wrap;
-        }
+<style>
 
-        .game-card {
-            width: 220px;
-            height: 220px;
-            background: #111;
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-        }
+.games-container{
+display:flex;
+justify-content:center;
+gap:40px;
+margin-top:60px;
+flex-wrap:wrap;
+}
 
-        .game-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-        }
+.game-card{
+width:220px;
+height:220px;
+background:#111;
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+transition:0.3s;
+text-align:center;
+}
 
-        .game-card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-        }
+.game-card:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px rgba(255,0,0,0.5);
+}
 
-        .game-card h2 {
-            color: white;
-            margin-top: 8px;
-            font-size: 20px;
-        }
+.game-card img{
+width:100%;
+height:160px;
+object-fit:cover;
+}
 
-        .story-box {
-            max-width: 800px;
-            margin: 60px auto;
-            color: white;
-            font-size: 18px;
-            line-height: 1.6;
-            text-align: center;
-            padding: 20px;
-            white-space: pre-wrap; /* Mətnin boşluqlarını və sətirlərini qorumaq üçün */
-        }
-    </style>
+.game-card h2{
+color:white;
+margin-top:8px;
+}
+
+.story-box{
+max-width:800px;
+margin:60px auto;
+color:white;
+font-size:18px;
+line-height:1.6;
+text-align:center;
+padding:20px;
+}
+
+</style>
+
 </head>
 <body>
 
-    <!-- SƏS FAYLI BURADA YERLƏŞİR -->
-    <!-- Qovluğunda mütləq pen-sound.mp3 adlı səs faylı olmalıdır -->
-    <audio id="penSound" src="pen-sound.mp3" loop></audio>
+<!-- SIDE MENU -->
+<div class="side-menu" id="menu">
+<a href="index.html">Ana Səhifə</a>
+<a href="about.html">Haqqımızda</a>
+<a href="location.html">Məkan</a>
+<a href="rejimler.html">Rejimlər</a>
+</div>
 
-    <!-- SIDE MENU -->
-    <div class="side-menu" id="menu">
-        <a href="index.html">Ana Səhifə</a>
-        <a href="about.html">Haqqımızda</a>
-        <a href="location.html">Məkan</a>
-        <a href="rejimler.html">Rejimlər</a>
-    </div>
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="topbar-title">OYUNLAR</div>
+<div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+</div>
 
-    <!-- TOPBAR -->
-    <div class="topbar">
-        <div class="topbar-title">OYUNLAR</div>
-        <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
-    </div>
+<!-- GAME CARDS -->
 
-    <!-- GAME CARDS -->
-    <section class="games-container">
+<section class="games-container">
 
-        <!-- Onclick hadisələrini düzəltdim, artıq başqa səhifəyə getmir, hekayəni açır -->
-        <div class="game-card" onclick="showStory('murad')">
-            <img src="murad.jpg" class="game-img" alt="Murad">
-            <h2>Murad</h2>
-        </div>
+<div class="game-card" onclick="location.href='murad.html'">
+<img src="murad.jpg" class="game-img">
+<div class="game-title">Murad</div>
+</div>
 
-        <div class="game-card" onclick="showStory('ezrayil')">
-            <img src="ezrail.jpg" class="game-img" alt="Əzrayil">
-            <h2>Əzrayil</h2>
-        </div>
 
-        <!-- Yeni Qaranlıq Oyunu Əlavə Edildi -->
-        <div class="game-card" onclick="showStory('qaranliq')">
-            <img src="qaranliq.jpg" class="game-img" alt="Qaranlıq">
-            <h2>Qaranlıq</h2>
-        </div>
+<div class="game-card" onclick="location.href='ezrayil.html'">
+<img src="ezrail.jpg" class="game-img">
+<div class="game-title">Əzrayil</div>
+</div>
 
-    </section>
+</section>
 
-    <div id="storyBox" class="story-box"></div>
+<div id="storyBox" class="story-box"></div>
 
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById("menu");
-            const burger = document.getElementById("burger");
+<script>
 
-            menu.classList.toggle("active");
+function toggleMenu(){
+const menu = document.getElementById("menu");
+const burger = document.getElementById("burger");
 
-            if (menu.classList.contains("active")) {
-                burger.innerHTML = "✕";
-                burger.style.color = "#8b0000";
-            } else {
-                burger.innerHTML = "☰";
-                burger.style.color = "white";
-            }
-        }
+menu.classList.toggle("active");
 
-        let typingInterval; // Hər dəfə yeni hekayə açılanda əvvəlki yazını dayandırmaq üçün
+if(menu.classList.contains("active")){
+burger.innerHTML = "✕";
+burger.style.color = "#8b0000";
+}else{
+burger.innerHTML = "☰";
+burger.style.color = "white";
+}
+}
 
-        function showStory(game) {
-            let story = "";
+function showStory(game){
 
-            if (game === "murad") {
-                story = `Muradın 10 yaşı var idi. 10 il əvvəl onun anasına cin musallat oldu.
+let story = "";
+
+if(game === "murad"){
+story = `
+Muradın 10 yaşı var idi. 10 il əvvəl onun anasına cin musallat oldu.
 Qaranlıq gecədə ailənin bütün üzvləri – 6 yaşlı bacısı, atası,
 nənəsi və babası – amansız şəkildə öldürüldü.
 
@@ -134,11 +127,13 @@ həmin evdə saxladılar.
 Lakin zaman keçdikcə onların hamısı ifritin köləsinə çevrildi...
 
 İndi isə sən o evə daxil olacaqsan.
-Muradı xilas edə biləcəksən?`;
-            }
+Muradı xilas edə biləcəksən?
+`;
+}
 
-            if (game === "ezrayil") {
-                story = `Bu ev adi qorxu evi deyil.
+if(game === "ezrail"){
+story = `
+Bu ev adi qorxu evi deyil.
 Bura qışqırmaq, qaçmaq, gizlənmək üçün yaradılmayıb.
 Bura susmaq üçün tikilib.
 Bura etiraf etmək üçündür.
@@ -160,74 +155,20 @@ nəyi gizlətdiyini bilir.
 Əgər günahını etiraf etməsən,
 Əzrayil tək gəlməyəcək.
 
-O gecə Şeytan da bu evdə olacaq...`;
-            }
+O gecə Şeytan da bu evdə olacaq...
+`;
+}
 
-            if (game === "qaranliq") {
-                story = `Bu ev bir vaxtlar sadə bir zirzəmi deyildi…
-Bura “işıqdan qaçanların” sığınacağı idi.
+document.getElementById("storyBox").innerText = story;
 
-İllər əvvəl burada çalışan bir elektrik mühəndisi var idi — Rauf. O, qaranlıqdan qorxmurdu… əksinə, qaranlığı sevdiyini deyirdi. Gecələr tək qalır, bütün işıqları söndürüb saatlarla bu padvalda otururdu. Deyirdi ki:
+window.scrollTo({
+top: document.getElementById("storyBox").offsetTop - 100,
+behavior: "smooth"
+});
 
-“Qaranlıq boş deyil… sadəcə biz görə bilmirik.”
+}
 
-Bir gecə o, bütün işıq sistemini dəyişdi. Evin içində elə bir sistem qurdu ki, işıq istənilən anda sönə bilərdi. O gündən sonra hər şey dəyişdi.
+</script>
 
-⸻
-İlk Hadisə
-
-Rauf yoxa çıxdı.
-
-Onu son dəfə görən təmizləyici qadın — Lalə dedi ki, Rauf qaranlıqda kimsə ilə danışırdı. Amma orada başqa heç kim yox idi.
-Lalə yalnız bir cümlə eşitmişdi:
-“Onlar gəldi… işığı söndür.”
-
-⸻
-Qaranlıq Məxluqlar
-
-Bu evdə bir qayda var:
-İşıq varsa — sən varsansa.
-İşıq yoxdursa — onlar var.
-
-“Qaranlıq məxluqlar” adlandırılan varlıqlar insan deyil. Onlar görünmür… amma hiss olunur.
-• Nəfəsini ensəndə hiss edəcəksən
-• Addımlarını sənin addımınla uyğunlaşdıracaqlar
-• Səni çağıracaqlar… tanıdığın səslə
-
-Ən qorxulusu isə budur:
-Onlar səni görə bilməz… amma sən onları hiss etdikcə güclənirlər.`;
-            }
-
-            // Hekayə qutusunu tap və əvvəlki mətni təmizlə
-            const storyBox = document.getElementById("storyBox");
-            storyBox.innerText = ""; 
-
-            // Səsi tap və başlat
-            const penSound = document.getElementById("penSound");
-            penSound.currentTime = 0; 
-            penSound.play().catch(e => console.log("Səs avtomatik oxudulmadı (Brauzer icazəsi lazımdır):", e));
-
-            // Əgər əvvəlki yazı effekti davam edirsə, onu dayandır
-            clearInterval(typingInterval);
-
-            // Ekranı aşağı sürüşdür
-            window.scrollTo({
-                top: storyBox.offsetTop - 50,
-                behavior: "smooth"
-            });
-
-            // Yazı yazılma (Typewriter) effekti
-            let i = 0;
-            typingInterval = setInterval(() => {
-                storyBox.innerText += story.charAt(i);
-                i++;
-                if (i >= story.length) {
-                    clearInterval(typingInterval); // Yazı bitdi, effekti dayandır
-                    penSound.pause(); // Səsi dayandır
-                }
-            }, 35); // 35 rəqəmini dəyişərək yazının sürətini artıra/azalda bilərsən
-        }
-
-    </script>
 </body>
 </html>
