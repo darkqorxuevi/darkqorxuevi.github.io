@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=New+Rocker&family=Montserrat:wght@400;700&display=swap');
 
 *{
     margin:0;
@@ -56,8 +56,6 @@ header{
     z-index:9999;
 }
 
-
-
 .topbar-title{
     font-weight:bold;
     font-size:20px;
@@ -88,9 +86,6 @@ header{
     z-index:5000;
 }
 
-
-
-
 .side-menu a{
     display:block;
     padding:15px;
@@ -107,11 +102,6 @@ header{
     right:0;
 }
 
-.side-menu.active{
-    right:0;
-}
-
-
 /* LOGO */
 .logo img{
     width:650px;
@@ -124,10 +114,10 @@ header{
     align-items:center;
 }
 
-/* SLOGAN */
+/* SLOGAN - FONT DEYISDIRILDI (Azerbaycan herfi ucun) */
 .slogan{
     margin-top:25px;
-    font-family:'Creepster', cursive;
+    font-family:'New Rocker', cursive;
     font-size:42px;
     color:red;
     text-shadow:0 0 25px red;
@@ -169,7 +159,6 @@ header{
 }
 
 /* ===== HERO SECTION ===== */
-
 .hero{
     height:100vh;
     background:url("background.jpg") center/cover no-repeat;
@@ -230,12 +219,10 @@ header{
 }
 
 /* ===== GAMES PAGE WINDOW ===== */
-
 .games-section{
     padding:40px 20px;
     min-height:100vh;
 }
-
 
 .game-window{
     width:100%;
@@ -268,24 +255,12 @@ header{
     font-family:'Segoe UI', sans-serif;
 }
 
-/* Window animasiya */
 @keyframes fadeUpWindow{
-    from{
-        opacity:0;
-        transform:translateY(40px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    from{ opacity:0; transform:translateY(40px); }
+    to{ opacity:1; transform:translateY(0); }
 }
 
-
-
-
-
 /* ===== ABOUT PAGE ===== */
-
 .about-section{
     padding:120px 20px 60px;
     min-height:100vh;
@@ -323,21 +298,12 @@ header{
     font-size:15px;
 }
 
-/* Animasiya */
 @keyframes fadeUpAbout{
-    from{
-        opacity:0;
-        transform:translateY(40px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    from{ opacity:0; transform:translateY(40px); }
+    to{ opacity:1; transform:translateY(0); }
 }
 
-
 /* ===== MODS PAGE ===== */
-
 .mods-section{
     padding:120px 20px 60px;
     min-height:100vh;
@@ -378,26 +344,10 @@ header{
     box-shadow:0 0 30px red;
 }
 
-.ultra{
-    border:1px solid red;
-    box-shadow:0 0 30px rgba(255,0,0,0.7);
-}
-
-
-.azrail{
-    border:1px solid #b30000;
-    box-shadow:0 0 25px rgba(179,0,0,0.6);
-}
-
-.azrail h2{
-    color:#ff1a1a;
-    text-shadow:0 0 15px red;
-}
-
-.azrail:hover{
-    transform:scale(1.03);
-    box-shadow:0 0 40px red;
-}
+.ultra{ border:1px solid red; box-shadow:0 0 30px rgba(255,0,0,0.7); }
+.azrail{ border:1px solid #b30000; box-shadow:0 0 25px rgba(179,0,0,0.6); }
+.azrail h2{ color:#ff1a1a; text-shadow:0 0 15px red; }
+.azrail:hover{ transform:scale(1.03); box-shadow:0 0 40px red; }
 
 /* ===== GAME CARD STYLE ===== */
 .game-card{
@@ -431,113 +381,74 @@ header{
 }
 
 /* REZERV POPUP */
-
 .reserve-popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:999;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.85);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
 }
 
 .reserve-box{
-background:#0a0a0a;
-border:1px solid red;
-padding:30px;
-border-radius:10px;
-width:90%;
-max-width:350px;
-text-align:center;
-box-shadow:0 0 20px red;
+    background:#0a0a0a;
+    border:1px solid red;
+    padding:30px;
+    border-radius:10px;
+    width:90%;
+    max-width:350px;
+    text-align:center;
+    box-shadow:0 0 20px red;
 }
 
-.reserve-box h2{
-color:red;
-margin-bottom:20px;
-}
-
-.reserve-box input{
-width:100%;
-padding:10px;
-margin:10px 0;
-background:black;
-border:1px solid red;
-color:white;
-}
-
-.confirm-btn{
-margin-top:15px;
-padding:12px 25px;
-background:red;
-border:none;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-.close-btn{
-position:absolute;
-right:20px;
-top:15px;
-color:red;
-font-size:20px;
-cursor:pointer;
-}
+.reserve-box h2{ color:red; margin-bottom:20px; }
+.reserve-box input{ width:100%; padding:10px; margin:10px 0; background:black; border:1px solid red; color:white; }
+.confirm-btn{ margin-top:15px; padding:12px 25px; background:red; border:none; color:white; font-weight:bold; cursor:pointer; }
+.close-btn{ position:absolute; right:20px; top:15px; color:red; font-size:20px; cursor:pointer; }
 
 .games-container{
-display:flex;
-justify-content:center;
-gap:60px;
-margin-top:140px;
-flex-wrap:wrap;
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    margin-top:140px;
+    flex-wrap:wrap;
 }
 
 .game-card{
-width:260px;
-height:260px;
-border-radius:15px;
-overflow:hidden;
-position:relative;
-cursor:pointer;
-transition:0.3s;
-box-shadow:0 0 20px rgba(255,0,0,0.5);
+    width:260px;
+    height:260px;
+    border-radius:15px;
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 0 20px rgba(255,0,0,0.5);
 }
 
 .game-card:hover{
-transform:scale(1.07);
-box-shadow:0 0 40px red;
+    transform:scale(1.07);
+    box-shadow:0 0 40px red;
 }
 
-.game-img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
+.game-img{ width:100%; height:100%; object-fit:cover; }
 
+/* OYUN ADLARI - FONT DEYISDIRILDI (Azerbaycan herfi ucun) */
 .game-title{
-position:absolute;
-bottom:15px;
-width:100%;
-text-align:center;
-font-size:26px;
-font-weight:bold;
-color:#ff2b2b;
-
-text-shadow:
-0 0 5px red,
-0 0 10px red,
-0 0 20px red,
-0 0 40px darkred;
-
-letter-spacing:3px;
+    position:absolute;
+    bottom:15px;
+    width:100%;
+    text-align:center;
+    font-family:'New Rocker', cursive;
+    font-size:26px;
+    font-weight:bold;
+    color:#ff2b2b;
+    text-shadow: 0 0 5px red, 0 0 10px red, 0 0 20px red, 0 0 40px darkred;
+    letter-spacing:3px;
 }
-
-
 
 .route-btn{
     display:inline-block;
@@ -552,67 +463,54 @@ letter-spacing:3px;
     transition:0.3s;
 }
 
-.route-btn:hover{
-    background:red;
-    box-shadow:0 0 25px red;
+.route-btn:hover{ background:red; box-shadow:0 0 25px red; }
 
-
-
-  .reserve-page{
-    padding-top:100px; /* BU ƏN VACİB */
+.reserve-page{
+    padding-top:120px;
     padding-left:20px;
     padding-right:20px;
+    text-align:center;
+    position:relative;
+    z-index:5;
 }
 
-
 .form-popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:none;
-align-items:center;
-justify-content:center;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    align-items:center;
+    justify-content:center;
 }
 
 .form-box{
-background:black;
-padding:25px;
-border:1px solid red;
-width:90%;
-max-width:300px;
+    background:black;
+    padding:25px;
+    border:1px solid red;
+    width:90%;
+    max-width:300px;
 }
 
 .form-box input{
-width:100%;
-margin:10px 0;
-padding:10px;
-background:#111;
-color:white;
-border:1px solid red;
+    width:100%;
+    margin:10px 0;
+    padding:10px;
+    background:#111;
+    color:white;
+    border:1px solid red;
 }
 
 .form-box button{
-margin-top:10px;
-padding:10px;
-width:100%;
-background:red;
-border:none;
-color:white;
-cursor:pointer;
-}
-
-}
-
-
-
-/* ===== RESERVE PAGE ===== */
-
-.reserve-page{
-    padding:120px 20px;
-    text-align:center;
+    margin-top:10px;
+    padding:10px;
+    width:100%;
+    background:red;
+    border:none;
+    color:white;
+    cursor:pointer;
 }
 
 /* TARİX SELECT */
@@ -629,6 +527,8 @@ cursor:pointer;
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:15px;
+    position:relative;
+    z-index:10;
 }
 
 .time-box{
@@ -639,10 +539,19 @@ cursor:pointer;
     font-weight:bold;
     background:#111;
     transition:0.3s;
+    position:relative;
+    z-index:20;
+    pointer-events:auto;
 }
 
-.time-box:hover{
-    background:red;
+.time-box:hover{ background:red; }
+
+.time-box.disabled{
+    background:#222;
+    color:#777;
+    border:1px solid #555;
+    cursor:not-allowed;
+    box-shadow:none;
 }
 
 /* POPUP */
@@ -652,10 +561,12 @@ cursor:pointer;
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.85);
+    background:rgba(0,0,0,0.7);
+    backdrop-filter:blur(5px);
     display:none;
     justify-content:center;
     align-items:center;
+    z-index:99999;
 }
 
 .popup-box{
@@ -665,6 +576,8 @@ cursor:pointer;
     max-width:300px;
     border:1px solid red;
     text-align:center;
+    position:relative;
+    z-index:100000;
 }
 
 .popup-box input{
@@ -686,10 +599,8 @@ cursor:pointer;
     cursor:pointer;
 }
 
-.popup-box button:disabled{
-    background:#555;
-    cursor:not-allowed;
-}
+.popup-box button:disabled{ background:#555; cursor:not-allowed; }
+
 .back-btn{
     position:fixed;
     top:20px;
@@ -700,44 +611,6 @@ cursor:pointer;
     cursor:pointer;
 }
 
-
-/* CLICK FIX */
-.reserve-page{
-    position:relative;
-    z-index:5;
-}
-
-.time-grid{
-    position:relative;
-    z-index:10;
-}
-
-.time-box{
-    position:relative;
-    z-index:20;
-    pointer-events:auto;
-}
-
-.popup{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7); /* daha yumşaq qaranlıq */
-    backdrop-filter:blur(5px);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:99999; /* ƏN ÜST */
-}
-
-.popup-box{
-    position:relative;
-    z-index:100000;
-}
-
-
 .popup-back{
     position:absolute;
     top:10px;
@@ -747,37 +620,15 @@ cursor:pointer;
     cursor:pointer;
 }
 
-.time-box.disabled{
-    background:#333;
-    color:#777;
-    border:1px solid #555;
-    cursor:not-allowed;
-    box-shadow:none;
-}
-
-.popup-box{
-    position:relative;
-    z-index:100000;
-}
-
-.time-box.disabled{
-    background:#222;
-    color:#777;
-    border:1px solid #555;
-    cursor:not-allowed;
-    box-shadow:none;
-}
-
 /* Admin Giriş Yazısı */
 .admin-footer {
     text-align: center;
     padding: 40px 0;
-    opacity: 0.2; /* Çox sönük görünür ki, müştərilər fikir verməsin */
+    opacity: 0.2;
     transition: 0.3s;
 }
-.admin-footer:hover {
-    opacity: 1; /* Üstünə gələndə aydınlaşır */
-}
+.admin-footer:hover { opacity: 1; }
+
 .admin-link {
     cursor: pointer;
     color: #555;
@@ -788,7 +639,7 @@ cursor:pointer;
 
 /* Şifrə Popup Dizaynı */
 #adminPopup {
-    display: none; /* Başlanğıcda gizli */
+    display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.9);
@@ -796,5 +647,3 @@ cursor:pointer;
     align-items: center;
     justify-content: center;
 }
-
-
