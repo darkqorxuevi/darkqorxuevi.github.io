@@ -1593,3 +1593,84 @@ cursor:pointer;
     justify-content: center;
 
 }
+
+
+
+
+/* Ana səhifə mətni stili */
+.hero-content {
+    text-align: center;
+    margin: 40px auto;
+    padding: 0 20px;
+    max-width: 800px;
+}
+
+.glitch-text {
+    color: #ff0000;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 10px rgba(255, 0, 0, 0.7);
+    margin-bottom: 20px;
+}
+
+.hero-description {
+    color: #cccccc;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* Footer - Sosial Media bölməsi */
+.main-footer {
+    background-color: #0a0a0a; /* Qalın və tünd yer */
+    border-top: 2px solid #330000;
+    padding: 50px 0 20px 0;
+    margin-top: 100px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.social-item img {
+    width: 40px; /* İkon ölçüsü */
+    height: 40px;
+    margin-bottom: 10px;
+    filter: grayscale(20%);
+}
+
+.social-item:hover {
+    transform: translateY(-10px);
+}
+
+.social-item span {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.footer-bottom {
+    border-top: 1px solid #222;
+    padding-top: 20px;
+    color: #555;
+    font-size: 13px;
+}v
