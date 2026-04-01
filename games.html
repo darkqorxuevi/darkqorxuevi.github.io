@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-
+/* Orijinal CSS-in saxlanılır */
 .games-container{
 display:flex;
 justify-content:center;
@@ -39,12 +39,6 @@ height:160px;
 object-fit:cover;
 }
 
-.game-card h2{
-color:white;
-margin-top:8px;
-}
-
-/* SƏNİN KODUN ÜZƏRİNƏ ƏLAVƏ EDİLƏN YENİ POPUP DİZAYNI */
 .game-title {
 color:white;
 margin-top:8px;
@@ -52,47 +46,71 @@ font-size: 18px;
 font-weight: bold;
 }
 
+/* --- YENİ POPUP VƏ KÖHNƏ DƏFTƏR TEMASI --- */
+
 .popup-bg {
-display: none; /* İlk başda gizli qalır */
+display: none;
 position: fixed;
 top: 0; left: 0; width: 100%; height: 100%;
-background: rgba(0, 0, 0, 0.85);
+background: rgba(0, 0, 0, 0.9);
 z-index: 1000;
 justify-content: center;
 align-items: center;
+opacity: 0;
+transition: opacity 0.4s ease;
+}
+
+.popup-bg.active {
+display: flex;
+opacity: 1;
 }
 
 .popup-box {
-background: #111;
-border: 2px solid #8b0000;
-border-radius: 15px;
-padding: 30px;
+background: #f4e4bc; /* Köhnə kağız rəngi */
+background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png'); /* Kağız teksturası */
+border: 10px double #5d4037;
+border-radius: 5px;
+padding: 40px;
 max-width: 600px;
-width: 90%;
+width: 85%;
 position: relative;
-text-align: center;
-box-shadow: 0 0 20px rgba(139, 0, 0, 0.7);
+box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 50px rgba(93, 64, 55, 0.2);
+transform: scale(0.7);
+transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popup-bg.active .popup-box {
+transform: scale(1);
 }
 
 .close-btn {
 position: absolute;
 top: 10px; right: 20px;
-color: white;
-font-size: 28px;
+color: #5d4037;
+font-size: 35px;
+font-weight: bold;
 cursor: pointer;
-transition: 0.3s;
 }
 
-.close-btn:hover {
-color: red;
+.story-box {
+color: #2b1d0e; /* Köhnə mürəkkəb rəngi */
+font-family: 'Courier New', Courier, monospace; /* Yazı makinası şrifti */
+font-size: 19px;
+font-weight: bold;
+line-height: 1.6;
+text-align: left;
+min-height: 100px;
 }
 
-.story-box{
-color:white;
-font-size:18px;
-line-height:1.6;
+/* Yazı makinası kursoru effekti */
+.story-box::after {
+content: "|";
+animation: blink 0.7s infinite;
 }
 
+@keyframes blink {
+0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }
+}
 </style>
 
 </head>
@@ -111,27 +129,23 @@ line-height:1.6;
 </div>
 
 <section class="games-container">
+    <div class="game-card" onclick="openPopup('murad')">
+        <img src="murad.jpg" class="game-img">
+        <div class="game-title">Murad</div>
+    </div>
 
-<div class="game-card" onclick="openPopup('murad')">
-<img src="murad.jpg" class="game-img">
-<div class="game-title">Murad</div>
-</div>
+    <div class="game-card" onclick="openPopup('ezrail')">
+        <img src="ezrail.jpg" class="game-img">
+        <div class="game-title">Əzrayil</div>
+    </div>
 
-
-<div class="game-card" onclick="openPopup('ezrail')">
-<img src="ezrail.jpg" class="game-img">
-<div class="game-title">Əzrayil</div>
-</div>
-
-
-<div class="game-card" onclick="openPopup('qaranliq')">
-<img src="qaranliq.jpg" class="game-img">
-<div class="game-title">Qaranlıq</div>
-</div>
-
+    <div class="game-card" onclick="openPopup('qaranliq')">
+        <img src="qaranliq.jpg" class="game-img">
+        <div class="game-title">Qaranlıq</div>
+    </div>
 </section>
 
-<div id="storyPopup" class="popup-bg">
+<div id="storyPopup" class="popup-bg" onclick="closePopupExternal(event)">
     <div class="popup-box">
         <span class="close-btn" onclick="closePopup()">×</span>
         <div id="storyBox" class="story-box"></div>
@@ -139,99 +153,63 @@ line-height:1.6;
 </div>
 
 <script>
-
 function toggleMenu(){
-const menu = document.getElementById("menu");
-const burger = document.getElementById("burger");
-
-menu.classList.toggle("active");
-
-if(menu.classList.contains("active")){
-burger.innerHTML = "✕";
-burger.style.color = "#8b0000";
-}else{
-burger.innerHTML = "☰";
-burger.style.color = "white";
-}
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+    menu.classList.toggle("active");
+    burger.innerHTML = menu.classList.contains("active") ? "✕" : "☰";
 }
 
-// POPUP-I AÇAN FUNKSİYA
+let typeIndex = 0;
+let currentText = "";
+let typingTimer;
+
+function typeWriter(text) {
+    if (typeIndex < text.length) {
+        document.getElementById("storyBox").innerHTML += text.charAt(typeIndex);
+        typeIndex++;
+        typingTimer = setTimeout(() => typeWriter(text), 40); // Yazı sürəti (40ms)
+    }
+}
+
 function openPopup(game){
+    const popup = document.getElementById("storyPopup");
+    const box = document.getElementById("storyBox");
+    
+    let story = "";
+    if(game === "murad") {
+        story = "Muradın 10 yaşı var idi. 10 il əvvəl onun anasına cin musallat oldu. Ailəsi amansızcasına öldürüldü. İfrit onun ruhuna aşiq olub onu bu evdə həbs etdi. Muradın ruhunu xilas edə biləcəksən?";
+    } else if(game === "ezrail") {
+        story = "Bura qışqırmaq üçün deyil, susmaq və etiraf etmək üçündür. Əzrayil sənin nə dediyini yox, nəyi gizlətdiyini bilir. Əgər günahını etiraf etməsən, o gecə Şeytan da orada olacaq...";
+    } else if(game === "qaranliq") {
+        story = "Qaranlıq təkcə işığın yoxluğu deyil. Burada səslər divarlardan gəlir. Onlar səni görür, amma sən onları yox. Hər yandırılan işıq onları daha da qəzəbləndirəcək...";
+    }
 
-let story = "";
-
-if(game === "murad"){
-story = `
-Muradın 10 yaşı var idi. 10 il əvvəl onun anasına cin musallat oldu.
-Qaranlıq gecədə ailənin bütün üzvləri – 6 yaşlı bacısı, atası,
-nənəsi və babası – amansız şəkildə öldürüldü.
-
-Murad öldürülərkən ifrit onun ruhuna aşiq oldu və onu həmin evdə həbs etdi.
-
-Paşa baba və Fatma nənə Muradın ruhunu azad etmək üçün öz ruhlarını da
-həmin evdə saxladılar.
-
-Lakin zaman keçdikcə onların hamısı ifritin köləsinə çevrildi...
-
-İndi isə sən o evə daxil olacaqsan.
-Muradı xilas edə biləcəksən?
-`;
+    // Təmizləmə və Başlatma
+    box.innerHTML = "";
+    typeIndex = 0;
+    clearTimeout(typingTimer);
+    
+    popup.style.display = "flex";
+    setTimeout(() => popup.classList.add("active"), 10);
+    
+    // Animasiyadan bir az sonra yazmağa başla
+    setTimeout(() => typeWriter(story), 500);
 }
 
-if(game === "ezrail"){
-story = `
-Bu ev adi qorxu evi deyil.
-Bura qışqırmaq, qaçmaq, gizlənmək üçün yaradılmayıb.
-Bura susmaq üçün tikilib.
-Bura etiraf etmək üçündür.
-
-Deyirlər, Əzrayil hər zaman can almağa gəlmir.
-Bəzən gəlir… dinləmək üçün.
-
-Bu qapıdan içəri girən hər kəs
-bir dəfə yalan danışıb,
-birinin qəlbini qırıb,
-heç kimə demədiyi bir günahı gizlədib.
-
-Burada gizlənən yoxdur.
-Burada susan daha tez tutulur.
-
-Çünki Əzrayil sənin nə dediyini yox,
-nəyi gizlətdiyini bilir.
-
-Əgər günahını etiraf etməsən,
-Əzrayil tək gəlməyəcək.
-
-O gecə Şeytan da bu evdə olacaq...
-`;
-}
-
-if(game === "qaranliq"){
-story = `
-Qaranlıq təkcə işığın yoxluğu deyil, həm də qorxuların oyanışıdır.
-Bu otağa daxil olduğun andan etibarən gözlərinə inanma.
-Burada səslər divarlardan gəlir, kölgələr isə sənə tərəf uzanır.
-
-Zülmətin içində tək olmadığını hiss edəcəksən.
-Onlar səni görür, amma sən onları görə bilmirsən.
-
-Qaçmaq üçün tək bir yol var: İşığı tapmaq.
-Amma unutma, hər yandırılan işıq, onları bir az da qəzəbləndirəcək.
-
-Cəsarətin çatırsa, qaranlığa addım at...
-`;
-}
-
-document.getElementById("storyBox").innerText = story;
-document.getElementById("storyPopup").style.display = "flex"; // Popup-ı ekranda göstərir
-
-}
-
-// POPUP-I BAĞLAYAN FUNKSİYA
 function closePopup(){
-document.getElementById("storyPopup").style.display = "none";
+    const popup = document.getElementById("storyPopup");
+    popup.classList.remove("active");
+    setTimeout(() => {
+        popup.style.display = "none";
+        document.getElementById("storyBox").innerHTML = "";
+    }, 400);
 }
 
+// Boş yerə basanda bağlanması üçün
+function closePopupExternal(event) {
+    if (event.target.id === "storyPopup") closePopup();
+}
 </script>
 
 </body>
