@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;700&display=swap');
+/* Fontları yenilədik: Metal Mania Azərbaycan əlifbasını tam dəstəkləyir */
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&family=Montserrat:wght@400;700&display=swap');
 
 *{
     margin:0;
@@ -15,7 +16,7 @@ body{
     animation:fadeIn 1.2s ease;
 }
 
-/* Orta səviyyə qaranlıq */
+/* Arxa plan qaraltması */
 body::before{
     content:"";
     position:fixed;
@@ -24,7 +25,6 @@ body::before{
     z-index:0;
 }
 
-/* Səhifə açılma animasiyası */
 @keyframes fadeIn{
     from{opacity:0; transform:translateY(20px);}
     to{opacity:1; transform:translateY(0);}
@@ -110,13 +110,14 @@ header{
     align-items:center;
 }
 
-/* SLOGAN */
+/* SLOGAN - Font Dəyişdirildi */
 .slogan{
     margin-top:25px;
-    font-family:'Creepster', cursive;
+    font-family: 'Metal Mania', cursive;
     font-size:42px;
     color:red;
     text-shadow:0 0 25px red;
+    letter-spacing: 2px;
 }
 
 /* REZERVASİYA BUTTON */
@@ -143,7 +144,6 @@ header{
     transform:scale(1.08);
 }
 
-/* Telefon uyğunlaşma */
 @media(max-width:768px){
     .slogan{
         font-size:28px;
@@ -154,12 +154,12 @@ header{
     }
 }
 
-/* ===== GAMES CONTAINER - YENİDƏN DÜZƏNLƏNDİ ===== */
+/* GAMES CONTAINER */
 .games-container{
     display:flex;
     justify-content:center;
     gap:60px;
-    margin-top:150px; /* Topbar-dan aşağı çəkildi */
+    margin-top:150px;
     flex-wrap:wrap;
     padding-bottom: 50px;
     position: relative;
@@ -168,7 +168,7 @@ header{
 
 .game-card{
     width:260px;
-    height:350px; /* Hündürlük artırıldı */
+    height:350px;
     border-radius:15px;
     overflow:hidden;
     position:relative;
@@ -186,10 +186,11 @@ header{
 .game-img{
     width:100%;
     height:100%;
-    object-fit:cover; /* Şəkil kartı tam doldurur */
+    object-fit:cover;
     display: block;
 }
 
+/* OYUN BAŞLIQLARI - Font Dəyişdirildi */
 .game-title{
     position:absolute;
     bottom:0;
@@ -197,19 +198,16 @@ header{
     width:100%;
     padding: 20px 0;
     text-align:center;
+    font-family: 'Metal Mania', cursive;
     font-size:26px;
-    font-weight:bold;
     color:#ff2b2b;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); /* Yazı üçün qara kölgə */
-    text-shadow:
-        0 0 5px red,
-        0 0 10px red,
-        0 0 20px red;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    text-shadow: 0 0 10px red;
     letter-spacing:3px;
     margin: 0;
 }
 
-/* ===== ABOUT VƏ DIGƏR SƏHİFƏLƏR ===== */
+/* ABOUT VƏ DIGƏR PƏNCƏRƏLƏR */
 .about-section, .mods-section, .reserve-page {
     padding:120px 20px 60px;
     min-height:100vh;
@@ -266,7 +264,7 @@ header{
     cursor:not-allowed;
 }
 
-/* POPUP (Ümumi) */
+/* POPUP - Başlıq Fontu Dəyişdirildi */
 .popup{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
@@ -275,6 +273,12 @@ header{
     justify-content:center;
     align-items:center;
     z-index:99999;
+}
+
+.game-title-popup {
+    font-family: 'Metal Mania', cursive;
+    color: #8b0000;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 .popup-box{
