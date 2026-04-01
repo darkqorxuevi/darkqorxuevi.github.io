@@ -65,6 +65,45 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+<script>
+    // Sənin mövcud olan digər kodların...
+    // ...
+
+    // MUSİQİ KODUNU BURADAN YAPIŞDIR:
+    const audio = document.getElementById("bgMusic");
+    const musicIcon = document.getElementById("musicIcon");
+    audio.volume = 0.2; 
+
+    window.addEventListener("load", () => {
+        const savedTime = localStorage.getItem("musicTime");
+        const isPlaying = localStorage.getItem("musicPlaying") === "true";
+        if (savedTime) { audio.currentTime = parseFloat(savedTime); }
+        if (isPlaying) {
+            let playAttempt = setInterval(() => {
+                audio.play().then(() => {
+                    clearInterval(playAttempt);
+                    musicIcon.innerText = "🔊";
+                }).catch(e => console.log("Klik gözlənilir..."));
+            }, 1000);
+        }
+    });
+
+    audio.addEventListener("timeupdate", () => {
+        localStorage.setItem("musicTime", audio.currentTime);
+    });
+
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            musicIcon.innerText = "🔊";
+            localStorage.setItem("musicPlaying", "true");
+        } else {
+            audio.pause();
+            musicIcon.innerText = "🔇";
+            localStorage.setItem("musicPlaying", "false");
+        }
+    }
+</script>
 
     window.goBack = () => window.location.href="index.html";
 
