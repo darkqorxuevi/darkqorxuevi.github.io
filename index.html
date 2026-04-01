@@ -189,6 +189,47 @@ function openReservePage(){
 </div>
 
 <script>
+    const audio = document.getElementById("bgMusic");
+const musicIcon = document.getElementById("musicIcon");
+audio.volume = 0.2; // Səs səviyyəsi (0.2 çox bərk deyil, ideal dərəcədir)
+
+// Səhifə açılan kimi işə düşən məntiq
+window.addEventListener("load", () => {
+    const savedTime = localStorage.getItem("musicTime");
+    const isPlaying = localStorage.getItem("musicPlaying") === "true";
+
+    if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
+    }
+
+    if (isPlaying) {
+        // Brauzerin "Autoplay" blokuna qarşı döngü: İlk klikdə musiqi başlayacaq
+        let playAttempt = setInterval(() => {
+            audio.play().then(() => {
+                clearInterval(playAttempt);
+                musicIcon.innerText = "🔊";
+            }).catch(e => console.log("Musiqi üçün klik gözlənilir..."));
+        }, 1000);
+    }
+});
+
+// Musiqinin saniyəsini hər an yadda saxlayır
+audio.addEventListener("timeupdate", () => {
+    localStorage.setItem("musicTime", audio.currentTime);
+});
+
+// Düyməyə basanda yandırıb-söndürmək
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+        musicIcon.innerText = "🔊";
+        localStorage.setItem("musicPlaying", "true");
+    } else {
+        audio.pause();
+        musicIcon.innerText = "🔇";
+        localStorage.setItem("musicPlaying", "false");
+    }
+}
 function openAdminPopup() {
     document.getElementById("adminPopup").style.display = "flex";
 }
@@ -216,4 +257,11 @@ document.getElementById("adminPass").addEventListener("keyup", function(event) {
 });
 </script>
 </body>
+    <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div id="musicControl" onclick="toggleMusic()">
+    <span id="musicIcon">🔇</span>
+</div>
 </html>
