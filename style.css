@@ -1593,3 +1593,30 @@ cursor:pointer;
     justify-content: center;
 
 }
+/* Musiqi düyməsinin stili */
+#musicControl {
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Ekranın ən sağ küncü */
+    z-index: 10001; /* Hər şeyin üstündə görünsün */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    user-select: none;
+}
+
+#musicControl:hover {
+    transform: scale(1.1); /* Üstünə gələndə bir az böyüsün */
+}
+
+#musicControl span {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 50%;
+    border: 2px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    box-shadow: 0 0 10px red;
+}
