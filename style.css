@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=New+Rocker&family=Montserrat:wght@400;700&display=swap');
+/* 1. Fontların İdxalı - Azərbaycan hərfləri üçün xüsusi seçilib */
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;700&family=Nosifer&display=swap');
 
 *{
     margin:0;
@@ -15,7 +16,7 @@ body{
     animation:fadeIn 1.2s ease;
 }
 
-/* Orta səviyyə qaranlıq */
+/* Arka plan qaraltması */
 body::before{
     content:"";
     position:fixed;
@@ -24,21 +25,9 @@ body::before{
     z-index:0;
 }
 
-/* Səhifə açılma animasiyası */
 @keyframes fadeIn{
     from{opacity:0; transform:translateY(20px);}
     to{opacity:1; transform:translateY(0);}
-}
-
-header{
-    position:relative;
-    z-index:2;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
 }
 
 /* YUXARI BAR */
@@ -66,11 +55,7 @@ header{
     right:25px;
     font-size:28px;
     cursor:pointer;
-    transition:0.3s;
-}
-
-.burger.close{
-    color:#8b0000;
+    z-index: 10000;
 }
 
 /* SIDE MENU */
@@ -86,6 +71,10 @@ header{
     z-index:5000;
 }
 
+.side-menu.active{
+    right:0;
+}
+
 .side-menu a{
     display:block;
     padding:15px;
@@ -94,36 +83,33 @@ header{
     border-bottom:1px solid #222;
 }
 
-.side-menu a:hover{
-    background:red;
+/* LOGO VƏ SLOGAN */
+header{
+    position:relative;
+    z-index:2;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
 }
 
-.side-menu.active{
-    right:0;
-}
-
-/* LOGO */
 .logo img{
     width:650px;
     max-width:95%;
 }
 
-.logo{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* SLOGAN - FONT DEYISDIRILDI (Azerbaycan herfi ucun) */
+/* Slogan - "Ə" hərfi üçün Nosifer istifadə edirik ki, stil pozulmasın */
 .slogan{
     margin-top:25px;
-    font-family:'New Rocker', cursive;
+    font-family: 'Creepster', 'Nosifer', cursive;
     font-size:42px;
     color:red;
     text-shadow:0 0 25px red;
 }
 
-/* REZERVASİYA BUTTON */
+/* REZERVASİYA DÜYMƏSİ */
 .reserve-btn{
     margin-top:80px;
     padding:20px 60px;
@@ -133,517 +119,112 @@ header{
     font-weight:700;
     font-size:20px;
     border-radius:50px;
-    letter-spacing:1px;
-    box-shadow:0 0 15px red,
-               0 0 30px red,
-               0 0 60px darkred;
-    transition:0.4s;
-    position:relative;
-    overflow:hidden;
-}
-
-.reserve-btn:hover{
-    background:darkred;
-    transform:scale(1.08);
-}
-
-/* Telefon uyğunlaşma */
-@media(max-width:768px){
-    .slogan{
-        font-size:28px;
-        padding:0 15px;
-    }
-    .logo img{
-        width:220px;
-    }
-}
-
-/* ===== HERO SECTION ===== */
-.hero{
-    height:100vh;
-    background:url("background.jpg") center/cover no-repeat;
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    overflow:hidden;
-}
-
-.overlay{
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.75);
-    backdrop-filter:blur(3px);
-}
-
-.hero-content{
-    position:relative;
-    z-index:2;
-    padding:20px;
-}
-
-.hero-logo{
-    width:75%;
-    max-width:350px;
-    margin-bottom:20px;
-    filter:drop-shadow(0 0 20px red);
-}
-
-.hero-title{
-    color:#ff0000;
-    font-size:22px;
-    margin-bottom:30px;
-    text-shadow:0 0 15px red;
-    font-weight:bold;
-}
-
-.hero-btn{
-    display:inline-block;
-    padding:15px 40px;
-    border:2px solid red;
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    letter-spacing:2px;
-    border-radius:8px;
-    background:rgba(255,0,0,0.1);
-    box-shadow:0 0 15px red;
-    transition:0.3s;
-}
-
-.hero-btn:hover{
-    background:red;
-    box-shadow:0 0 25px red;
-}
-
-/* ===== GAMES PAGE WINDOW ===== */
-.games-section{
-    padding:40px 20px;
-    min-height:100vh;
-}
-
-.game-window{
-    width:100%;
-    max-width:500px;
-    background:rgba(0,0,0,0.75);
-    backdrop-filter:blur(8px);
-    border:1px solid #8b0000;
-    border-radius:15px;
-    box-shadow:0 0 30px rgba(255,0,0,0.6);
-    overflow:hidden;
-    animation:fadeUpWindow 1s ease forwards;
-}
-
-.window-header{
-    background:rgba(139,0,0,0.2);
-    color:#ff0000;
-    text-align:center;
-    font-size:26px;
-    font-weight:bold;
-    padding:20px;
-    letter-spacing:3px;
-    text-shadow:0 0 15px red;
-}
-
-.window-body{
-    padding:25px;
-    color:#f1f1f1;
-    line-height:1.8;
-    font-size:15px;
-    font-family:'Segoe UI', sans-serif;
-}
-
-@keyframes fadeUpWindow{
-    from{ opacity:0; transform:translateY(40px); }
-    to{ opacity:1; transform:translateY(0); }
-}
-
-/* ===== ABOUT PAGE ===== */
-.about-section{
-    padding:120px 20px 60px;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-}
-
-.about-window{
-    width:100%;
-    max-width:600px;
-    background:rgba(0,0,0,0.75);
-    backdrop-filter:blur(8px);
-    border:1px solid #8b0000;
-    border-radius:15px;
-    box-shadow:0 0 30px rgba(255,0,0,0.6);
-    overflow:hidden;
-    animation:fadeUpAbout 1s ease forwards;
-}
-
-.about-header{
-    background:rgba(139,0,0,0.2);
-    color:#ff0000;
-    text-align:center;
-    font-size:24px;
-    font-weight:bold;
-    padding:20px;
-    letter-spacing:3px;
-    text-shadow:0 0 15px red;
-}
-
-.about-body{
-    padding:25px;
-    color:#f1f1f1;
-    line-height:1.9;
-    font-size:15px;
-}
-
-@keyframes fadeUpAbout{
-    from{ opacity:0; transform:translateY(40px); }
-    to{ opacity:1; transform:translateY(0); }
-}
-
-/* ===== MODS PAGE ===== */
-.mods-section{
-    padding:120px 20px 60px;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-}
-
-.mods-container{
-    width:100%;
-    max-width:700px;
-}
-
-.mode-card{
-    background:rgba(0,0,0,0.75);
-    border:1px solid #8b0000;
-    border-radius:12px;
-    padding:25px;
-    margin-bottom:25px;
-    box-shadow:0 0 20px rgba(255,0,0,0.4);
-    transition:0.4s;
-}
-
-.mode-card h2{
-    color:#ff0000;
-    margin-bottom:15px;
-    letter-spacing:3px;
-    text-shadow:0 0 10px red;
-}
-
-.mode-card p{
-    line-height:1.8;
-    font-size:15px;
-    color:#f1f1f1;
-}
-
-.mode-card:hover{
-    transform:scale(1.03);
     box-shadow:0 0 30px red;
-}
-
-.ultra{ border:1px solid red; box-shadow:0 0 30px rgba(255,0,0,0.7); }
-.azrail{ border:1px solid #b30000; box-shadow:0 0 25px rgba(179,0,0,0.6); }
-.azrail h2{ color:#ff1a1a; text-shadow:0 0 15px red; }
-.azrail:hover{ transform:scale(1.03); box-shadow:0 0 40px red; }
-
-/* ===== GAME CARD STYLE ===== */
-.game-card{
-    background:#0a0a0a;
-    border:1px solid #8b0000;
-    border-radius:15px;
-    padding:25px;
-    margin-bottom:30px;
-    box-shadow:0 0 25px rgba(255,0,0,0.4);
     transition:0.4s;
-    position:relative;
-    z-index:2;
+    z-index: 10;
 }
 
-.game-card h2{
-    color:#ff1a1a;
-    margin-bottom:15px;
-    letter-spacing:3px;
-    text-shadow:0 0 12px red;
-}
-
-.game-card p{
-    color:#f1f1f1;
-    line-height:1.8;
-    font-size:15px;
-}
-
-.game-card:hover{
-    transform:scale(1.02);
-    box-shadow:0 0 40px red;
-}
-
-/* REZERV POPUP */
-.reserve-popup{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.85);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:999;
-}
-
-.reserve-box{
-    background:#0a0a0a;
-    border:1px solid red;
-    padding:30px;
-    border-radius:10px;
-    width:90%;
-    max-width:350px;
-    text-align:center;
-    box-shadow:0 0 20px red;
-}
-
-.reserve-box h2{ color:red; margin-bottom:20px; }
-.reserve-box input{ width:100%; padding:10px; margin:10px 0; background:black; border:1px solid red; color:white; }
-.confirm-btn{ margin-top:15px; padding:12px 25px; background:red; border:none; color:white; font-weight:bold; cursor:pointer; }
-.close-btn{ position:absolute; right:20px; top:15px; color:red; font-size:20px; cursor:pointer; }
-
+/* OYUN KARTLARI - image_a97b2a.png stilində */
 .games-container{
     display:flex;
     justify-content:center;
-    gap:60px;
-    margin-top:140px;
+    gap:40px;
+    margin-top:100px;
     flex-wrap:wrap;
+    position: relative;
+    z-index: 5;
 }
 
 .game-card{
-    width:260px;
-    height:260px;
+    width:280px;
+    height:320px;
     border-radius:15px;
     overflow:hidden;
     position:relative;
     cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 0 20px rgba(255,0,0,0.5);
+    border: 2px solid transparent;
+    transition: 0.3s;
+    box-shadow: 0 0 15px rgba(255,0,0,0.3);
 }
 
 .game-card:hover{
-    transform:scale(1.07);
-    box-shadow:0 0 40px red;
+    transform:scale(1.05);
+    border-color: red;
+    box-shadow: 0 0 30px red;
 }
 
-.game-img{ width:100%; height:100%; object-fit:cover; }
-
-/* OYUN ADLARI - FONT DEYISDIRILDI (Azerbaycan herfi ucun) */
-.game-title{
-    position:absolute;
-    bottom:15px;
-    width:100%;
-    text-align:center;
-    font-family:'New Rocker', cursive;
-    font-size:26px;
-    font-weight:bold;
-    color:#ff2b2b;
-    text-shadow: 0 0 5px red, 0 0 10px red, 0 0 20px red, 0 0 40px darkred;
-    letter-spacing:3px;
-}
-
-.route-btn{
-    display:inline-block;
-    margin-top:15px;
-    padding:15px 30px;
-    background:#8b0000;
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    border-radius:8px;
-    box-shadow:0 0 15px red;
-    transition:0.3s;
-}
-
-.route-btn:hover{ background:red; box-shadow:0 0 25px red; }
-
-.reserve-page{
-    padding-top:120px;
-    padding-left:20px;
-    padding-right:20px;
-    text-align:center;
-    position:relative;
-    z-index:5;
-}
-
-.form-popup{
-    position:fixed;
-    top:0;
-    left:0;
+.game-img{
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.8);
-    display:none;
-    align-items:center;
-    justify-content:center;
+    object-fit:cover;
 }
 
-.form-box{
-    background:black;
-    padding:25px;
-    border:1px solid red;
-    width:90%;
-    max-width:300px;
-}
-
-.form-box input{
+.game-title{
+    position:absolute;
+    bottom:10px;
     width:100%;
-    margin:10px 0;
-    padding:10px;
-    background:#111;
-    color:white;
-    border:1px solid red;
+    text-align:center;
+    font-family: 'Creepster', cursive;
+    font-size:28px;
+    color: #ff1a1a;
+    text-shadow: 0 0 10px red;
 }
 
-.form-box button{
-    margin-top:10px;
-    padding:10px;
-    width:100%;
-    background:red;
-    border:none;
-    color:white;
-    cursor:pointer;
+/* REZERVASİYA SƏHİFƏSİ VƏ SAATLAR - image_ab31c6.png stilində */
+.reserve-page{
+    padding-top:120px;
+    position:relative;
+    z-index: 10;
 }
 
-/* TARİX SELECT */
-#dateSelect{
-    padding:10px;
-    background:black;
-    color:white;
-    border:1px solid red;
-    margin-bottom:25px;
-}
-
-/* SAAT GRID */
 .time-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:15px;
-    position:relative;
-    z-index:10;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .time-box{
-    padding:18px;
+    padding:20px;
+    background:rgba(0,0,0,0.8);
     border:1px solid red;
     border-radius:10px;
-    cursor:pointer;
+    color:white;
     font-weight:bold;
-    background:#111;
+    cursor:pointer;
     transition:0.3s;
-    position:relative;
-    z-index:20;
-    pointer-events:auto;
+    text-align: center;
 }
 
-.time-box:hover{ background:red; }
+.time-box:hover:not(.disabled){
+    background:red;
+    box-shadow: 0 0 20px red;
+}
 
 .time-box.disabled{
-    background:#222;
+    background:rgba(50,50,50,0.8);
+    border-color: #444;
     color:#777;
-    border:1px solid #555;
     cursor:not-allowed;
-    box-shadow:none;
 }
 
-/* POPUP */
+/* POPUP - ƏN ÜSTDƏ OLMALI */
 .popup{
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7);
-    backdrop-filter:blur(5px);
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.9);
     display:none;
     justify-content:center;
     align-items:center;
-    z-index:99999;
+    z-index:999999;
 }
 
 .popup-box{
     background:black;
-    padding:25px;
+    padding:30px;
+    border:2px solid red;
     width:90%;
-    max-width:300px;
-    border:1px solid red;
+    max-width:400px;
     text-align:center;
-    position:relative;
-    z-index:100000;
-}
-
-.popup-box input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    background:#111;
-    border:1px solid red;
-    color:white;
-}
-
-.popup-box button{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    background:red;
-    border:none;
-    color:white;
-    cursor:pointer;
-}
-
-.popup-box button:disabled{ background:#555; cursor:not-allowed; }
-
-.back-btn{
-    position:fixed;
-    top:20px;
-    left:20px;
-    font-size:26px;
-    color:white;
-    z-index:99999;
-    cursor:pointer;
-}
-
-.popup-back{
-    position:absolute;
-    top:10px;
-    left:10px;
-    font-size:24px;
-    color:red;
-    cursor:pointer;
-}
-
-/* Admin Giriş Yazısı */
-.admin-footer {
-    text-align: center;
-    padding: 40px 0;
-    opacity: 0.2;
-    transition: 0.3s;
-}
-.admin-footer:hover { opacity: 1; }
-
-.admin-link {
-    cursor: pointer;
-    color: #555;
-    font-size: 13px;
-    text-decoration: none;
-    font-family: sans-serif;
-}
-
-/* Şifrə Popup Dizaynı */
-#adminPopup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
-    z-index: 10000;
-    align-items: center;
-    justify-content: center;
 }
