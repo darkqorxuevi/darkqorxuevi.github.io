@@ -7,7 +7,6 @@
 <title>Online Rezervasiya</title>
 <link rel="stylesheet" href="style.css">
 <script>
-    // 🔥 GOOGLE-DAN KOPYALADIĞIN O UZUN LİNKİ BU DIRNAQLARIN ARASINA QOY
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZWnxyN5UWXJbcWBClQBuCHZ_m2nCJtdwvZ9VW7G3MinCnQDSYMf5wKINFxJvfjVN7/exec";
 </script>
 <style>
@@ -47,12 +46,19 @@
 
 <div class="popup" id="popup">
     <div class="popup-box">
-        <div class="popup-back" onclick="closePopup()">←</div>
         <h3 id="chosenTime"></h3>
         <input type="text" id="name" placeholder="Ad Soyad">
         <input type="tel" id="phone" placeholder="Telefon">
         <input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
-        <button id="reserveBtn" disabled>Rezerv et</button>
+        
+        <select id="gameSelect" style="width:100%; padding:10px; margin-top:10px; background:#111; color:white; border:1px solid #444;">
+            <option value="Seçilməyib">Oyun seçin (Məcburi deyil)</option>
+            <option value="Murad">Murad</option>
+            <option value="Əzrayıl">Əzrayıl</option>
+            <option value="Qaranlıq">Qaranlıq</option>
+        </select>
+
+        <button id="reserveBtn" disabled style="margin-top:20px;">Rezerv et</button>
         <button onclick="closePopup()">Geri dön</button>
     </div>
 </div>
@@ -66,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function(){
     let grid = document.getElementById("timeGrid");
     let nameInput = document.getElementById("name");
     let phoneInput = document.getElementById("phone");
+    let gameSelect = document.getElementById("gameSelect");
     let reserveBtn = document.getElementById("reserveBtn");
     let selectedTime = "";
 
@@ -82,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const times = ["00:00","01:00","02:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
 
-    // BAZADAN DOLU SAATLARI ÇƏKƏN FUNKSİYA
     async function loadStatus() {
         grid.innerHTML = "<div style='grid-column: 1/-1; text-align:center;'>Yüklənir...</div>";
         try {
@@ -90,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function(){
             let reservedSlots = await response.json();
             renderGrid(reservedSlots);
         } catch (error) {
-            console.error("Xəta:", error);
             renderGrid([]);
         }
     }
@@ -98,14 +103,11 @@ document.addEventListener("DOMContentLoaded", function(){
     function renderGrid(reservedSlots) {
         grid.innerHTML = "";
         let selectedDate = dateSelect.value;
-
         times.forEach(time => {
             let div = document.createElement("div");
             div.className = "time-box";
             div.innerText = time;
-
             let slotKey = selectedDate + "_" + time;
-
             if (reservedSlots.includes(slotKey)) {
                 div.classList.add("disabled-time");
             } else {
@@ -122,7 +124,6 @@ document.addEventListener("DOMContentLoaded", function(){
     dateSelect.addEventListener("change", loadStatus);
     loadStatus();
 
-    // INPUTLARI YOXLA
     function checkInputs(){
         reserveBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
     }
@@ -131,13 +132,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
     window.closePopup = () => document.getElementById("popup").style.display="none";
 
-    // REZERV ET
     reserveBtn.addEventListener("click", async function(){
         let data = {
             slotKey: dateSelect.value + "_" + selectedTime,
             name: nameInput.value,
             phone: phoneInput.value,
             people: document.getElementById("people").value || "Qeyd edilməyib",
+            game: gameSelect.value, // Oyun məlumatı
             dateText: dateSelect.options[dateSelect.selectedIndex].text,
             time: selectedTime
         };
@@ -146,11 +147,11 @@ document.addEventListener("DOMContentLoaded", function(){
         reserveBtn.disabled = true;
 
         try {
-            // 1. Google Sheets-ə göndər
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
 
-            // 2. Telegram-a göndər
-            let msg = `🆕 Rezervasiya!\n👤: ${data.name}\n📞: ${data.phone}\n👥: ${data.people}\n📅: ${data.dateText}\n⏰: ${data.time}`;
+            // Telegram Mesajı Yeniləndi
+            let msg = `🆕 Rezervasiya!\n👤: ${data.name}\n📞: ${data.phone}\n🎮 Oyun: ${data.game}\n👥: ${data.people}\n📅: ${data.dateText}\n⏰: ${data.time}`;
+            
             await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -159,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
             alert("Rezervasiya tamamlandı! ✅");
             closePopup();
-            loadStatus(); // Siyahını yenilə ki, saat dərhal bozarsın
+            loadStatus();
         } catch (e) {
             alert("Xəta baş verdi ❌");
         } finally {
