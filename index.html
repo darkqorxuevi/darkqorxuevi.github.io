@@ -1,52 +1,41 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<link rel="icon" type="image/png" href="logo.png">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ana Səhifə</title>
-<link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Səhifə</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Telegram Düyməsi və Pəncərəsi üçün Stillər */
+        .tg-chat-btn {
+            position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
+            background: #27A5E7; border-radius: 50%; display: flex; justify-content: center;
+            align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.6); z-index: 10001; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .tg-chat-btn:hover { transform: scale(1.1); }
+        .tg-chat-window {
+            display: none; position: fixed; bottom: 90px; right: 20px; width: 300px;
+            background: #111; border: 2px solid #ff0000; border-radius: 15px;
+            flex-direction: column; z-index: 10002; overflow: hidden; font-family: sans-serif;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        }
+        .tg-chat-header { background: #ff0000; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .tg-chat-body { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .tg-chat-body input, .tg-chat-body textarea {
+            width: 100%; padding: 10px; background: #000; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; outline: none;
+        }
+        .tg-chat-body input:focus { border-color: #ff0000; }
+        .tg-send-btn { background: #ff0000; color: white; border: none; padding: 12px; cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s; }
+        .tg-send-btn:hover { background: #b30000; }
+        @media (max-width: 768px) { .tg-chat-btn { bottom: 80px; } .tg-chat-window { bottom: 150px; right: 10px; width: 280px; } }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; padding: 20px; opacity: 0.3;">
+
+<div style="text-align: center; padding: 20px; opacity: 0.3;">
     <span onclick="openAdminPopup()" style="cursor: pointer; color: #444; font-size: 12px;">Admin</span>
-</div>
-
-<div id="adminPopup" class="popup">
-    <div class="popup-box">
-        <span class="close-btn" onclick="closeAdminPopup()">✕</span>
-        <h2>Admin Girişi</h2>
-        <input type="password" id="adminPass" placeholder="Şifrəni daxil edin...">
-        <button onclick="checkAdminPassword()" class="confirm-btn">Daxil Ol</button>
-        <p id="errorMsg" style="color: red; display: none; margin-top: 10px;">Şifrə səhvdir!</p>
-    </div>
-</div>
-
-<script>
-function openAdminPopup() {
-    document.getElementById("adminPopup").style.display = "flex";
-}
-
-function closeAdminPopup() {
-    document.getElementById("adminPopup").style.display = "none";
-    document.getElementById("errorMsg").style.display = "none";
-}
-
-function checkAdminPassword() {
-    var pass = document.getElementById("adminPass").value;
-    if (pass === "admindark1903") {
-        window.location.href = "admin.html"; 
-    } else {
-        document.getElementById("errorMsg").style.display = "block";
-    }
-}
-</script>
-
-<div class="side-menu" id="menu">
-    <a href="about.html">Haqqımızda</a>
-    <a href="games.html">Oyunlarımız</a>
-    <a href="location.html">Məkan</a>
-    <a href="rejimler.html">Rejimler</a>
 </div>
 
 <header>
@@ -60,155 +49,21 @@ function checkAdminPassword() {
     <a href="reserve.html" class="reserve-btn">Rezervasiya Et</a>
 </header>
 
-<div class="reserve-popup" id="reservePopup">
-    <div class="reserve-box">
-        <div class="close-btn" onclick="closeReserve()">✕</div>
-        <h2>Rezervasiya</h2>
-        <label>Tarix seç</label>
-        <input type="date" id="date">
-        <label>Saat seç</label>
-        <input type="time" id="time" step="1800">
-        <button class="reserve-btn" onclick="window.location.href='reserve.html'">Rezerv Et</button>
-    </div>
+<div class="side-menu" id="menu">
+    <a href="about.html">Haqqımızda</a>
+    <a href="games.html">Oyunlarımız</a>
+    <a href="location.html">Məkan</a>
+    <a href="rejimler.html">Rejimler</a>
 </div>
 
-<script>
-function toggleMenu(){
-    const menu = document.getElementById("menu");
-    const burger = document.getElementById("burger");
-    menu.classList.toggle("active");
-    if(menu.classList.contains("active")){
-        burger.innerHTML = "✕";
-        burger.classList.add("close");
-    } else {
-        burger.innerHTML = "☰";
-        burger.classList.remove("close");
-    }
-}
-window.addEventListener("scroll", function(){
-    const menu = document.getElementById("menu");
-    const burger = document.getElementById("burger");
-    if(menu.classList.contains("active")){
-        menu.classList.remove("active");
-        burger.innerHTML = "☰";
-        burger.classList.remove("close");
-    }
-});
-</script>
-
-<script>
-function openReserve(){ document.getElementById("reservePopup").style.display="flex"; }
-function closeReserve(){ document.getElementById("reservePopup").style.display="none"; }
-
-function sendReserve(){
-    let date=document.getElementById("date").value;
-    let time=document.getElementById("time").value;
-    let slot=date+"-"+time;
-    let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
-    if(reserved.includes(slot)){
-        alert("Bu saat əvvəlcədən rezerv olunub");
-        return;
-    }
-    reserved.push(slot);
-    localStorage.setItem("reservedSlots",JSON.stringify(reserved));
-    let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
-    let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
-    window.open(url,"_blank");
-}
-</script>
-
-<footer class="admin-footer">
-    <span class="admin-link" onclick="openAdminPopup()">Admin Panel</span>
-</footer>
-
-<script>
-const audio = document.getElementById("bgMusic");
-const musicIcon = document.getElementById("musicIcon");
-if(audio) audio.volume = 0.2;
-
-window.addEventListener("load", () => {
-    const savedTime = localStorage.getItem("musicTime");
-    const isPlaying = localStorage.getItem("musicPlaying") === "true";
-    if (savedTime && audio) audio.currentTime = parseFloat(savedTime);
-    if (isPlaying && audio) {
-        let playAttempt = setInterval(() => {
-            audio.play().then(() => {
-                clearInterval(playAttempt);
-                musicIcon.innerText = "🔊";
-            }).catch(e => console.log("Musiqi gözləyir..."));
-        }, 1000);
-    }
-});
-
-if(audio) {
-    audio.addEventListener("timeupdate", () => {
-        localStorage.setItem("musicTime", audio.currentTime);
-    });
-}
-
-function toggleMusic() {
-    if (audio.paused) {
-        audio.play();
-        musicIcon.innerText = "🔊";
-        localStorage.setItem("musicPlaying", "true");
-    } else {
-        audio.pause();
-        musicIcon.innerText = "🔇";
-        localStorage.setItem("musicPlaying", "false");
-    }
-}
-</script>
-
-<footer class="main-footer">
-    <div class="footer-container">
-        <div class="social-links">
-            <a href="https://www.instagram.com/darkqorxuevi" target="_blank" class="social-item">
-                <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-                <span>Instagram</span>
-            </a>
-            <a href="https://www.tiktok.com/@darkqorxuevi" target="_blank" class="social-item">
-                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
-                <span>TikTok</span>
-            </a>
-            <a href="https://wa.me/994993121709" target="_blank" class="social-item">
-                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
-                <span>WhatsApp</span>
-            </a>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 DARK Horror House. Bütün hüquqlar qorunur.</p>
-        </div>
-    </div>
-</footer>
-
-<style>
-    .tg-chat-btn {
-        position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
-        background: #27A5E7; border-radius: 50%; display: flex; justify-content: center;
-        align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 9999; cursor: pointer;
-    }
-    .tg-chat-window {
-        display: none; position: fixed; bottom: 90px; right: 20px; width: 300px;
-        background: #111; border: 1px solid #ff0000; border-radius: 15px;
-        flex-direction: column; z-index: 10000; overflow: hidden; font-family: sans-serif;
-    }
-    .tg-chat-header { background: #ff0000; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
-    .tg-chat-body { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-    .tg-chat-body input, .tg-chat-body textarea {
-        width: 100%; padding: 10px; background: #000; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box;
-    }
-    .tg-send-btn { background: #ff0000; color: white; border: none; padding: 10px; cursor: pointer; font-weight: bold; border-radius: 5px; }
-    @media (max-width: 768px) { .tg-chat-btn { bottom: 80px; } .tg-chat-window { bottom: 150px; right: 10px; width: 280px; } }
-</style>
-
 <div class="tg-chat-btn" onclick="toggleTGChat()">
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="35">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="35" alt="Telegram">
 </div>
 
 <div class="tg-chat-window" id="tgChat">
     <div class="tg-chat-header">
         <span>Canlı Dəstək</span>
-        <span style="cursor:pointer" onclick="toggleTGChat()">✕</span>
+        <span style="cursor:pointer; font-size: 20px;" onclick="toggleTGChat()">✕</span>
     </div>
     <div class="tg-chat-body" id="chatStep1">
         <p style="color: #ccc; font-size: 13px;">Sizə kömək etmək üçün ləqəbinizi daxil edin:</p>
@@ -222,6 +77,139 @@ function toggleMusic() {
     </div>
 </div>
 
+<div id="adminPopup" class="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:20000; justify-content:center; align-items:center;">
+    <div class="popup-box" style="background:#111; padding:30px; border:1px solid red; border-radius:15px; text-align:center; width:90%; max-width:320px;">
+        <h2 style="color:red; margin-bottom:20px;">Giriş</h2>
+        <input type="password" id="adminPass" placeholder="Şifrə..." style="width:100%; padding:12px; background:#000; border:1px solid red; color:white; margin-bottom:15px;">
+        <button onclick="checkAdminPassword()" style="width:100%; padding:12px; background:red; border:none; color:white; font-weight:bold; cursor:pointer;">DAXİL OL</button>
+        <button onclick="closeAdminPopup()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Ləğv et</button>
+        <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-size:14px;">Şifrə səhvdir!</p>
+    </div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="social-links">
+            <a href="https://www.instagram.com/darkqorxuevi" target="_blank" class="social-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" width="20">
+                <span>Instagram</span>
+            </a>
+            <a href="https://wa.me/994993121709" target="_blank" class="social-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" width="20">
+                <span>WhatsApp</span>
+            </a>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DARK Horror House.</p>
+        </div>
+    </div>
+</footer>
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+<div id="musicControl" onclick="toggleMusic()" style="position:fixed; bottom:20px; left:20px; z-index:10000; cursor:pointer; background:rgba(0,0,0,0.5); padding:10px; border-radius:50%;">
+    <span id="musicIcon" style="font-size:24px;">🔇</span>
+</div>
+
 <script>
+    // --- MENYU VƏ ANA SƏHİFƏ FUNKSİYALARI ---
+    function toggleMenu(){
+        const menu = document.getElementById("menu");
+        const burger = document.getElementById("burger");
+        menu.classList.toggle("active");
+        burger.innerHTML = menu.classList.contains("active") ? "✕" : "☰";
+    }
+
+    // --- ADMIN PANEL FUNKSİYALARI ---
+    function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
+    function closeAdminPopup() { 
+        document.getElementById("adminPopup").style.display = "none";
+        document.getElementById("errorMsg").style.display = "none";
+    }
+    function checkAdminPassword() {
+        var pass = document.getElementById("adminPass").value;
+        if (pass === "admindark1903") {
+            window.location.href = "admin.html";
+        } else {
+            document.getElementById("errorMsg").style.display = "block";
+        }
+    }
+
+    // --- MUSİQİ FUNKSİYALARI ---
+    const audio = document.getElementById("bgMusic");
+    const musicIcon = document.getElementById("musicIcon");
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play();
+            musicIcon.innerText = "🔊";
+            localStorage.setItem("musicPlaying", "true");
+        } else {
+            audio.pause();
+            musicIcon.innerText = "🔇";
+            localStorage.setItem("musicPlaying", "false");
+        }
+    }
+
+    // --- TELEGRAM CANLI DƏSTƏK (BOT SİSTEMİ) ---
     const botToken = "8733282097:AAEfZWuC0FnbtaJ2ngBYCzjw4oN1N_-Uhvk";
     const chatId = "7766487634";
+
+    function toggleTGChat() {
+        const win = document.getElementById('tgChat');
+        if (win.style.display === 'flex') {
+            win.style.display = 'none';
+        } else {
+            win.style.display = 'flex';
+        }
+    }
+
+    function goToMessage() {
+        const nick = document.getElementById('userNick').value.trim();
+        if(nick === "") { alert("Zəhmət olmasa ləqəb daxil edin!"); return; }
+        document.getElementById('chatStep1').style.display = 'none';
+        document.getElementById('chatStep2').style.display = 'flex';
+        document.getElementById('displayNick').innerText = "Hörmətli " + nick + ", mesajınızı yazın:";
+    }
+
+    function sendToTelegram() {
+        const nick = document.getElementById('userNick').value;
+        const msg = document.getElementById('userMsg').value.trim();
+        const btn = document.getElementById('finalSendBtn');
+
+        if(msg === "") { alert("Mesaj boş ola bilməz!"); return; }
+
+        btn.innerText = "Göndərilir...";
+        btn.disabled = true;
+
+        const fullText = `🔔 *Yeni Canlı Dəstək Mesajı*\n\n👤 *Ləqəb:* ${nick}\n💬 *Mesaj:* ${msg}`;
+        
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: fullText,
+                parse_mode: "Markdown"
+            })
+        }).then(res => {
+            if(res.ok) {
+                alert("Mesajınız uğurla göndərildi!");
+                toggleTGChat();
+                document.getElementById('userMsg').value = "";
+                document.getElementById('chatStep1').style.display = 'flex';
+                document.getElementById('chatStep2').style.display = 'none';
+            } else {
+                alert("Xəta baş verdi. Bot ayarlarını yoxlayın.");
+            }
+        }).catch(err => {
+            alert("İnternet bağlantısını yoxlayın.");
+        }).finally(() => {
+            btn.innerText = "Göndər";
+            btn.disabled = false;
+        });
+    }
+</script>
+
+</body>
+</html>
