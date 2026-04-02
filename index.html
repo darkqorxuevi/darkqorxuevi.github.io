@@ -35,7 +35,7 @@ function closeAdminPopup() {
 function checkAdminPassword() {
     var pass = document.getElementById("adminPass").value;
     if (pass === "admindark1903") {
-        window.location.href = "admin.html"; // Şifrə düzdürsə adminə göndər
+        window.location.href = "admin.html"; 
     } else {
         document.getElementById("errorMsg").style.display = "block";
     }
@@ -47,62 +47,36 @@ function checkAdminPassword() {
     <a href="games.html">Oyunlarımız</a>
     <a href="location.html">Məkan</a>
     <a href="rejimler.html">Rejimler</a>
-
 </div>
 
 <header>
-
     <div class="topbar">
         <div class="topbar-title">Ana Səhifə</div>
         <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
     </div>
-
     <div class="logo">
         <img src="logo.png" alt="Logo">
     </div>
-
-   
-
-  <a href="reserve.html" class="reserve-btn">
-Rezervasiya Et
-</a>
-
-
-
-
+    <a href="reserve.html" class="reserve-btn">Rezervasiya Et</a>
 </header>
 
-    <div class="reserve-popup" id="reservePopup">
-
-<div class="reserve-box">
-
-<div class="close-btn" onclick="closeReserve()">✕</div>
-
-<h2>Rezervasiya</h2>
-
-<label>Tarix seç</label>
-<input type="date" id="date">
-
-<label>Saat seç</label>
-<input type="time" id="time" step="1800">
-
-
-<button class="reserve-btn" onclick="window.location.href='reserve.html'">
-
-Rezerv Et
-</button>
-
-</div>
+<div class="reserve-popup" id="reservePopup">
+    <div class="reserve-box">
+        <div class="close-btn" onclick="closeReserve()">✕</div>
+        <h2>Rezervasiya</h2>
+        <label>Tarix seç</label>
+        <input type="date" id="date">
+        <label>Saat seç</label>
+        <input type="time" id="time" step="1800">
+        <button class="reserve-btn" onclick="window.location.href='reserve.html'">Rezerv Et</button>
+    </div>
 </div>
 
-    
 <script>
 function toggleMenu(){
     const menu = document.getElementById("menu");
     const burger = document.getElementById("burger");
-
     menu.classList.toggle("active");
-
     if(menu.classList.contains("active")){
         burger.innerHTML = "✕";
         burger.classList.add("close");
@@ -111,12 +85,9 @@ function toggleMenu(){
         burger.classList.remove("close");
     }
 }
-
-/* Scroll edəndə bağlansın */
 window.addEventListener("scroll", function(){
     const menu = document.getElementById("menu");
     const burger = document.getElementById("burger");
-
     if(menu.classList.contains("active")){
         menu.classList.remove("active");
         burger.innerHTML = "☰";
@@ -126,51 +97,23 @@ window.addEventListener("scroll", function(){
 </script>
 
 <script>
-
-function openReserve(){
-document.getElementById("reservePopup").style.display="flex";
-}
-
-function closeReserve(){
-document.getElementById("reservePopup").style.display="none";
-}
+function openReserve(){ document.getElementById("reservePopup").style.display="flex"; }
+function closeReserve(){ document.getElementById("reservePopup").style.display="none"; }
 
 function sendReserve(){
-
-let date=document.getElementById("date").value;
-let time=document.getElementById("time").value;
-
-let slot=date+"-"+time;
-
-let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
-
-if(reserved.includes(slot)){
-alert("Bu saat əvvəlcədən rezerv olunub");
-return;
-}
-
-reserved.push(slot);
-localStorage.setItem("reservedSlots",JSON.stringify(reserved));
-
-let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
-
-let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
-
-window.open(url,"_blank");
-
-}
-
-
-</script>
-<script>
-  const burger = document.getElementById("burger-menu");
-  burger.addEventListener("click", () => {
-    // Burger kliklənəndə rejimler.html səhifəsini aç
-    window.location.href = 'rejimler.html';
-  });
-<script>
-function openReservePage(){
-    window.location.href = "reserve.html";
+    let date=document.getElementById("date").value;
+    let time=document.getElementById("time").value;
+    let slot=date+"-"+time;
+    let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
+    if(reserved.includes(slot)){
+        alert("Bu saat əvvəlcədən rezerv olunub");
+        return;
+    }
+    reserved.push(slot);
+    localStorage.setItem("reservedSlots",JSON.stringify(reserved));
+    let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
+    let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
+    window.open(url,"_blank");
 }
 </script>
 
@@ -178,47 +121,31 @@ function openReservePage(){
     <span class="admin-link" onclick="openAdminPopup()">Admin Panel</span>
 </footer>
 
-<div id="adminPopup">
-    <div class="popup-box" style="background:#111; padding:30px; border:1px solid red; border-radius:15px; text-align:center; width:90%; max-width:320px;">
-        <h2 style="color:red; margin-bottom:20px;">Giriş</h2>
-        <input type="password" id="adminPass" placeholder="Şifrə..." style="width:100%; padding:12px; background:#000; border:1px solid red; color:white; margin-bottom:15px;">
-        <button onclick="checkAdminPassword()" style="width:100%; padding:12px; background:red; border:none; color:white; font-weight:bold; cursor:pointer;">DAXİL OL</button>
-        <button onclick="closeAdminPopup()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Ləğv et</button>
-        <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-size:14px;">Şifrə səhvdir!</p>
-    </div>
-</div>
-
 <script>
-    const audio = document.getElementById("bgMusic");
+const audio = document.getElementById("bgMusic");
 const musicIcon = document.getElementById("musicIcon");
-audio.volume = 0.2; // Səs səviyyəsi (0.2 çox bərk deyil, ideal dərəcədir)
+if(audio) audio.volume = 0.2;
 
-// Səhifə açılan kimi işə düşən məntiq
 window.addEventListener("load", () => {
     const savedTime = localStorage.getItem("musicTime");
     const isPlaying = localStorage.getItem("musicPlaying") === "true";
-
-    if (savedTime) {
-        audio.currentTime = parseFloat(savedTime);
-    }
-
-    if (isPlaying) {
-        // Brauzerin "Autoplay" blokuna qarşı döngü: İlk klikdə musiqi başlayacaq
+    if (savedTime && audio) audio.currentTime = parseFloat(savedTime);
+    if (isPlaying && audio) {
         let playAttempt = setInterval(() => {
             audio.play().then(() => {
                 clearInterval(playAttempt);
                 musicIcon.innerText = "🔊";
-            }).catch(e => console.log("Musiqi üçün klik gözlənilir..."));
+            }).catch(e => console.log("Musiqi gözləyir..."));
         }, 1000);
     }
 });
 
-// Musiqinin saniyəsini hər an yadda saxlayır
-audio.addEventListener("timeupdate", () => {
-    localStorage.setItem("musicTime", audio.currentTime);
-});
+if(audio) {
+    audio.addEventListener("timeupdate", () => {
+        localStorage.setItem("musicTime", audio.currentTime);
+    });
+}
 
-// Düyməyə basanda yandırıb-söndürmək
 function toggleMusic() {
     if (audio.paused) {
         audio.play();
@@ -230,33 +157,9 @@ function toggleMusic() {
         localStorage.setItem("musicPlaying", "false");
     }
 }
-function openAdminPopup() {
-    document.getElementById("adminPopup").style.display = "flex";
-}
-
-function closeAdminPopup() {
-    document.getElementById("adminPopup").style.display = "none";
-    document.getElementById("errorMsg").style.display = "none";
-}
-
-function checkAdminPassword() {
-    var pass = document.getElementById("adminPass").value;
-    // Sənin istədiyin şifrə
-    if (pass === "admindark1903") {
-        window.location.href = "admin.html";
-    } else {
-        document.getElementById("errorMsg").style.display = "block";
-    }
-}
-
-// "Enter" düyməsi ilə daxil olmaq üçün
-document.getElementById("adminPass").addEventListener("keyup", function(event) {
-    if (event.key === "Enter") {
-        checkAdminPassword();
-    }
-});
 </script>
-   <footer class="main-footer">
+
+<footer class="main-footer">
     <div class="footer-container">
         <div class="social-links">
             <a href="https://www.instagram.com/darkqorxuevi" target="_blank" class="social-item">
@@ -277,12 +180,48 @@ document.getElementById("adminPass").addEventListener("keyup", function(event) {
         </div>
     </div>
 </footer>
-</body>
-    <audio id="bgMusic" loop>
-    <source src="music.mp3" type="audio/mpeg">
-</audio>
 
-<div id="musicControl" onclick="toggleMusic()">
-    <span id="musicIcon">🔇</span>
+<style>
+    .tg-chat-btn {
+        position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
+        background: #27A5E7; border-radius: 50%; display: flex; justify-content: center;
+        align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.4); z-index: 9999; cursor: pointer;
+    }
+    .tg-chat-window {
+        display: none; position: fixed; bottom: 90px; right: 20px; width: 300px;
+        background: #111; border: 1px solid #ff0000; border-radius: 15px;
+        flex-direction: column; z-index: 10000; overflow: hidden; font-family: sans-serif;
+    }
+    .tg-chat-header { background: #ff0000; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
+    .tg-chat-body { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+    .tg-chat-body input, .tg-chat-body textarea {
+        width: 100%; padding: 10px; background: #000; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box;
+    }
+    .tg-send-btn { background: #ff0000; color: white; border: none; padding: 10px; cursor: pointer; font-weight: bold; border-radius: 5px; }
+    @media (max-width: 768px) { .tg-chat-btn { bottom: 80px; } .tg-chat-window { bottom: 150px; right: 10px; width: 280px; } }
+</style>
+
+<div class="tg-chat-btn" onclick="toggleTGChat()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="35">
 </div>
-</html>
+
+<div class="tg-chat-window" id="tgChat">
+    <div class="tg-chat-header">
+        <span>Canlı Dəstək</span>
+        <span style="cursor:pointer" onclick="toggleTGChat()">✕</span>
+    </div>
+    <div class="tg-chat-body" id="chatStep1">
+        <p style="color: #ccc; font-size: 13px;">Sizə kömək etmək üçün ləqəbinizi daxil edin:</p>
+        <input type="text" id="userNick" placeholder="Ləqəbiniz...">
+        <button class="tg-send-btn" onclick="goToMessage()">Davam et</button>
+    </div>
+    <div class="tg-chat-body" id="chatStep2" style="display:none;">
+        <p style="color: #ccc; font-size: 13px;" id="displayNick"></p>
+        <textarea id="userMsg" rows="3" placeholder="Mesajınızı yazın..."></textarea>
+        <button class="tg-send-btn" id="finalSendBtn" onclick="sendToTelegram()">Göndər</button>
+    </div>
+</div>
+
+<script>
+    const botToken = "8733282097:AAEfZWuC0FnbtaJ2ngBYCzjw4oN1N_-Uhvk";
+    const chatId = "7766487634";
