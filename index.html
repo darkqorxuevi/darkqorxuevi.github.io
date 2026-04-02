@@ -222,7 +222,7 @@ function startChat() {
     document.getElementById("nickStep").style.display = "none";
     document.getElementById("chatStep").style.display = "flex";
     
-    addMessageToChat("Sistem", `Xoş gəldiniz, ${userNickname}! Admin tezliklə cavab verəcək.`, "#ff4444");
+    addMessageToChat("Sistem", `Xoş gəldiniz, ${userNickname}! Buyurun.`, "#ff4444");
     
     // Telegramdan mesajları yoxlamaq üçün interval (hər 3 saniyədən bir)
     chatUpdateInterval = setInterval(fetchTelegramMessages, 3000);
