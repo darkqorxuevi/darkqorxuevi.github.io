@@ -15,27 +15,19 @@
             gap: 15px; 
             width: 80%; 
             max-width: 250px; 
-            margin: 40px auto 0 auto; 
+            margin: 40px auto 0 auto; /* Rezervasiya butonu ilə məsafə artırıldı */
             padding: 10px 20px; 
             font-size: 14px;
             border: none;
         }
+        /* Loqo ölçüsü böyüdüldü */
         .live-support-icon {
             width: 35px; 
             height: 35px;
             object-fit: contain;
         }
 
-        /* Topbar daxilində elementlərin düzülüşü */
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Elementləri künclərə yayır */
-            padding: 0 15px;
-            position: relative;
-        }
-
-        /* Musiqi butonu üçün stil */
+        /* Musiqi butonu üçün topbar stili */
         #musicControl {
             cursor: pointer;
             font-size: 24px;
@@ -44,17 +36,6 @@
             justify-content: center;
             color: white;
             transition: 0.3s;
-            z-index: 1100;
-            width: 40px;
-            height: 40px;
-        }
-
-        /* Başlığın tam mərkəzdə qalması üçün */
-        .topbar-title {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
         }
 
         #musicControl:hover {
@@ -187,25 +168,16 @@
         function playMusic() {
             audio.play().then(() => {
                 musicIcon.innerText = "🔊";
-                // Uğurla başladısa klik dinləyicisini silirik
                 document.removeEventListener('click', playMusic);
-                document.removeEventListener('touchstart', playMusic);
-                localStorage.setItem("musicPlaying", "true");
-            }).catch(() => {
-                console.log("Brauzer blokladı, istifadəçi hərəkəti gözlənilir...");
-            });
+            }).catch(() => { console.log("Gözlənilir..."); });
         }
 
         window.addEventListener("load", () => {
             const savedTime = localStorage.getItem("musicTime");
             if (savedTime) audio.currentTime = parseFloat(savedTime);
             
-            // Avtomatik başlatmağa çalış
             playMusic();
-            
-            // Brauzer bloklamasını aşmaq üçün hər hansı bir toxunuşda işə düşsün
-            document.addEventListener('click', playMusic);
-            document.addEventListener('touchstart', playMusic);
+            document.addEventListener('click', playMusic); // Brauzer bloklasa ilk klikdə başlasın
         });
 
         audio.addEventListener("timeupdate", () => {
@@ -216,11 +188,9 @@
             if (audio.paused) {
                 audio.play();
                 musicIcon.innerText = "🔊";
-                localStorage.setItem("musicPlaying", "true");
             } else {
                 audio.pause();
                 musicIcon.innerText = "🔇";
-                localStorage.setItem("musicPlaying", "false");
             }
         }
 
