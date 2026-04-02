@@ -6,6 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ana Səhifə</title>
 <link rel="stylesheet" href="style.css">
+<style>
+    /* Canlı dəstək butonu üçün xüsusi stillər */
+    .live-support-btn {
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        gap: 10px; 
+        width: 80%; 
+        max-width: 250px; 
+        margin: 15px auto 0 auto; 
+        padding: 10px 20px; 
+        font-size: 14px;
+    }
+    .live-support-icon {
+        width: 20px; 
+        filter: invert(1);
+    }
+</style>
 </head>
 <body>
     <div style="text-align: center; padding: 20px; opacity: 0.3;">
@@ -47,11 +65,9 @@ function checkAdminPassword() {
     <a href="games.html">Oyunlarımız</a>
     <a href="location.html">Məkan</a>
     <a href="rejimler.html">Rejimler</a>
-
 </div>
 
 <header>
-
     <div class="topbar">
         <div class="topbar-title">Ana Səhifə</div>
         <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
@@ -61,41 +77,53 @@ function checkAdminPassword() {
         <img src="logo.png" alt="Logo">
     </div>
 
-   
-
   <a href="reserve.html" class="reserve-btn">
 Rezervasiya Et
 </a>
 
-
-
+<button onclick="openLiveChat()" class="reserve-btn live-support-btn">
+   <img src="chat-logo.png" alt="Support" class="live-support-icon">
+    7/24 Canlı Dəstək
+</button>
 
 </header>
 
     <div class="reserve-popup" id="reservePopup">
-
 <div class="reserve-box">
-
 <div class="close-btn" onclick="closeReserve()">✕</div>
-
 <h2>Rezervasiya</h2>
-
 <label>Tarix seç</label>
 <input type="date" id="date">
-
 <label>Saat seç</label>
 <input type="time" id="time" step="1800">
-
-
 <button class="reserve-btn" onclick="window.location.href='reserve.html'">
-
 Rezerv Et
 </button>
-
 </div>
 </div>
 
-    
+<div class="reserve-popup" id="liveChatPopup" style="display: none; z-index: 1000;">
+    <div class="reserve-box" style="display: flex; flex-direction: column; height: 400px; max-width: 350px;">
+        <div class="close-btn" onclick="closeLiveChat()">✕</div>
+        <h2>Canlı Dəstək</h2>
+
+        <div id="nickStep">
+            <label>Çata qoşulmaq üçün Nick yazın:</label>
+            <input type="text" id="chatNick" placeholder="Nickinizi bura yazın...">
+            <button class="reserve-btn" onclick="startChat()" style="margin-top: 15px;">Daxil Ol</button>
+        </div>
+
+        <div id="chatStep" style="display: none; flex-direction: column; flex-grow: 1; height: 100%;">
+            <div id="chatMessages" style="flex-grow: 1; background: #111; border: 1px solid red; border-radius: 5px; padding: 10px; overflow-y: auto; text-align: left; margin-bottom: 10px; font-size: 14px; color: white;">
+                </div>
+            <div style="display: flex; gap: 5px;">
+                <input type="text" id="chatMsgInput" placeholder="Mesajınız..." style="flex-grow: 1; margin: 0; padding: 8px;">
+                <button onclick="sendChatMessage()" class="reserve-btn" style="padding: 10px; margin: 0; min-width: 60px;">Göndər</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 function toggleMenu(){
     const menu = document.getElementById("menu");
@@ -126,7 +154,6 @@ window.addEventListener("scroll", function(){
 </script>
 
 <script>
-
 function openReserve(){
 document.getElementById("reservePopup").style.display="flex";
 }
@@ -136,12 +163,9 @@ document.getElementById("reservePopup").style.display="none";
 }
 
 function sendReserve(){
-
 let date=document.getElementById("date").value;
 let time=document.getElementById("time").value;
-
 let slot=date+"-"+time;
-
 let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
 
 if(reserved.includes(slot)){
@@ -153,25 +177,114 @@ reserved.push(slot);
 localStorage.setItem("reservedSlots",JSON.stringify(reserved));
 
 let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
-
 let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
-
 window.open(url,"_blank");
-
 }
-
-
 </script>
+
 <script>
-  const burger = document.getElementById("burger-menu");
-  burger.addEventListener("click", () => {
-    // Burger kliklənəndə rejimler.html səhifəsini aç
-    window.location.href = 'rejimler.html';
-  });
+  // Orijinal kodunda olan kiçik sintaksis səhvi (açıq qalan script) düzəldildi
+  const burgerMenuBtn = document.getElementById("burger-menu");
+  if(burgerMenuBtn) {
+      burgerMenuBtn.addEventListener("click", () => {
+        window.location.href = 'rejimler.html';
+      });
+  }
+</script>
+
 <script>
 function openReservePage(){
     window.location.href = "reserve.html";
 }
+
+// === CANLI DƏSTƏK TELEGRAM BOT KODLARI ===
+const telegramBotToken = "8733282097:AAEfZWuC0FnbtaJ2ngBYCzjw4oN1N_-Uhvk";
+const telegramChatId = "7766487634";
+let userNickname = "";
+let chatUpdateInterval;
+let lastUpdateId = 0;
+
+function openLiveChat() {
+    document.getElementById("liveChatPopup").style.display = "flex";
+}
+
+function closeLiveChat() {
+    document.getElementById("liveChatPopup").style.display = "none";
+}
+
+function startChat() {
+    const nickInput = document.getElementById("chatNick").value.trim();
+    if(nickInput === "") {
+        alert("Xahiş edirik nick daxil edin!");
+        return;
+    }
+    userNickname = nickInput;
+    document.getElementById("nickStep").style.display = "none";
+    document.getElementById("chatStep").style.display = "flex";
+    
+    addMessageToChat("Sistem", `Xoş gəldiniz, ${userNickname}! Admin tezliklə cavab verəcək.`, "#ff4444");
+    
+    // Telegramdan mesajları yoxlamaq üçün interval (hər 3 saniyədən bir)
+    chatUpdateInterval = setInterval(fetchTelegramMessages, 3000);
+}
+
+function sendChatMessage() {
+    const msgInput = document.getElementById("chatMsgInput");
+    const messageText = msgInput.value.trim();
+    if(messageText === "") return;
+
+    // Ekranda göstər
+    addMessageToChat("Siz", messageText, "#4CAF50");
+    msgInput.value = "";
+
+    // Telegrama göndər
+    const textToSend = `[${userNickname}] yazır:\n${messageText}`;
+    fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${telegramChatId}&text=${encodeURIComponent(textToSend)}`)
+    .catch(err => console.error("Xəta:", err));
+}
+
+function fetchTelegramMessages() {
+    fetch(`https://api.telegram.org/bot${telegramBotToken}/getUpdates?offset=${lastUpdateId + 1}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.ok && data.result.length > 0) {
+            data.result.forEach(update => {
+                lastUpdateId = update.update_id;
+                if(update.message && update.message.text && update.message.chat.id.toString() === telegramChatId) {
+                    const text = update.message.text;
+                    
+                    // Admin /sil yazarsa mesajlar təmizlənir
+                    if(text.trim() === "/sil") {
+                        document.getElementById("chatMessages").innerHTML = "";
+                        addMessageToChat("Sistem", "Söhbət admin tərəfindən təmizləndi.", "gray");
+                        return;
+                    }
+
+                    // Adminin bu istifadəçiyə cavab verib-vermədiyini yoxlayır (Məs: @nick salam)
+                    const tag = `@${userNickname.toLowerCase()}`;
+                    if(text.toLowerCase().startsWith(tag)) {
+                        const replyText = text.substring(tag.length).trim();
+                        addMessageToChat("Admin", replyText, "#2196F3");
+                    }
+                }
+            });
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+function addMessageToChat(sender, text, color) {
+    const chatBox = document.getElementById("chatMessages");
+    chatBox.innerHTML += `<div style="margin-bottom: 8px;"><strong style="color: ${color};">${sender}:</strong> ${text}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Enter ilə mesaj göndərmək
+document.getElementById("chatMsgInput").addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+        sendChatMessage();
+    }
+});
 </script>
 
 <footer class="admin-footer">
@@ -191,10 +304,10 @@ function openReservePage(){
 <script>
     const audio = document.getElementById("bgMusic");
 const musicIcon = document.getElementById("musicIcon");
-audio.volume = 0.2; // Səs səviyyəsi (0.2 çox bərk deyil, ideal dərəcədir)
+if(audio) audio.volume = 0.2; // Səs səviyyəsi
 
-// Səhifə açılan kimi işə düşən məntiq
 window.addEventListener("load", () => {
+    if(!audio) return;
     const savedTime = localStorage.getItem("musicTime");
     const isPlaying = localStorage.getItem("musicPlaying") === "true";
 
@@ -203,7 +316,6 @@ window.addEventListener("load", () => {
     }
 
     if (isPlaying) {
-        // Brauzerin "Autoplay" blokuna qarşı döngü: İlk klikdə musiqi başlayacaq
         let playAttempt = setInterval(() => {
             audio.play().then(() => {
                 clearInterval(playAttempt);
@@ -213,13 +325,14 @@ window.addEventListener("load", () => {
     }
 });
 
-// Musiqinin saniyəsini hər an yadda saxlayır
-audio.addEventListener("timeupdate", () => {
-    localStorage.setItem("musicTime", audio.currentTime);
-});
+if(audio) {
+    audio.addEventListener("timeupdate", () => {
+        localStorage.setItem("musicTime", audio.currentTime);
+    });
+}
 
-// Düyməyə basanda yandırıb-söndürmək
 function toggleMusic() {
+    if(!audio) return;
     if (audio.paused) {
         audio.play();
         musicIcon.innerText = "🔊";
@@ -230,31 +343,6 @@ function toggleMusic() {
         localStorage.setItem("musicPlaying", "false");
     }
 }
-function openAdminPopup() {
-    document.getElementById("adminPopup").style.display = "flex";
-}
-
-function closeAdminPopup() {
-    document.getElementById("adminPopup").style.display = "none";
-    document.getElementById("errorMsg").style.display = "none";
-}
-
-function checkAdminPassword() {
-    var pass = document.getElementById("adminPass").value;
-    // Sənin istədiyin şifrə
-    if (pass === "admindark1903") {
-        window.location.href = "admin.html";
-    } else {
-        document.getElementById("errorMsg").style.display = "block";
-    }
-}
-
-// "Enter" düyməsi ilə daxil olmaq üçün
-document.getElementById("adminPass").addEventListener("keyup", function(event) {
-    if (event.key === "Enter") {
-        checkAdminPassword();
-    }
-});
 </script>
    <footer class="main-footer">
     <div class="footer-container">
