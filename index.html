@@ -7,9 +7,9 @@
     <title>DARK Horror House - Ana Səhifə</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Intergram Çat Düyməsini Sənin Loqonla Dəyişmək Üçün Stil */
+        /* Canlı Çat Düyməsi Üçün Özəl Stil (Loqo ilə) */
         #intergramFloatingButton {
-            background-image: url('chat-logo.png') !important; /* Bura öz loqonun fayl adını yaz */
+            background-image: url('chat-logo.png') !important; 
             background-size: cover !important;
             background-position: center !important;
             background-color: #000 !important;
@@ -18,11 +18,19 @@
             height: 60px !important;
             bottom: 20px !important;
             right: 20px !important;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5) !important;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7) !important;
+            z-index: 10001 !important;
         }
+        
         #intergramFloatingButton i {
-            display: none !important; /* Telegram ikonunu gizlədir, sənin loqon görünür */
+            display: none !important; /* Standart ikonu gizlədir */
         }
+
+        /* Çat pəncərəsinin mövqeyi */
+        #intergramChatWindow {
+            z-index: 10002 !important;
+        }
+
         @media (max-width: 768px) {
             #intergramFloatingButton { bottom: 80px !important; }
         }
@@ -55,10 +63,10 @@
 <div id="adminPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:20000; justify-content:center; align-items:center;">
     <div style="background:#111; padding:30px; border:1px solid red; border-radius:15px; text-align:center; width:90%; max-width:320px;">
         <h2 style="color:red; margin-bottom:20px;">Giriş</h2>
-        <input type="password" id="adminPass" placeholder="Şifrə..." style="width:100%; padding:12px; background:#000; border:1px solid red; color:white; margin-bottom:15px; outline:none;">
+        <input type="password" id="adminPass" placeholder="Şifrə..." style="width:100%; padding:12px; background:#000; border:1px solid red; color:white; margin-bottom:15px;">
         <button onclick="checkAdminPassword()" style="width:100%; padding:12px; background:red; border:none; color:white; font-weight:bold; cursor:pointer;">DAXİL OL</button>
         <button onclick="closeAdminPopup()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Ləğv et</button>
-        <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-size:14px;">Şifrə səhvdir!</p>
+        <p id="errorMsg" style="color:red; display:none; margin-top:10px;">Şifrə səhvdir!</p>
     </div>
 </div>
 
@@ -75,7 +83,7 @@
             </a>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 DARK Horror House. Bütün hüquqlar qorunur.</p>
+            <p>© 2026 DARK Horror House.</p>
         </div>
     </div>
 </footer>
@@ -89,7 +97,7 @@
 </audio>
 
 <script>
-    // --- Menyu Funksiyası ---
+    // --- Menyu və Admin funksiyaları ---
     function toggleMenu(){
         const menu = document.getElementById("menu");
         const burger = document.getElementById("burger");
@@ -97,37 +105,22 @@
         burger.innerHTML = menu.classList.contains("active") ? "✕" : "☰";
     }
 
-    // --- Admin Panel Funksiyaları ---
     function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
-    function closeAdminPopup() { 
-        document.getElementById("adminPopup").style.display = "none";
-        document.getElementById("errorMsg").style.display = "none";
-    }
+    function closeAdminPopup() { document.getElementById("adminPopup").style.display = "none"; }
     function checkAdminPassword() {
         var pass = document.getElementById("adminPass").value;
-        if (pass === "admindark1903") {
-            window.location.href = "admin.html";
-        } else {
-            document.getElementById("errorMsg").style.display = "block";
-        }
+        if (pass === "admindark1903") { window.location.href = "admin.html"; } 
+        else { document.getElementById("errorMsg").style.display = "block"; }
     }
 
-    // --- Musiqi (Davamlılıq) Funksiyaları ---
+    // --- Musiqi funksiyaları ---
     const audio = document.getElementById("bgMusic");
     const musicIcon = document.getElementById("musicIcon");
     audio.volume = 0.2;
 
     window.addEventListener("load", () => {
-        const savedTime = localStorage.getItem("musicTime");
         const isPlaying = localStorage.getItem("musicPlaying") === "true";
-        if (savedTime) audio.currentTime = parseFloat(savedTime);
-        if (isPlaying) {
-            audio.play().then(() => { musicIcon.innerText = "🔊"; }).catch(() => {});
-        }
-    });
-
-    audio.addEventListener("timeupdate", () => {
-        localStorage.setItem("musicTime", audio.currentTime);
+        if (isPlaying) { audio.play().then(() => { musicIcon.innerText = "🔊"; }).catch(() => {}); }
     });
 
     function toggleMusic() {
@@ -144,15 +137,22 @@
 </script>
 
 <script> 
-    window.intergramId = "7766487634"; // Sənin Chat ID-n
+    window.intergramId = "7766487634"; 
     window.intergramCustomizations = {
         title: "DARK Canlı Dəstək",
         cookieExpiration: 2,
-        introMessage: "Salam! DARK Qorxu Evinə xoş gəlmisiniz. Söhbətə başlamaq üçün ləqəbinizi və sualınızı daxil edin.",
-        placeholderText: "Mesajınızı buraya yazın...",
+        // Azərbaycan dilində tənzimləmələr
+        introMessage: "Zəhmət olmasa ləqəbinizi daxil edin və mesajınızı yazın. Sizə tezliklə cavab veriləcək.",
+        placeholderText: "Mesajınızı yazın...",
+        sendButtonText: "Göndər",
         displayMessageTime: true,
         mainColor: "#ff0000",
-        alwaysUseFloatingButton: true 
+        alwaysUseFloatingButton: true,
+        // Nick məcburi olsun deyə istifadəçini yönləndirən mətn
+        closedChatDescription: "Dəstək xətti bağlıdır.",
+        onMessageSent: function() {
+            // Mesaj göndərildikdə əlavə bildiriş və ya log bura yazıla bilər
+        }
     };
 </script>
 <script id="intergram" src="https://www.intergram.xyz/js/widget.js"></script>
