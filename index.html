@@ -1,335 +1,288 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DARK Horror House - Canlı Dəstək</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* 1. Çat Düyməsi və Pəncərəsi üçün Stillər */
-        
-        /* Düymənin ümumi sahəsi */
-        .chat-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        /* Çat Düyməsi (Şəkil 1-dəki kimi rezervasiya düyməsi boyda) */
-        .chat-btn {
-            background-color: #ff0000; /* Qırmızı fon */
-            color: white;
-            border: none;
-            padding: 12px 20px; /* Rezervasiya düyməsi boyda */
-            border-radius: 5px; /* Rezervasiya düyməsi boyda */
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px; /* Loqo ilə yazı arası məsafə */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-        .chat-btn:hover { background-color: #b30000; }
-
-        /* Düymənin içindəki loqo (image_1.png-dəki ikon yerinə loqo) */
-        .chat-logo {
-            width: 25px; /* Uyğun ölçü */
-            height: 25px;
-            border-radius: 50%; /* Dairəvi */
-        }
-
-        /* Çat Pəncərəsi (image_0.png-dəki kimi Rezervasiya düyməsinin altında) */
-        .chat-window {
-            display: none; /* İlkin halda gizli */
-            width: 320px;
-            background-color: #111; /* Qara/tünd fon */
-            border: 1px solid #ff0000; /* Qırmızı çərçivə */
-            border-radius: 10px;
-            margin-top: 10px; /* Düymədən aşağı məsafə */
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            font-family: sans-serif;
-        }
-
-        /* Pəncərənin Başlığı (Let's chat! yerinə Azərbaycan dilində) */
-        .chat-header {
-            background-color: #ff0000; /* Qırmızı */
-            color: white;
-            padding: 15px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .chat-header span { font-size: 18px; }
-        .chat-close { cursor: pointer; font-size: 20px; }
-
-        /* Pəncərənin daxili sahəsi */
-        .chat-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            height: 300px; /* Uyğun hündürlük */
-            overflow-y: auto; /* Scroll */
-            border-bottom: 1px solid #333;
-        }
-
-        /* Giriş Mesajı (image_0.png-dəki kimi) */
-        .chat-welcome {
-            color: white;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* Addım 1: Nick (Ləqəb) daxil etmə sahəsi */
-        #nick-step {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            color: white;
-        }
-        #nick-step input {
-            padding: 10px;
-            background: #000;
-            border: 1px solid red;
-            color: white;
-            border-radius: 5px;
-        }
-
-        /* Addım 2: Mesaj sahəsi (İlkin halda gizli) */
-        #message-step {
-            display: none; /* Nick olmadan görünmür */
-            color: white;
-            font-size: 14px;
-        }
-
-        /* Mesaj göndərmə sahəsi */
-        .chat-input-area {
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-            background: #111;
-        }
-        .chat-input-area textarea {
-            flex: 1;
-            padding: 10px;
-            background: #000;
-            border: 1px solid #333;
-            color: white;
-            border-radius: 5px;
-            resize: none; /* Ölçüsü dəyişməsin */
-        }
-        .chat-send-btn {
-            background: #ff0000;
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .chat-container { bottom: 80px; }
-            .chat-window { width: 280px; }
-        }
-    </style>
+<link rel="icon" type="image/png" href="logo.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Səhifə</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div style="text-align: center; padding: 20px; opacity: 0.3;">
+    <div style="text-align: center; padding: 20px; opacity: 0.3;">
     <span onclick="openAdminPopup()" style="cursor: pointer; color: #444; font-size: 12px;">Admin</span>
 </div>
 
-<header>
-    <div class="topbar">
-        <div class="topbar-title">Ana Səhifə</div>
-        <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+<div id="adminPopup" class="popup">
+    <div class="popup-box">
+        <span class="close-btn" onclick="closeAdminPopup()">✕</span>
+        <h2>Admin Girişi</h2>
+        <input type="password" id="adminPass" placeholder="Şifrəni daxil edin...">
+        <button onclick="checkAdminPassword()" class="confirm-btn">Daxil Ol</button>
+        <p id="errorMsg" style="color: red; display: none; margin-top: 10px;">Şifrə səhvdir!</p>
     </div>
-    <div class="logo">
-        <img src="logo.png" alt="Logo">
-    </div>
-    <a href="reserve.html" class="reserve-btn">Rezervasiya Et</a>
-</header>
+</div>
+
+<script>
+function openAdminPopup() {
+    document.getElementById("adminPopup").style.display = "flex";
+}
+
+function closeAdminPopup() {
+    document.getElementById("adminPopup").style.display = "none";
+    document.getElementById("errorMsg").style.display = "none";
+}
+
+function checkAdminPassword() {
+    var pass = document.getElementById("adminPass").value;
+    if (pass === "admindark1903") {
+        window.location.href = "admin.html"; // Şifrə düzdürsə adminə göndər
+    } else {
+        document.getElementById("errorMsg").style.display = "block";
+    }
+}
+</script>
 
 <div class="side-menu" id="menu">
     <a href="about.html">Haqqımızda</a>
     <a href="games.html">Oyunlarımız</a>
     <a href="location.html">Məkan</a>
     <a href="rejimler.html">Rejimler</a>
+
 </div>
 
-<div class="chat-container">
-    <button class="chat-btn" onclick="toggleChat()">
-        <img src="logo.png" alt="Chat Logo" class="chat-logo">
-        <span>7/24 Canlı Dəstək</span>
-    </button>
+<header>
 
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <span>Canlı Dəstək</span>
-            <span class="chat-close" onclick="toggleChat()">✕</span>
-        </div>
-        
-        <div class="chat-body">
-            <p class="chat-welcome">Salam! DARK Qorxu Evinə xoş gəlmisiniz.</p>
-            
-            <div id="nick-step">
-                <label>Zəhmət olmasa ləqəbinizi daxil edin:</label>
-                <input type="text" id="userNick" placeholder="Ləqəbiniz...">
-                <button class="chat-send-btn" onclick="saveNick()" style="padding: 10px;">Davam Et</button>
-            </div>
+    <div class="topbar">
+        <div class="topbar-title">Ana Səhifə</div>
+        <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+    </div>
 
-            <div id="message-step">
-                <p>Hörmətli <strong id="displayNick"></strong>, buyurun mesajınızı yazın:</p>
-            </div>
-        </div>
+    <div class="logo">
+        <img src="logo.png" alt="Logo">
+    </div>
 
-        <div class="chat-input-area" id="inputArea" style="display: none;">
-            <textarea id="userMessage" rows="2" placeholder="Mesajınızı yazın..."></textarea>
-            <button class="chat-send-btn" onclick="sendMessage()">Göndər</button>
-        </div>
+   
+
+  <a href="reserve.html" class="reserve-btn">
+Rezervasiya Et
+</a>
+
+
+
+
+</header>
+
+    <div class="reserve-popup" id="reservePopup">
+
+<div class="reserve-box">
+
+<div class="close-btn" onclick="closeReserve()">✕</div>
+
+<h2>Rezervasiya</h2>
+
+<label>Tarix seç</label>
+<input type="date" id="date">
+
+<label>Saat seç</label>
+<input type="time" id="time" step="1800">
+
+
+<button class="reserve-btn" onclick="window.location.href='reserve.html'">
+
+Rezerv Et
+</button>
+
+</div>
+</div>
+
+    
+<script>
+function toggleMenu(){
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+
+    menu.classList.toggle("active");
+
+    if(menu.classList.contains("active")){
+        burger.innerHTML = "✕";
+        burger.classList.add("close");
+    } else {
+        burger.innerHTML = "☰";
+        burger.classList.remove("close");
+    }
+}
+
+/* Scroll edəndə bağlansın */
+window.addEventListener("scroll", function(){
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
+
+    if(menu.classList.contains("active")){
+        menu.classList.remove("active");
+        burger.innerHTML = "☰";
+        burger.classList.remove("close");
+    }
+});
+</script>
+
+<script>
+
+function openReserve(){
+document.getElementById("reservePopup").style.display="flex";
+}
+
+function closeReserve(){
+document.getElementById("reservePopup").style.display="none";
+}
+
+function sendReserve(){
+
+let date=document.getElementById("date").value;
+let time=document.getElementById("time").value;
+
+let slot=date+"-"+time;
+
+let reserved=JSON.parse(localStorage.getItem("reservedSlots")) || [];
+
+if(reserved.includes(slot)){
+alert("Bu saat əvvəlcədən rezerv olunub");
+return;
+}
+
+reserved.push(slot);
+localStorage.setItem("reservedSlots",JSON.stringify(reserved));
+
+let message=`Salam, mən ${date}, saat ${time} rezerv etmək istəyirəm`;
+
+let url=`https://wa.me/994993121709?text=${encodeURIComponent(message)}`;
+
+window.open(url,"_blank");
+
+}
+
+
+</script>
+<script>
+  const burger = document.getElementById("burger-menu");
+  burger.addEventListener("click", () => {
+    // Burger kliklənəndə rejimler.html səhifəsini aç
+    window.location.href = 'rejimler.html';
+  });
+<script>
+function openReservePage(){
+    window.location.href = "reserve.html";
+}
+</script>
+
+<footer class="admin-footer">
+    <span class="admin-link" onclick="openAdminPopup()">Admin Panel</span>
+</footer>
+
+<div id="adminPopup">
+    <div class="popup-box" style="background:#111; padding:30px; border:1px solid red; border-radius:15px; text-align:center; width:90%; max-width:320px;">
+        <h2 style="color:red; margin-bottom:20px;">Giriş</h2>
+        <input type="password" id="adminPass" placeholder="Şifrə..." style="width:100%; padding:12px; background:#000; border:1px solid red; color:white; margin-bottom:15px;">
+        <button onclick="checkAdminPassword()" style="width:100%; padding:12px; background:red; border:none; color:white; font-weight:bold; cursor:pointer;">DAXİL OL</button>
+        <button onclick="closeAdminPopup()" style="background:none; border:none; color:gray; margin-top:15px; cursor:pointer;">Ləğv et</button>
+        <p id="errorMsg" style="color:red; display:none; margin-top:10px; font-size:14px;">Şifrə səhvdir!</p>
     </div>
 </div>
 
 <script>
-    // --- Menyu Funksiyası ---
-    function toggleMenu(){
-        const menu = document.getElementById("menu");
-        const burger = document.getElementById("burger");
-        menu.classList.toggle("active");
-        burger.innerHTML = menu.classList.contains("active") ? "✕" : "☰";
-    }
-
-    // --- Admin Panel Funksiyaları ---
-    function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
-    function closeAdminPopup() { document.getElementById("adminPopup").style.display = "none"; }
-    function checkAdminPassword() {
-        var pass = document.getElementById("adminPass").value;
-        if (pass === "admindark1903") { window.location.href = "admin.html"; } 
-        else { document.getElementById("errorMsg").style.display = "block"; }
-    }
-
-    // --- Musiqi Funksiyaları ---
     const audio = document.getElementById("bgMusic");
-    const musicIcon = document.getElementById("musicIcon");
-    audio.volume = 0.2;
+const musicIcon = document.getElementById("musicIcon");
+audio.volume = 0.2; // Səs səviyyəsi (0.2 çox bərk deyil, ideal dərəcədir)
 
-    window.addEventListener("load", () => {
-        const isPlaying = localStorage.getItem("musicPlaying") === "true";
-        if (isPlaying) { audio.play().then(() => { musicIcon.innerText = "🔊"; }).catch(() => {}); }
-    });
+// Səhifə açılan kimi işə düşən məntiq
+window.addEventListener("load", () => {
+    const savedTime = localStorage.getItem("musicTime");
+    const isPlaying = localStorage.getItem("musicPlaying") === "true";
 
-    function toggleMusic() {
-        if (audio.paused) {
-            audio.play();
-            musicIcon.innerText = "🔊";
-            localStorage.setItem("musicPlaying", "true");
-        } else {
-            audio.pause();
-            musicIcon.innerText = "🔇";
-            localStorage.setItem("musicPlaying", "false");
-        }
+    if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
     }
+
+    if (isPlaying) {
+        // Brauzerin "Autoplay" blokuna qarşı döngü: İlk klikdə musiqi başlayacaq
+        let playAttempt = setInterval(() => {
+            audio.play().then(() => {
+                clearInterval(playAttempt);
+                musicIcon.innerText = "🔊";
+            }).catch(e => console.log("Musiqi üçün klik gözlənilir..."));
+        }, 1000);
+    }
+});
+
+// Musiqinin saniyəsini hər an yadda saxlayır
+audio.addEventListener("timeupdate", () => {
+    localStorage.setItem("musicTime", audio.currentTime);
+});
+
+// Düyməyə basanda yandırıb-söndürmək
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+        musicIcon.innerText = "🔊";
+        localStorage.setItem("musicPlaying", "true");
+    } else {
+        audio.pause();
+        musicIcon.innerText = "🔇";
+        localStorage.setItem("musicPlaying", "false");
+    }
+}
+function openAdminPopup() {
+    document.getElementById("adminPopup").style.display = "flex";
+}
+
+function closeAdminPopup() {
+    document.getElementById("adminPopup").style.display = "none";
+    document.getElementById("errorMsg").style.display = "none";
+}
+
+function checkAdminPassword() {
+    var pass = document.getElementById("adminPass").value;
+    // Sənin istədiyin şifrə
+    if (pass === "admindark1903") {
+        window.location.href = "admin.html";
+    } else {
+        document.getElementById("errorMsg").style.display = "block";
+    }
+}
+
+// "Enter" düyməsi ilə daxil olmaq üçün
+document.getElementById("adminPass").addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+        checkAdminPassword();
+    }
+});
 </script>
-
-<script>
-    // --- YENİ ÇAT FUNKSİYALARI (NICK TƏLƏBİ VƏ DİZAYN) ---
-    
-    // Sənin Telegram məlumatların
-    const botToken = "8733282097:AAEfZWuC0FnbtaJ2ngBYCzjw4oN1N_-Uhvk";
-    const chatId = "7766487634";
-
-    function toggleChat() {
-        const win = document.getElementById('chatWindow');
-        win.style.display = (win.style.display === 'block') ? 'none' : 'block';
-    }
-
-    // Addım 1: Nick-i yadda saxlayır və addım 2-yə keçir
-    function saveNick() {
-        const nickInput = document.getElementById('userNick');
-        const nick = nickInput.value.trim();
-
-        if(nick === "") {
-            alert("Zəhmət olmasa ləqəb daxil edin!");
-            return;
-        }
-
-        // Nick-i yadda saxla
-        localStorage.setItem('chatNick', nick);
-        
-        // Ekranı dəyiş
-        document.getElementById('nick-step').style.display = 'none';
-        document.getElementById('message-step').style.display = 'block';
-        document.getElementById('displayNick').innerText = nick;
-        document.getElementById('inputArea').style.display = 'flex'; // Mesaj inputunu aç
-    }
-
-    // Addım 2: Mesajı Telegram-a göndərir
-    function sendMessage() {
-        const msgInput = document.getElementById('userMessage');
-        const message = msgInput.value.trim();
-        const nick = localStorage.getItem('chatNick');
-
-        if(message === "") return; // Boş mesaj göndərmə
-
-        // Telegram API-yə mesaj göndərmək
-        const fullText = `🔔 *Yeni Canlı Dəstək Mesajı*\n\n👤 *Ləqəb:* ${nick}\n💬 *Mesaj:* ${message}`;
-        
-        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-        const payload = {
-            chat_id: chatId,
-            text: fullText,
-            parse_mode: "Markdown" // Ləqəbi qalın göstərmək üçün
-        };
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(response => {
-            if(response.ok) {
-                alert("Mesajınız uğurla göndərildi! Sizinlə tezlkiə əlaqə saxlanılacaq.");
-                // Çat pəncərəsini sıfırla və bağla (opsional)
-                msgInput.value = "";
-                //toggleChat(); 
-            } else {
-                alert("Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-            alert("Xəta baş verdi. İnternet bağlantısını yoxlayın.");
-        });
-    }
-
-    // Sayt yüklənəndə nick əvvəllər daxil edilibsə yoxla
-    window.onload = function() {
-        const nick = localStorage.getItem('chatNick');
-        if (nick) {
-            document.getElementById('nick-step').style.display = 'none';
-            document.getElementById('message-step').style.display = 'block';
-            document.getElementById('displayNick').innerText = nick;
-            document.getElementById('inputArea').style.display = 'flex';
-        }
-    }
-</script>
-
-<div id="adminPopup" ... gizli ... ></div>
-<footer ... ></footer>
-<audio ... ></audio>
-<div id="musicControl" ... ></div>
-
+   <footer class="main-footer">
+    <div class="footer-container">
+        <div class="social-links">
+            <a href="https://www.instagram.com/darkqorxuevi" target="_blank" class="social-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.tiktok.com/@darkqorxuevi" target="_blank" class="social-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+                <span>TikTok</span>
+            </a>
+            <a href="https://wa.me/994993121709" target="_blank" class="social-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+                <span>WhatsApp</span>
+            </a>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 DARK Horror House. Bütün hüquqlar qorunur.</p>
+        </div>
+    </div>
+</footer>
 </body>
+    <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div id="musicControl" onclick="toggleMusic()">
+    <span id="musicIcon">🔇</span>
+</div>
 </html>
