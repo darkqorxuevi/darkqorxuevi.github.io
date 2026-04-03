@@ -1,414 +1,71 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ana Səhifə</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Canlı dəstək butonu üçün xüsusi stillər */
-        .live-support-btn {
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 15px; 
-            width: 80%; 
-            max-width: 250px; 
-            margin: 40px auto 0 auto;
-            padding: 10px 20px; 
-            font-size: 14px;
-            border: none;
-        }
-        /* Loqo ölçüsü böyüdüldü */
-        .live-support-icon {
-            width: 35px; 
-            height: 35px;
-            object-fit: contain;
-        }
-
-        /* Musiqi butonu üçün topbar stili */
-        #musicControl {
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            transition: 0.3s;
-        }
-
-        #musicControl:hover {
-            transform: scale(1.1);
-        }
-
-        /* YENİ: Oyun haqqında məlumat qutusu */
-        .game-info-container {
-            background: rgba(30, 0, 0, 0.9); /* Bir az daha açıq qırmızımsı qara */
-            border: 2px solid #ff0000; /* Border qalınlaşdırıldı */
-            border-radius: 15px;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
-            color: white;
-            text-align: center;
-            width: 90%;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 30px 20px;
-            font-family: Arial, sans-serif;
-        }
-        .game-info-container p {
-            font-size: 18px;
-            margin: 12px 0;
-            letter-spacing: 1px;
-            color: #e0e0e0; /* Mətn rəngi bir az açıldı */
-        }
-        .customer-count {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ff0000;
-            margin-top: 25px;
-            text-shadow: 0 0 15px #ff0000;
-        }
-
-        /* YENİ: Ünvan Bölməsi */
-        .address-container {
-            background: rgba(35, 35, 35, 0.95); /* Şəkildəki kimi daha görünən boz-qara */
-            border: 2px dashed #ff0000;
-            border-radius: 15px;
-            color: white;
-            text-align: center;
-            width: 90%;
-            max-width: 600px;
-            margin: 20px auto 40px auto;
-            padding: 25px;
-            font-family: Arial, sans-serif;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-        }
-        .address-title {
-            color: #ff0000;
-            font-size: 22px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .maps-btn {
-            display: inline-block;
-            background: #8b0000; /* Daha tünd, qanlı qırmızı */
-            color: white !important;
-            text-decoration: none !important;
-            padding: 15px 30px;
-            border-radius: 30px;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            border: 1px solid #ff0000;
-            cursor: pointer;
-            position: relative;
-            z-index: 99; /* Kliklənməni təmin edir */
-        }
-        .maps-btn:hover {
-            background: #ff0000;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-        }
-
-        /* TikTok Canlı Yayım Göstəricisi */
-        .tiktok-live-badge {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid red;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        /* --- NEON NÖQTƏ STİLLƏRİ --- */
-        .tiktok-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            transition: 0.3s;
-        }
-
-        /* Canlı olmayanda qırmızı döyünmə */
-        .tiktok-dot {
-            background-color: #ff0000;
-            box-shadow: 0 0 8px #ff0000;
-            animation: pulse-red 2s infinite;
-        }
-
-        /* Canlı olanda yaşıl döyünmə */
-        .live-active .tiktok-dot {
-            background-color: #00ff00;
-            box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-            animation: pulse-green 1.5s infinite;
-        }
-
-        @keyframes pulse-red {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
-        }
-
-        @keyframes pulse-green {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); }
-        }
-    </style>
+<link rel="icon" type="image/png" href="logo.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rejimlər</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="adminPopup" class="popup">
-        <div class="popup-box">
-            <span class="close-btn" onclick="closeAdminPopup()">✕</span>
-            <h2>Admin Girişi</h2>
-            <input type="password" id="adminPass" placeholder="Şifrəni daxil edin...">
-            <button onclick="checkAdminPassword()" class="confirm-btn">Daxil Ol</button>
-            <p id="errorMsg" style="color: red; display: none; margin-top: 10px;">Şifrə səhvdir!</p>
-        </div>
-    </div>
+<!-- SIDE MENU -->
+<div class="side-menu" id="menu">
+    <a href="index.html">Ana Səhifə</a>
+    <a href="about.html">Haqqımızda</a>
+    <a href="games.html">Oyunlar</a>
+    
+</div>
 
-    <div class="side-menu" id="menu">
-        <a href="about.html">Haqqımızda</a>
-        <a href="games.html">Oyunlarımız</a>
-        <a href="location.html">Məkan</a>
-        <a href="rejimler.html">Rejimler</a>
-    </div>
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="topbar-title">REJİMLƏR</div>
+    <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+</div>
 
-    <header>
-        <div class="topbar">
-            <div id="musicControl" onclick="toggleMusic()">
-                <span id="musicIcon">🔇</span>
-            </div>
-            
-            <div class="topbar-title">Ana Səhifə</div>
-            <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
-        </div>
+<!-- CONTENT -->
+<section class="mods-section">
 
-        <div class="logo">
-            <img src="logo.png" alt="Logo">
-        </div>
+<div class="mods-container">
 
-        <a href="reserve.html" class="reserve-btn">Rezervasiya Et</a>
+<div class="mode-card">
+<h2>LIGHT</h2>
+<p>Aktyor yoxdur. İşıq effektləri və səslərlə qorxu yaradılır. Yeni başlayanlar üçün idealdır.</p>
+</div>
 
-        <button onclick="openLiveChat()" class="reserve-btn live-support-btn">
-            <img src="chat-logo.png" alt="Support" class="live-support-icon">
-            7/24 Canlı Dəstək
-        </button>
-    </header>
+<div class="mode-card">
+<h2>STANDART</h2>
+<p>Aktyor var, lakin toxunuş yoxdur. Qəfil səhnələr və psixoloji qorxu üstünlük təşkil edir.</p>
+</div>
 
-    <div class="game-info-container">
-        <p>⏱ Oyun müddəti: <strong>1 saat</strong></p>
-        <p>💵 1 nəfər: <strong>10 AZN</strong></p>
-        <p>👥 Oyuna minimum <strong>2</strong>, maksimum <strong>25</strong> nəfər girə bilər</p>
-        <p>🎁 <strong>Qrup endirimləri mövcuddur</strong></p>
-        
-        <div class="customer-count">
-            İndiyə kimi müştəri sayımız<br>50.000+
-        </div>
-    </div>
+<div class="mode-card">
+<h2>HARD</h2>
+<p>Aktyor aktivdir. Yüngül toxunuşlar və yüksək gərginlik səviyyəsi mövcuddur.</p>
+</div>
 
-    <div class="address-container">
-        <div class="address-title">📍 ÜNVANIMIZ</div>
-        <p style="margin: 5px 0;">Sumqayıt şəhəri</p>
-        <p style="margin: 5px 0; color: #bbb;">Mərkəzi poçt ilə üzbəüz, Gimnaziyanın yanı</p>
-        <a href="https://www.google.com/maps?q=Sumqayıt+Mərkəzi+Poçt" target="_blank" class="maps-btn">
-            🗺 Google Maps-də aç
-        </a>
-    </div>
+<div class="mode-card ultra">
+<h2>ULTRA HARD</h2>
+<p>Ən yüksək qorxu səviyyəsi. Tam immersiv mühit, intensiv aktyor performansı və maksimum adrenalin.</p>
+</div>
 
-    <div class="reserve-popup" id="liveChatPopup" style="display: none; z-index: 1000;">
-        <div class="reserve-box" style="display: flex; flex-direction: column; height: 400px; max-width: 350px;">
-            <div class="close-btn" onclick="closeLiveChat()">✕</div>
-            <h2>Canlı Dəstək</h2>
-            <div id="nickStep">
-                <label>Çata qoşulmaq üçün Nick yazın:</label>
-                <input type="text" id="chatNick" placeholder="Nickinizi bura yazın...">
-                <button class="reserve-btn" onclick="startChat()" style="margin-top: 15px;">Daxil Ol</button>
-            </div>
-            <div id="chatStep" style="display: none; flex-direction: column; flex-grow: 1; height: 100%;">
-                <div id="chatMessages" style="flex-grow: 1; background: #111; border: 1px solid red; border-radius: 5px; padding: 10px; overflow-y: auto; text-align: left; margin-bottom: 10px; font-size: 14px; color: white;"></div>
-                <div style="display: flex; gap: 5px; align-items: center;">
-                    <input type="text" id="chatMsgInput" placeholder="Mesajınız..." style="flex-grow: 1; margin: 0; padding: 10px; height: 40px; box-sizing: border-box; background: #000; border: 1px solid red; color: white; border-radius: 5px;">
-                    <button onclick="sendChatMessage()" class="reserve-btn" style="padding: 0 10px; margin: 0; width: 80px; min-width: 80px; font-size: 13px; height: 40px; border: none; border-radius: 5px;">Göndər</button>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 
-    <a href="https://www.tiktok.com/@darkqorxuevi" target="_blank" id="tiktokLiveBadge" class="tiktok-live-badge">
-        <div class="tiktok-dot" id="tiktokDot"></div>
-        <span id="tiktokText">Canlıda deyilik</span>
-    </a>
+</section>
 
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+<script>
+function toggleMenu(){
+    const menu = document.getElementById("menu");
+    const burger = document.getElementById("burger");
 
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="social-links">
-                <a href="https://www.instagram.com/darkqorxuevi" target="_blank" class="social-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-                    <span>Instagram</span>
-                </a>
-                <a href="https://www.tiktok.com/@darkqorxuevi" target="_blank" class="social-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
-                    <span>TikTok</span>
-                </a>
-                <a href="https://wa.me/994993121709" target="_blank" class="social-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
-                    <span>WhatsApp</span>
-                </a>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 DARK Horror House. Bütün hüquqlar qorunur.</p>
-                <span class="admin-link" onclick="openAdminPopup()" style="opacity:0.3; font-size:10px; cursor:pointer;">Admin Panel</span>
-            </div>
-        </div>
-    </footer>
+    menu.classList.toggle("active");
 
-    <script>
-        function toggleMenu(){
-            const menu = document.getElementById("menu");
-            const burger = document.getElementById("burger");
-            menu.classList.toggle("active");
-            burger.innerHTML = menu.classList.contains("active") ? "✕" : "☰";
-        }
+    if(menu.classList.contains("active")){
+        burger.innerHTML = "✕";
+    } else {
+        burger.innerHTML = "☰";
+    }
+}
+</script>
 
-        window.addEventListener("scroll", function(){
-            const menu = document.getElementById("menu");
-            const burger = document.getElementById("burger");
-            if(menu.classList.contains("active")){
-                menu.classList.remove("active");
-                burger.innerHTML = "☰";
-            }
-        });
-
-        function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
-        function closeAdminPopup() { document.getElementById("adminPopup").style.display = "none"; }
-        function checkAdminPassword() {
-            var pass = document.getElementById("adminPass").value;
-            if (pass === "admindark1903") { window.location.href = "admin.html"; }
-            else { document.getElementById("errorMsg").style.display = "block"; }
-        }
-
-        const audio = document.getElementById("bgMusic");
-        const musicIcon = document.getElementById("musicIcon");
-        audio.volume = 0.2;
-
-        function playMusic() {
-            audio.play().then(() => {
-                musicIcon.innerText = "🔊";
-                document.removeEventListener('click', playMusic);
-            }).catch(() => { console.log("Gözlənilir..."); });
-        }
-
-        window.addEventListener("load", () => {
-            const savedTime = localStorage.getItem("musicTime");
-            if (savedTime) audio.currentTime = parseFloat(savedTime);
-            playMusic();
-            document.addEventListener('click', playMusic); 
-        });
-
-        audio.addEventListener("timeupdate", () => {
-            localStorage.setItem("musicTime", audio.currentTime);
-        });
-
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                musicIcon.innerText = "🔊";
-            } else {
-                audio.pause();
-                musicIcon.innerText = "🔇";
-            }
-        }
-
-        const telegramBotToken = "8733282097:AAEfZWuC0FnbtaJ2ngBYCzjw4oN1N_-Uhvk";
-        const telegramChatId = "7766487634";
-        let userNickname = "";
-        let lastUpdateId = 0;
-
-        function openLiveChat() { document.getElementById("liveChatPopup").style.display = "flex"; }
-        function closeLiveChat() { document.getElementById("liveChatPopup").style.display = "none"; }
-
-        function startChat() {
-            const nickInput = document.getElementById("chatNick").value.trim();
-            if(!nickInput) return alert("Nick yazın!");
-            userNickname = nickInput;
-            document.getElementById("nickStep").style.display = "none";
-            document.getElementById("chatStep").style.display = "flex";
-            addMessageToChat("Sistem", `Xoş gəldiniz, ${userNickname}!`, "#ff4444");
-            setInterval(fetchTelegramMessages, 3000);
-        }
-
-        function sendChatMessage() {
-            const msgInput = document.getElementById("chatMsgInput");
-            const text = msgInput.value.trim();
-            if(!text) return;
-            addMessageToChat("Siz", text, "#4CAF50");
-            msgInput.value = "";
-            fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${telegramChatId}&text=${encodeURIComponent("["+userNickname+"]: "+text)}`);
-        }
-
-        function fetchTelegramMessages() {
-            fetch(`https://api.telegram.org/bot${telegramBotToken}/getUpdates?offset=${lastUpdateId + 1}`)
-            .then(res => res.json())
-            .then(data => {
-                if(data.ok && data.result.length > 0) {
-                    data.result.forEach(update => {
-                        lastUpdateId = update.update_id;
-                        if(update.message && update.message.text) {
-                            const msg = update.message.text;
-                            const tag = `@${userNickname.toLowerCase()}`;
-                            if(msg.toLowerCase().startsWith(tag)) {
-                                addMessageToChat("Admin", msg.substring(tag.length).trim(), "#2196F3");
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        function addMessageToChat(sender, text, color) {
-            const chatBox = document.getElementById("chatMessages");
-            chatBox.innerHTML += `<div><strong style="color:${color}">${sender}:</strong> ${text}</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        document.getElementById("chatMsgInput").addEventListener("keyup", (e) => { if(e.key === "Enter") sendChatMessage(); });
-
-        const isLiveOnTikTok = localStorage.getItem('tiktokLiveStatus') === 'true';
-        const tiktokBadge = document.getElementById('tiktokLiveBadge');
-        const tiktokTextElement = document.getElementById('tiktokText');
-
-        if (isLiveOnTikTok) {
-            tiktokBadge.classList.add('live-active');
-            tiktokBadge.href = "https://www.tiktok.com/@darkqorxuevi/live";
-            tiktokTextElement.innerText = "Canlıdayıq!";
-        } else {
-            tiktokBadge.classList.remove('live-active');
-            tiktokBadge.href = "https://www.tiktok.com/@darkqorxuevi";
-            tiktokTextElement.innerText = "Canlıda deyilik";
-        }
-    </script>
 </body>
 </html>
