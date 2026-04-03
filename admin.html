@@ -2,118 +2,76 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <title>Dark - Admin Panel</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - DARK Horror</title>
     <style>
-        body { background: #0a0a0a; color: white; padding: 20px; font-family: sans-serif; }
-        .admin-container { max-width: 800px; margin: 0 auto; text-align: center; }
-        .admin-btn {
-            display: block; width: 100%; padding: 20px; margin: 15px 0;
-            background: linear-gradient(45deg, #8b0000, red);
-            color: white; border: none; border-radius: 12px;
-            font-size: 20px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        body {
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
         }
-        .admin-btn:hover { transform: scale(1.03); box-shadow: 0 0 20px red; }
-        
-        /* Redaktə Forması */
-        .editor-box { 
-            display: none; background: #111; padding: 25px; 
-            border: 1px solid red; border-radius: 15px; text-align: left;
-            margin-top: 30px;
+        .admin-box {
+            background: #222;
+            border: 2px solid red;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
         }
-        label { display: block; margin-top: 15px; color: red; font-weight: bold; }
-        input, textarea { 
-            width: 100%; padding: 12px; margin-top: 5px; 
-            background: #222; border: 1px solid #444; color: white; border-radius: 8px;
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        .save-btn { background: green; color: white; margin-top: 20px; padding: 15px; width: 100%; border: none; cursor: pointer; border-radius: 8px; font-weight: bold; }
-        .back-arrow { position: fixed; top: 20px; left: 20px; font-size: 35px; color: red; text-decoration: none; cursor: pointer; }
+        .btn-live { background-color: #00ff00; color: #000; }
+        .btn-offline { background-color: #ff0000; color: #fff; }
+        .back-btn { background-color: #555; color: white; margin-top: 20px; }
+        #status-msg { margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <a href="index.html" class="back-arrow">←</a>
-
-    <div class="admin-container">
-        <h1 style="color: red; text-shadow: 0 0 15px red;">ADMİN PANEL</h1>
+    <div class="admin-box">
+        <h2>🔥 Admin Panel 🔥</h2>
+        <p>TikTok Canlı Yayım Statusunu İdarə Et:</p>
         
-        <div id="mainButtons">
-            <button class="admin-btn" onclick="openEditor('games')">🎮 OYUNLARI REDAKTƏ ET</button>
-            <button class="admin-btn" onclick="openEditor('about')">ℹ️ HAQQIMIZDA REDAKTƏ ET</button>
-        </div>
+        <button class="btn-live" onclick="setLiveStatus('true')">🟢 Canlı Yayım AKTİV (True)</button>
+        <button class="btn-offline" onclick="setLiveStatus('false')">🔴 Canlı Yayım DEAKTİV (False)</button>
+        
+        <p id="status-msg"></p>
 
-        <div id="gamesEditor" class="editor-box">
-            <h2 style="color: white;">Yeni Oyun Əlavə Et</h2>
-            <label>Oyunun Adı:</label>
-            <input type="text" id="gameTitle" placeholder="Məs: Azrail">
-            
-            <label>Oyunun Hekayəsi:</label>
-            <textarea id="gameDesc" rows="4" placeholder="Oyun haqqında qısa məlumat..."></textarea>
-            
-            <label>Oyunun Şəkli (Cihazdan Yüklə):</label>
-            <input type="file" id="gameImageFile" accept="image/*" onchange="uploadImage(this)">
-            <input type="hidden" id="uploadedImageUrl">
-            <p id="uploadStatus" style="font-size: 12px; color: gray;"></p>
-
-            <button class="save-btn" onclick="saveGame()">OYUNU SAYTA ƏLAVƏ ET</button>
-            <button class="admin-btn" style="background: #444;" onclick="closeEditor()">GERİ DÖN</button>
-        </div>
-
-        <div id="aboutEditor" class="editor-box">
-            <h2 style="color: white;">Haqqımızda Mətnini Dəyiş</h2>
-            <textarea id="aboutText" rows="10" placeholder="Saytın haqqımızda hissəsi üçün mətni bura yazın..."></textarea>
-            <button class="save-btn" onclick="saveAbout()">YADDA SAXLA</button>
-            <button class="admin-btn" style="background: #444;" onclick="closeEditor()">GERİ DÖN</button>
-        </div>
+        <button class="back-btn" onclick="window.location.href='index.html'">Ana Səhifəyə Qayıt</button>
     </div>
 
     <script>
-        function openEditor(type) {
-            document.getElementById('mainButtons').style.display = 'none';
-            if(type === 'games') document.getElementById('gamesEditor').style.display = 'block';
-            if(type === 'about') document.getElementById('aboutEditor').style.display = 'block';
-        }
-
-        function closeEditor() {
-            document.getElementById('mainButtons').style.display = 'block';
-            document.getElementById('gamesEditor').style.display = 'none';
-            document.getElementById('aboutEditor').style.display = 'none';
-        }
-
-        // Şəkil Yükləmə Funksiyası (ImgBB API istifadə edərək)
-        async function uploadImage(input) {
-            const status = document.getElementById('uploadStatus');
-            status.innerText = "Şəkil yüklənir, gözləyin...";
-            
-            const file = input.files[0];
-            const formData = new FormData();
-            formData.append('image', file);
-
-            // BURA ÖZ ImgBB API KEY-İNİ QOYMALISAN (Pulsuzdur)
-            const apiKey = '775a0f09ad9a44d0371e40914a7a719e'; 
-            
-            try {
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-                document.getElementById('uploadedImageUrl').value = data.data.url;
-                status.innerText = "Şəkil uğurla yükləndi!";
-                status.style.color = "lightgreen";
-            } catch (error) {
-                status.innerText = "Yükləmə zamanı xəta baş verdi!";
-                status.style.color = "red";
+        // Səhifə açılanda mövcud vəziyyəti göstərmək üçün
+        window.onload = function() {
+            let currentStatus = localStorage.getItem('tiktokLiveStatus');
+            if(currentStatus === 'true') {
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🟢 Canlıdayıq";
+            } else {
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🔴 Canlıda Deyilik";
             }
         }
 
-        function saveGame() {
-            const title = document.getElementById('gameTitle').value;
-            const desc = document.getElementById('gameDesc').value;
-            const img = document.getElementById('uploadedImageUrl').value;
+        // Butonlara basanda işləyən funksiya
+        function setLiveStatus(status) {
+            localStorage.setItem('tiktokLiveStatus', status);
             
-            alert("Oyun Məlumatları Hazırdır:\nAd: " + title + "\nLink: " + img + "\n\nİndi bu məlumatları Google Sheets-ə göndərməliyik.");
-            // Burada sənin əvvəlki Google Script funksiyanı çağırıb Sheets-ə yazacağıq
+            if(status === 'true') {
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🟢 Canlıdayıq (Yadda saxlanıldı)";
+                document.getElementById('status-msg').style.color = "#00ff00";
+            } else {
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🔴 Canlıda Deyilik (Yadda saxlanıldı)";
+                document.getElementById('status-msg').style.color = "#ff0000";
+            }
         }
     </script>
 </body>
