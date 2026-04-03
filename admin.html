@@ -1,360 +1,77 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <link rel="icon" type="image/png" href="logo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ana Səhifə</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Panel - DARK Horror</title>
     <style>
-        /* Canlı dəstək butonu üçün xüsusi stillər */
-        .live-support-btn {
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 15px; 
-            width: 80%; 
-            max-width: 250px; 
-            margin: 40px auto 0 auto;
-            padding: 10px 20px; 
-            font-size: 14px;
-            border: none;
-        }
-        /* Loqo ölçüsü böyüdüldü */
-        .live-support-icon {
-            width: 35px; 
-            height: 35px;
-            object-fit: contain;
-        }
-
-        /* Musiqi butonu üçün topbar stili */
-        #musicControl {
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        body {
+            background-color: #111;
             color: white;
-            transition: 0.3s;
-        }
-
-        #musicControl:hover {
-            transform: scale(1.1);
-        }
-
-        /* YENİ: Oyun haqqında məlumat qutusu */
-        .game-info-container {
-            background: rgba(15, 0, 0, 0.85);
-            border: 1px solid #ff0000;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-            color: white;
+            font-family: Arial, sans-serif;
             text-align: center;
-            width: 90%;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 30px 20px;
-            font-family: Arial, sans-serif;
+            padding: 50px;
         }
-        .game-info-container p {
-            font-size: 18px;
-            margin: 12px 0;
-            letter-spacing: 1px;
-        }
-        .customer-count {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ff0000;
-            margin-top: 25px;
-            text-shadow: 0 0 15px #ff0000;
-        }
-
-        /* YENİ: TikTok Canlı Yayım Göstəricisi */
-        .tiktok-live-badge {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
+        .admin-box {
+            background: #222;
             border: 2px solid red;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            font-family: Arial, sans-serif;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 16px;
             font-weight: bold;
-            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        .tiktok-live-badge:hover {
-            transform: scale(1.05);
-        }
-        .tiktok-live-badge.live-active {
-            border-color: #00ff00;
-            box-shadow: 0 0 15px #00ff00;
-        }
-        .tiktok-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: red;
-            box-shadow: 0 0 8px red;
-        }
-        .tiktok-live-badge.live-active .tiktok-dot {
-            background: #00ff00;
-            box-shadow: 0 0 10px #00ff00;
-            animation: pulse-green 1s infinite alternate;
-        }
-        @keyframes pulse-green {
-            0% { transform: scale(1); opacity: 0.7; }
-            100% { transform: scale(1.3); opacity: 1; }
-        }
+        .btn-live { background-color: #00ff00; color: #000; }
+        .btn-offline { background-color: #ff0000; color: #fff; }
+        .back-btn { background-color: #555; color: white; margin-top: 20px; }
+        #status-msg { margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="adminPopup" class="popup">
-        <div class="popup-box">
-            <span class="close-btn" onclick="closeAdminPopup()">✕</span>
-            <h2>Admin Girişi</h2>
-            <input type="password" id="adminPass" placeholder="Şifrəni daxil edin...">
-            <button onclick="checkAdminPassword()" class="confirm-btn">Daxil Ol</button>
-            <p id="errorMsg" style="color: red; display: none; margin-top: 10px;">Şifrə səhvdir!</p>
-        </div>
-    </div>
-
-    <div class="side-menu" id="menu">
-        <a href="about.html">Haqqımızda</a>
-        <a href="games.html">Oyunlarımız</a>
-        <a href="location.html">Məkan</a>
-        <a href="rejimler.html">Rejimler</a>
-    </div>
-
-    <header>
-        <div class="topbar">
-            <div id="musicControl" onclick="toggleMusic()">
-                <span id="musicIcon">🔇</span>
-            </div>
-            
-            <div class="topbar-title">Ana Səhifə</div>
-            <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
-        </div>
-
-        <div class="logo">
-            <img src="logo.png" alt="Logo">
-        </div>
-
-        <a href="reserve.html" class="reserve-btn">Rezervasiya Et</a>
-
-        <button onclick="openLiveChat()" class="reserve-btn live-support-btn">
-            <img src="chat-logo.png" alt="Support" class="live-support-icon">
-            7/24 Canlı Dəstək
-        </button>
-    </header>
-
-    <div class="game-info-container">
-        <p>⏱ Oyun müddəti: <strong>1 saat</strong></p>
-        <p>💵 1 nəfər: <strong>10 AZN</strong></p>
-        <p>👥 Oyuna minimum <strong>2</strong>, maksimum <strong>25</strong> nəfər girə bilər</p>
-        <p>🎁 <strong>Qrup endirimləri mövcuddur</strong></p>
+    <div class="admin-box">
+        <h2>🔥 Admin Panel 🔥</h2>
+        <p>TikTok Canlı Yayım Statusunu İdarə Et:</p>
         
-        <div class="customer-count">
-            İndiyə kimi müştəri sayımız<br>50.000+
-        </div>
+        <button class="btn-live" onclick="setLiveStatus('true')">🟢 Canlı Yayım AKTİV (True)</button>
+        <button class="btn-offline" onclick="setLiveStatus('false')">🔴 Canlı Yayım DEAKTİV (False)</button>
+        
+        <p id="status-msg"></p>
+
+        <button class="back-btn" onclick="window.location.href='index.html'">Ana Səhifəyə Qayıt</button>
     </div>
-
-    <div class="reserve-popup" id="liveChatPopup" style="display: none; z-index: 1000;">
-        <div class="reserve-box" style="display: flex; flex-direction: column; height: 400px; max-width: 350px;">
-            <div class="close-btn" onclick="closeLiveChat()">✕</div>
-            <h2>Canlı Dəstək</h2>
-
-            <div id="nickStep">
-                <label>Çata qoşulmaq üçün Nick yazın:</label>
-                <input type="text" id="chatNick" placeholder="Nickinizi bura yazın...">
-                <button class="reserve-btn" onclick="startChat()" style="margin-top: 15px;">Daxil Ol</button>
-            </div>
-
-            <div id="chatStep" style="display: none; flex-direction: column; flex-grow: 1; height: 100%;">
-                <div id="chatMessages" style="flex-grow: 1; background: #111; border: 1px solid red; border-radius: 5px; padding: 10px; overflow-y: auto; text-align: left; margin-bottom: 10px; font-size: 14px; color: white;"></div>
-                
-                <div style="display: flex; gap: 5px; align-items: center;">
-                    <input type="text" id="chatMsgInput" placeholder="Mesajınız..." style="flex-grow: 1; margin: 0; padding: 10px; height: 40px; box-sizing: border-box; background: #000; border: 1px solid red; color: white; border-radius: 5px;">
-                    <button onclick="sendChatMessage()" class="reserve-btn" style="padding: 0 10px; margin: 0; width: 80px; min-width: 80px; font-size: 13px; height: 40px; border: none; border-radius: 5px;">Göndər</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <a href="https://www.tiktok.com/@darkqorxuevi" target="_blank" id="tiktokLiveBadge" class="tiktok-live-badge">
-        <div class="tiktok-dot" id="tiktokDot"></div>
-        <span id="tiktokText">Canlıda deyilik</span>
-    </a>
-
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="social-links">
-                <a href="https://www.instagram.com/darkqorxuevi" target="_blank" class="social-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-                    <span>Instagram</span>
-                </a>
-                <a href="https://www.tiktok.com/@darkqorxuevi" target="_blank" class="social-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
-                    <span>TikTok</span>
-                </a>
-                <a href="https://wa.me/994993121709" target="_blank" class="social-item">
-                    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
-                    <span>WhatsApp</span>
-                </a>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 DARK Horror House. Bütün hüquqlar qorunur.</p>
-                <span class="admin-link" onclick="openAdminPopup()" style="opacity:0.3; font-size:10px; cursor:pointer;">Admin Panel</span>
-            </div>
-        </div>
-    </footer>
 
     <script>
-        // MENU FUNKSİYALARI
-        function toggleMenu(){
-            const menu = document.getElementById("menu");
-            const burger = document.getElementById("burger");
-            menu.classList.toggle("active");
-            burger.innerHTML = menu.classList.contains("active") ? "✕" : "☰";
-        }
-
-        window.addEventListener("scroll", function(){
-            const menu = document.getElementById("menu");
-            const burger = document.getElementById("burger");
-            if(menu.classList.contains("active")){
-                menu.classList.remove("active");
-                burger.innerHTML = "☰";
-            }
-        });
-
-        // ADMIN PANEL
-        function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
-        function closeAdminPopup() { document.getElementById("adminPopup").style.display = "none"; }
-        function checkAdminPassword() {
-            var pass = document.getElementById("adminPass").value;
-            if (pass === "admindark1903") { window.location.href = "admin.html"; }
-            else { document.getElementById("errorMsg").style.display = "block"; }
-        }
-
-        // MUSİQİ İDARƏETMƏSİ (AVTOMATİK)
-        const audio = document.getElementById("bgMusic");
-        const musicIcon = document.getElementById("musicIcon");
-        audio.volume = 0.2;
-
-        function playMusic() {
-            audio.play().then(() => {
-                musicIcon.innerText = "🔊";
-                document.removeEventListener('click', playMusic);
-            }).catch(() => { console.log("Gözlənilir..."); });
-        }
-
-        window.addEventListener("load", () => {
-            const savedTime = localStorage.getItem("musicTime");
-            if (savedTime) audio.currentTime = parseFloat(savedTime);
-            
-            playMusic();
-            document.addEventListener('click', playMusic); // Brauzer bloklasa ilk klikdə başlasın
-        });
-
-        audio.addEventListener("timeupdate", () => {
-            localStorage.setItem("musicTime", audio.currentTime);
-        });
-
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                musicIcon.innerText = "🔊";
+        // Səhifə açılanda mövcud vəziyyəti göstərmək üçün
+        window.onload = function() {
+            let currentStatus = localStorage.getItem('tiktokLiveStatus');
+            if(currentStatus === 'true') {
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🟢 Canlıdayıq";
             } else {
-                audio.pause();
-                musicIcon.innerText = "🔇";
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🔴 Canlıda Deyilik";
             }
         }
 
-        // CANLI DƏSTƏK LOGİKASI
-        const telegramBotToken = "8733282097:AAEfZWuC0FnbtaJ2ngBYCzjw4oN1N_-Uhvk";
-        const telegramChatId = "7766487634";
-        let userNickname = "";
-        let lastUpdateId = 0;
-
-        function openLiveChat() { document.getElementById("liveChatPopup").style.display = "flex"; }
-        function closeLiveChat() { document.getElementById("liveChatPopup").style.display = "none"; }
-
-        function startChat() {
-            const nickInput = document.getElementById("chatNick").value.trim();
-            if(!nickInput) return alert("Nick yazın!");
-            userNickname = nickInput;
-            document.getElementById("nickStep").style.display = "none";
-            document.getElementById("chatStep").style.display = "flex";
-            addMessageToChat("Sistem", `Xoş gəldiniz, ${userNickname}!`, "#ff4444");
-            setInterval(fetchTelegramMessages, 3000);
-        }
-
-        function sendChatMessage() {
-            const msgInput = document.getElementById("chatMsgInput");
-            const text = msgInput.value.trim();
-            if(!text) return;
-            addMessageToChat("Siz", text, "#4CAF50");
-            msgInput.value = "";
-            fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${telegramChatId}&text=${encodeURIComponent("["+userNickname+"]: "+text)}`);
-        }
-
-        function fetchTelegramMessages() {
-            fetch(`https://api.telegram.org/bot${telegramBotToken}/getUpdates?offset=${lastUpdateId + 1}`)
-            .then(res => res.json())
-            .then(data => {
-                if(data.ok && data.result.length > 0) {
-                    data.result.forEach(update => {
-                        lastUpdateId = update.update_id;
-                        if(update.message && update.message.text) {
-                            const msg = update.message.text;
-                            const tag = `@${userNickname.toLowerCase()}`;
-                            if(msg.toLowerCase().startsWith(tag)) {
-                                addMessageToChat("Admin", msg.substring(tag.length).trim(), "#2196F3");
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        function addMessageToChat(sender, text, color) {
-            const chatBox = document.getElementById("chatMessages");
-            chatBox.innerHTML += `<div><strong style="color:${color}">${sender}:</strong> ${text}</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        document.getElementById("chatMsgInput").addEventListener("keyup", (e) => { if(e.key === "Enter") sendChatMessage(); });
-
-        // ==========================================
-        // YENİ ƏLAVƏ: TIKTOK CANLI YAYIM NƏZARƏTİ
-        // ==========================================
-        // DİQQƏT: Canlı yayımda olduğunuz zaman aşağıdakı "false" sözünü silib "true" yazın.
-        // Canlı yayım bitəndə isə yenidən "false" edin.
-         // Admin paneldən gələn məlumatı yoxlayır
-        const isLiveOnTikTok = localStorage.getItem('tiktokLiveStatus') === 'true';
-
-        const tiktokBadge = document.getElementById('tiktokLiveBadge');
-        const tiktokTextElement = document.getElementById('tiktokText');
-
-        if (isLiveOnTikTok) {
-            tiktokBadge.classList.add('live-active');
-            tiktokBadge.href = "https://www.tiktok.com/@darkqorxuevi/live";
-            tiktokTextElement.innerText = "Canlıdayıq!";
-        } else {
-            tiktokBadge.classList.remove('live-active');
-            tiktokBadge.href = "https://www.tiktok.com/@darkqorxuevi";
-            tiktokTextElement.innerText = "Canlıda deyilik";
+        // Butonlara basanda işləyən funksiya
+        function setLiveStatus(status) {
+            localStorage.setItem('tiktokLiveStatus', status);
+            
+            if(status === 'true') {
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🟢 Canlıdayıq (Yadda saxlanıldı)";
+                document.getElementById('status-msg').style.color = "#00ff00";
+            } else {
+                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🔴 Canlıda Deyilik (Yadda saxlanıldı)";
+                document.getElementById('status-msg').style.color = "#ff0000";
+            }
         }
     </script>
 </body>
