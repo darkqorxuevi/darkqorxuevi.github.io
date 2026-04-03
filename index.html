@@ -7,12 +7,42 @@
     <title>Ana Səhifə</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ... əvvəlki stillər ... */
-        .live-support-btn { display: flex; align-items: center; justify-content: center; gap: 15px; width: 80%; max-width: 250px; margin: 40px auto 0 auto; padding: 10px 20px; font-size: 14px; border: none; }
-        .live-support-icon { width: 35px; height: 35px; object-fit: contain; }
-        #musicControl { cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
-        #musicControl:hover { transform: scale(1.1); }
+        /* Canlı dəstək butonu üçün xüsusi stillər */
+        .live-support-btn {
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 15px; 
+            width: 80%; 
+            max-width: 250px; 
+            margin: 40px auto 0 auto;
+            padding: 10px 20px; 
+            font-size: 14px;
+            border: none;
+        }
+        /* Loqo ölçüsü böyüdüldü */
+        .live-support-icon {
+            width: 35px; 
+            height: 35px;
+            object-fit: contain;
+        }
 
+        /* Musiqi butonu üçün topbar stili */
+        #musicControl {
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: 0.3s;
+        }
+
+        #musicControl:hover {
+            transform: scale(1.1);
+        }
+
+        /* Oyun haqqında məlumat qutusu */
         .game-info-container {
             background: rgba(15, 0, 0, 0.85);
             border: 1px solid #ff0000;
@@ -26,10 +56,20 @@
             padding: 30px 20px;
             font-family: Arial, sans-serif;
         }
-        .game-info-container p { font-size: 18px; margin: 12px 0; letter-spacing: 1px; }
-        .customer-count { font-size: 32px; font-weight: bold; color: #ff0000; margin-top: 25px; text-shadow: 0 0 15px #ff0000; }
+        .game-info-container p {
+            font-size: 18px;
+            margin: 12px 0;
+            letter-spacing: 1px;
+        }
+        .customer-count {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff0000;
+            margin-top: 25px;
+            text-shadow: 0 0 15px #ff0000;
+        }
 
-        /* TikTok Butonu Düzəlişi */
+        /* TikTok Canlı Yayım Göstəricisi */
         .tiktok-live-badge {
             position: fixed;
             bottom: 20px;
@@ -48,44 +88,101 @@
             font-family: Arial, sans-serif;
             font-weight: bold;
             font-size: 14px;
-            cursor: pointer; /* Buton həmişə basıla bilsin */
         }
-        .tiktok-live-badge.live-active { border-color: #00ff00; box-shadow: 0 0 15px #00ff00; }
-        .tiktok-dot { width: 12px; height: 12px; border-radius: 50%; background: red; box-shadow: 0 0 8px red; }
-        .tiktok-live-badge.live-active .tiktok-dot { background: #00ff00; box-shadow: 0 0 10px #00ff00; animation: pulse-green 1s infinite alternate; }
+        .tiktok-live-badge:hover {
+            transform: scale(1.05);
+        }
+        .tiktok-live-badge.live-active {
+            border-color: #00ff00;
+            box-shadow: 0 0 15px #00ff00;
+        }
+        .tiktok-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: red;
+            box-shadow: 0 0 8px red;
+        }
+        .tiktok-live-badge.live-active .tiktok-dot {
+            background: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+            animation: pulse-green 1s infinite alternate;
+        }
 
-        /* Ünvan Bölməsi */
-        .address-section { margin-top: 30px; padding-top: 20px; border-top: 1px dashed rgba(255, 0, 0, 0.3); }
-        .address-text { font-size: 16px; line-height: 1.5; color: #ccc; margin-bottom: 15px; }
-        
-        /* Xəritə Butonu Düzəlişi */
+        /* ÜNVAN VƏ XƏRİTƏ STİLLƏRİ */
+        .address-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 0, 0, 0.3);
+        }
+        .address-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
         .maps-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             background: #4285F4;
             color: white;
             text-decoration: none;
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 8px;
             font-weight: bold;
             font-size: 15px;
             transition: 0.3s;
-            cursor: pointer;
+            cursor: pointer; /* Klikləməni təmin edir */
         }
-        .maps-btn:hover { background: #357ae8; transform: scale(1.05); }
+        .maps-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.4);
+        }
 
-        @keyframes pulse-green { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(1.3); opacity: 1; } }
+        @keyframes pulse-green {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.3); opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="adminPopup" class="popup">
+        <div class="popup-box">
+            <span class="close-btn" onclick="closeAdminPopup()">✕</span>
+            <h2>Admin Girişi</h2>
+            <input type="password" id="adminPass" placeholder="Şifrəni daxil edin...">
+            <button onclick="checkAdminPassword()" class="confirm-btn">Daxil Ol</button>
+            <p id="errorMsg" style="color: red; display: none; margin-top: 10px;">Şifrə səhvdir!</p>
+        </div>
+    </div>
+
+    <div class="side-menu" id="menu">
+        <a href="about.html">Haqqımızda</a>
+        <a href="games.html">Oyunlarımız</a>
+        <a href="location.html">Məkan</a>
+        <a href="rejimler.html">Rejimler</a>
+    </div>
+
     <header>
         <div class="topbar">
-            <div id="musicControl" onclick="toggleMusic()"><span id="musicIcon">🔇</span></div>
+            <div id="musicControl" onclick="toggleMusic()">
+                <span id="musicIcon">🔇</span>
+            </div>
+            
             <div class="topbar-title">Ana Səhifə</div>
             <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
         </div>
-        <div class="logo"><img src="logo.png" alt="Logo"></div>
+
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+
         <a href="reserve.html" class="reserve-btn">Rezervasiya Et</a>
+
         <button onclick="openLiveChat()" class="reserve-btn live-support-btn">
             <img src="chat-logo.png" alt="Support" class="live-support-icon">
             7/24 Canlı Dəstək
@@ -98,43 +195,34 @@
         <p>👥 Oyuna minimum <strong>2</strong>, maksimum <strong>25</strong> nəfər girə bilər</p>
         <p>🎁 <strong>Qrup endirimləri mövcuddur</strong></p>
         
-        <div class="customer-count">İndiyə kimi müştəri sayımız<br>50.000+</div>
+        <div class="customer-count">
+            İndiyə kimi müştəri sayımız<br>50.000+
+        </div>
 
         <div class="address-section">
             <div class="address-text">
                 📍 <strong>Sumqayıt şəhəri</strong><br>
                 Mərkəzi poçt ilə üzbəüz, gimnaziyanın yanı
             </div>
-            <a href="https://maps.app.goo.gl/96uQp2zX1N8t9R8v7" target="_blank" class="maps-btn">
+            <a href="https://maps.app.goo.gl/zkLNsiKL2WVgLn1x6-" target="_blank" class="maps-btn">
                 🗺️ Google Maps-də Aç
             </a>
         </div>
     </div>
 
-    <a href="https://www.tiktok.com/@darkqorxuevi" target="_blank" id="tiktokLiveBadge" class="tiktok-live-badge">
-        <div class="tiktok-dot" id="tiktokDot"></div>
-        <span id="tiktokText">Canlıda deyilik</span>
-    </a>
+    <div class="reserve-popup" id="liveChatPopup" style="display: none; z-index: 1000;">
+        <div class="reserve-box" style="display: flex; flex-direction: column; height: 400px; max-width: 350px;">
+            <div class="close-btn" onclick="closeLiveChat()">✕</div>
+            <h2>Canlı Dəstək</h2>
 
-    <script>
-        // ... (Bütün skriptlərin olduğu kimi qalır) ...
-        
-        // TikTok Status Yeniləməsi
-        const isLiveOnTikTok = localStorage.getItem('tiktokLiveStatus') === 'true';
-        const tiktokBadge = document.getElementById('tiktokLiveBadge');
-        const tiktokTextElement = document.getElementById('tiktokText');
+            <div id="nickStep">
+                <label>Çata qoşulmaq üçün Nick yazın:</label>
+                <input type="text" id="chatNick" placeholder="Nickinizi bura yazın...">
+                <button class="reserve-btn" onclick="startChat()" style="margin-top: 15px;">Daxil Ol</button>
+            </div>
 
-        if (isLiveOnTikTok) {
-            tiktokBadge.classList.add('live-active');
-            tiktokBadge.href = "https://www.tiktok.com/@darkqorxuevi/live";
-            tiktokTextElement.innerText = "Canlıdayıq!";
-        } else {
-            tiktokBadge.classList.remove('live-active');
-            tiktokBadge.href = "https://www.tiktok.com/@darkqorxuevi";
-            tiktokTextElement.innerText = "Canlıda deyilik";
-        }
-        
-        // ... (Qalan skriptlər) ...
-    </script>
-</body>
-</html>
+            <div id="chatStep" style="display: none; flex-direction: column; flex-grow: 1; height: 100%;">
+                <div id="chatMessages" style="flex-grow: 1; background: #111; border: 1px solid red; border-radius: 5px; padding: 10px; overflow-y: auto; text-align: left; margin-bottom: 10px; font-size: 14px; color: white;"></div>
+                
+                <div style="display: flex; gap: 5px; align-items: center;">
+                    <input type="text" id="chatMsgInput" placeholder="Mesajınız..." style="flex-grow: 1; margin: 0; padding: 10px; height: 40px; box-sizing:
