@@ -44,10 +44,10 @@
 
         /* YENİ: Oyun haqqında məlumat qutusu */
         .game-info-container {
-            background: rgba(15, 0, 0, 0.85);
-            border: 1px solid #ff0000;
+            background: rgba(30, 0, 0, 0.9); /* Bir az daha açıq qırmızımsı qara */
+            border: 2px solid #ff0000; /* Border qalınlaşdırıldı */
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
             color: white;
             text-align: center;
             width: 90%;
@@ -60,6 +60,7 @@
             font-size: 18px;
             margin: 12px 0;
             letter-spacing: 1px;
+            color: #e0e0e0; /* Mətn rəngi bir az açıldı */
         }
         .customer-count {
             font-size: 32px;
@@ -71,16 +72,17 @@
 
         /* YENİ: Ünvan Bölməsi */
         .address-container {
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px dashed #ff0000;
+            background: rgba(35, 35, 35, 0.95); /* Şəkildəki kimi daha görünən boz-qara */
+            border: 2px dashed #ff0000;
             border-radius: 15px;
             color: white;
             text-align: center;
             width: 90%;
             max-width: 600px;
             margin: 20px auto 40px auto;
-            padding: 20px;
+            padding: 25px;
             font-family: Arial, sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         }
         .address-title {
             color: #ff0000;
@@ -88,25 +90,34 @@
             margin-bottom: 10px;
             text-transform: uppercase;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         .maps-btn {
             display: inline-block;
-            background: #ff0000;
-            color: white;
-            text-decoration: none;
-            padding: 12px 25px;
+            background: #8b0000; /* Daha tünd, qanlı qırmızı */
+            color: white !important;
+            text-decoration: none !important;
+            padding: 15px 30px;
             border-radius: 30px;
-            margin-top: 15px;
+            margin-top: 20px;
             font-weight: bold;
             transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ff0000;
+            cursor: pointer;
+            position: relative;
+            z-index: 99; /* Kliklənməni təmin edir */
         }
         .maps-btn:hover {
-            background: #cc0000;
-            transform: translateY(-3px);
+            background: #ff0000;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
         }
 
-        /* YENİ: TikTok Canlı Yayım Göstəricisi */
+        /* TikTok Canlı Yayım Göstəricisi */
         .tiktok-live-badge {
             position: fixed;
             bottom: 20px;
@@ -125,29 +136,6 @@
             font-family: Arial, sans-serif;
             font-weight: bold;
             font-size: 14px;
-        }
-        .tiktok-live-badge:hover {
-            transform: scale(1.05);
-        }
-        .tiktok-live-badge.live-active {
-            border-color: #00ff00;
-            box-shadow: 0 0 15px #00ff00;
-        }
-        .tiktok-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: red;
-            box-shadow: 0 0 8px red;
-        }
-        .tiktok-live-badge.live-active .tiktok-dot {
-            background: #00ff00;
-            box-shadow: 0 0 10px #00ff00;
-            animation: pulse-green 1s infinite alternate;
-        }
-        @keyframes pulse-green {
-            0% { transform: scale(1); opacity: 0.7; }
-            100% { transform: scale(1.3); opacity: 1; }
         }
     </style>
 </head>
@@ -205,9 +193,9 @@
 
     <div class="address-container">
         <div class="address-title">📍 ÜNVANIMIZ</div>
-        <p>Sumqayıt şəhəri</p>
-        <p>Mərkəzi poçt ilə üzbəüz, Gimnaziyanın yanı</p>
-        <a href="https://maps.app.goo.gl/7G7iBkfUWQYGVopW7" target="_blank" class="maps-btn">
+        <p style="margin: 5px 0;">Sumqayıt şəhəri</p>
+        <p style="margin: 5px 0; color: #bbb;">Mərkəzi poçt ilə üzbəüz, Gimnaziyanın yanı</p>
+        <a href="https://www.google.com/maps?q=Sumqayıt+Mərkəzi+Poçt" target="_blank" class="maps-btn">
             🗺 Google Maps-də aç
         </a>
     </div>
@@ -216,16 +204,13 @@
         <div class="reserve-box" style="display: flex; flex-direction: column; height: 400px; max-width: 350px;">
             <div class="close-btn" onclick="closeLiveChat()">✕</div>
             <h2>Canlı Dəstək</h2>
-
             <div id="nickStep">
                 <label>Çata qoşulmaq üçün Nick yazın:</label>
                 <input type="text" id="chatNick" placeholder="Nickinizi bura yazın...">
                 <button class="reserve-btn" onclick="startChat()" style="margin-top: 15px;">Daxil Ol</button>
             </div>
-
             <div id="chatStep" style="display: none; flex-direction: column; flex-grow: 1; height: 100%;">
                 <div id="chatMessages" style="flex-grow: 1; background: #111; border: 1px solid red; border-radius: 5px; padding: 10px; overflow-y: auto; text-align: left; margin-bottom: 10px; font-size: 14px; color: white;"></div>
-                
                 <div style="display: flex; gap: 5px; align-items: center;">
                     <input type="text" id="chatMsgInput" placeholder="Mesajınız..." style="flex-grow: 1; margin: 0; padding: 10px; height: 40px; box-sizing: border-box; background: #000; border: 1px solid red; color: white; border-radius: 5px;">
                     <button onclick="sendChatMessage()" class="reserve-btn" style="padding: 0 10px; margin: 0; width: 80px; min-width: 80px; font-size: 13px; height: 40px; border: none; border-radius: 5px;">Göndər</button>
@@ -267,7 +252,6 @@
     </footer>
 
     <script>
-        // MENU FUNKSİYALARI
         function toggleMenu(){
             const menu = document.getElementById("menu");
             const burger = document.getElementById("burger");
@@ -284,7 +268,6 @@
             }
         });
 
-        // ADMIN PANEL
         function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
         function closeAdminPopup() { document.getElementById("adminPopup").style.display = "none"; }
         function checkAdminPassword() {
@@ -293,7 +276,6 @@
             else { document.getElementById("errorMsg").style.display = "block"; }
         }
 
-        // MUSİQİ İDARƏETMƏSİ (AVTOMATİK)
         const audio = document.getElementById("bgMusic");
         const musicIcon = document.getElementById("musicIcon");
         audio.volume = 0.2;
@@ -308,9 +290,8 @@
         window.addEventListener("load", () => {
             const savedTime = localStorage.getItem("musicTime");
             if (savedTime) audio.currentTime = parseFloat(savedTime);
-            
             playMusic();
-            document.addEventListener('click', playMusic); // Brauzer bloklasa ilk klikdə başlasın
+            document.addEventListener('click', playMusic); 
         });
 
         audio.addEventListener("timeupdate", () => {
@@ -327,7 +308,6 @@
             }
         }
 
-        // CANLI DƏSTƏK LOGİKASI
         const telegramBotToken = "8733282097:AAEfZWuC0FnbtaJ2ngBYCzjw4oN1N_-Uhvk";
         const telegramChatId = "7766487634";
         let userNickname = "";
@@ -382,11 +362,7 @@
 
         document.getElementById("chatMsgInput").addEventListener("keyup", (e) => { if(e.key === "Enter") sendChatMessage(); });
 
-        // ==========================================
-        // YENİ ƏLAVƏ: TIKTOK CANLI YAYIM NƏZARƏTİ
-        // ==========================================
         const isLiveOnTikTok = localStorage.getItem('tiktokLiveStatus') === 'true';
-
         const tiktokBadge = document.getElementById('tiktokLiveBadge');
         const tiktokTextElement = document.getElementById('tiktokText');
 
