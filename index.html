@@ -69,6 +69,43 @@
             text-shadow: 0 0 15px #ff0000;
         }
 
+        /* YENİ: Ünvan Bölməsi */
+        .address-container {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px dashed #ff0000;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto 40px auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .address-title {
+            color: #ff0000;
+            font-size: 22px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .maps-btn {
+            display: inline-block;
+            background: #ff0000;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+        .maps-btn:hover {
+            background: #cc0000;
+            transform: translateY(-3px);
+        }
+
         /* YENİ: TikTok Canlı Yayım Göstəricisi */
         .tiktok-live-badge {
             position: fixed;
@@ -164,6 +201,15 @@
         <div class="customer-count">
             İndiyə kimi müştəri sayımız<br>50.000+
         </div>
+    </div>
+
+    <div class="address-container">
+        <div class="address-title">📍 ÜNVANIMIZ</div>
+        <p>Sumqayıt şəhəri</p>
+        <p>Mərkəzi poçt ilə üzbəüz, Gimnaziyanın yanı</p>
+        <a href="https://maps.app.goo.gl/7G7iBkfUWQYGVopW7" target="_blank" class="maps-btn">
+            🗺 Google Maps-də aç
+        </a>
     </div>
 
     <div class="reserve-popup" id="liveChatPopup" style="display: none; z-index: 1000;">
@@ -339,9 +385,6 @@
         // ==========================================
         // YENİ ƏLAVƏ: TIKTOK CANLI YAYIM NƏZARƏTİ
         // ==========================================
-        // DİQQƏT: Canlı yayımda olduğunuz zaman aşağıdakı "false" sözünü silib "true" yazın.
-        // Canlı yayım bitəndə isə yenidən "false" edin.
-       // Admin paneldən gələn məlumatı yoxlayır
         const isLiveOnTikTok = localStorage.getItem('tiktokLiveStatus') === 'true';
 
         const tiktokBadge = document.getElementById('tiktokLiveBadge');
