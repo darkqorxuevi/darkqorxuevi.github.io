@@ -42,7 +42,7 @@
             transform: scale(1.1);
         }
 
-        /* YENİ: Oyun haqqında məlumat qutusu */
+        /* Oyun haqqında məlumat qutusu */
         .game-info-container {
             background: rgba(15, 0, 0, 0.85);
             border: 1px solid #ff0000;
@@ -69,7 +69,7 @@
             text-shadow: 0 0 15px #ff0000;
         }
 
-        /* YENİ: TikTok Canlı Yayım Göstəricisi */
+        /* TikTok Canlı Yayım Göstəricisi */
         .tiktok-live-badge {
             position: fixed;
             bottom: 20px;
@@ -108,6 +108,38 @@
             box-shadow: 0 0 10px #00ff00;
             animation: pulse-green 1s infinite alternate;
         }
+
+        /* ÜNVAN VƏ XƏRİTƏ STİLLƏRİ */
+        .address-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 0, 0, 0.3);
+        }
+        .address-text {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        .maps-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #4285F4;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .maps-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.4);
+        }
+
         @keyframes pulse-green {
             0% { transform: scale(1); opacity: 0.7; }
             100% { transform: scale(1.3); opacity: 1; }
@@ -163,6 +195,16 @@
         
         <div class="customer-count">
             İndiyə kimi müştəri sayımız<br>50.000+
+        </div>
+
+        <div class="address-section">
+            <div class="address-text">
+                📍 <strong>Sumqayıt şəhəri</strong><br>
+                Mərkəzi poçt ilə üzbəüz, gimnaziyanın yanı
+            </div>
+            <a href="https://maps.app.goo.gl/7G7iBkfUWQYGVopW7" target="_blank" class="maps-btn">
+                🗺️ Google Maps-də Aç
+            </a>
         </div>
     </div>
 
@@ -264,7 +306,7 @@
             if (savedTime) audio.currentTime = parseFloat(savedTime);
             
             playMusic();
-            document.addEventListener('click', playMusic); // Brauzer bloklasa ilk klikdə başlasın
+            document.addEventListener('click', playMusic); 
         });
 
         audio.addEventListener("timeupdate", () => {
@@ -337,11 +379,8 @@
         document.getElementById("chatMsgInput").addEventListener("keyup", (e) => { if(e.key === "Enter") sendChatMessage(); });
 
         // ==========================================
-        // YENİ ƏLAVƏ: TIKTOK CANLI YAYIM NƏZARƏTİ
+        // TIKTOK CANLI YAYIM NƏZARƏTİ
         // ==========================================
-        // DİQQƏT: Canlı yayımda olduğunuz zaman aşağıdakı "false" sözünü silib "true" yazın.
-        // Canlı yayım bitəndə isə yenidən "false" edin.
-       // Admin paneldən gələn məlumatı yoxlayır
         const isLiveOnTikTok = localStorage.getItem('tiktokLiveStatus') === 'true';
 
         const tiktokBadge = document.getElementById('tiktokLiveBadge');
