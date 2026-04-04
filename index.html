@@ -21,9 +21,10 @@
         .maps-btn:hover { background: #ff0000; transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
         .tiktok-live-badge { position: fixed; bottom: 20px; left: 20px; background: rgba(0, 0, 0, 0.8); border: 2px solid red; color: white; padding: 10px 15px; border-radius: 30px; display: flex; align-items: center; gap: 10px; text-decoration: none; z-index: 1000; transition: all 0.3s ease; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; }
 
-        /* RƏY STILLƏRİ */
-        .reviews-section { width: 90%; max-width: 600px; margin: 20px auto; padding: 20px; background: #000; border: 1px solid #ff0000; border-radius: 10px; color: white; }
-        .review-input { width: 100%; padding: 10px; margin-bottom: 10px; background: #111; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
+        /* RƏY STILLƏRİ - Fix edildi */
+        .reviews-section { width: 90%; max-width: 600px; margin: 20px auto; padding: 20px; background: #000; border: 1px solid #ff0000; border-radius: 10px; color: white; position: relative; z-index: 10; }
+        .review-input { width: 100%; padding: 12px; margin-bottom: 10px; background: #111; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; font-family: Arial, sans-serif; }
+        .review-input:focus { border-color: red; outline: none; }
         .review-item { background: #111; padding: 15px; margin-top: 15px; border-radius: 8px; border-left: 4px solid red; position: relative; text-align: left; }
         .admin-badge { background: red; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 10px; vertical-align: middle; }
         .like-section { margin-top: 10px; display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer; }
@@ -82,7 +83,7 @@
         <h2 style="color: red; margin-bottom: 15px;">Müştəri Rəyləri</h2>
         <input type="text" id="revName" placeholder="Adınız" class="review-input">
         <textarea id="revText" placeholder="Rəyiniz..." class="review-input" rows="3"></textarea>
-        <button onclick="sendReview()" class="reserve-btn" style="width: 100%;">Rəy Yaz</button>
+        <button id="sendBtn" onclick="sendReview()" class="reserve-btn" style="width: 100%; cursor: pointer;">Rəy Yaz</button>
         <div id="displayReviews"></div>
     </div>
 
@@ -107,31 +108,55 @@
                         <strong>${r.name}</strong> ${r.adminLike == "true" ? '<span class="admin-badge">❤ DARK Tərəfindən Bəyənilib</span>' : ''}
                         <p style="margin: 5px 0; color: #ccc;">${r.text}</p>
                         <div class="like-section" onclick="likeReview('${r.id}')">
-                            <span class="like-btn">❤</span> <span>${r.likes} bəyənmə</span>
+                            <span class="like-btn">❤</span> <span>${r.likes || 0} bəyənmə</span>
                         </div>
                         <small style="color:gray; font-size:10px;">${r.date}</small>
                     </div>
                 `).join('');
-            } catch(e) { div.innerHTML = "Rəylər yüklənir..."; }
+            } catch(e) { div.innerHTML = "<p style='color:gray; font-size:12px; text-align:center;'>Rəylər yüklənir...</p>"; }
         }
 
         async function sendReview() {
-            const name = document.getElementById("revName").value;
-            const text = document.getElementById("revText").value;
-            if(!name || !text) return alert("Boş buraxmayın!");
-            await fetch(`${scriptURL}?action=add&name=${encodeURIComponent(name)}&text=${encodeURIComponent(text)}`, {mode: 'no-cors'});
-            alert("Rəyiniz göndərildi!");
-            location.reload();
+            const nameInput = document.getElementById("revName");
+            const textInput = document.getElementById("revText");
+            const btn = document.getElementById("sendBtn");
+
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+
+            if(!name || !text) return alert("Ad və rəy hissəsini boş buraxmayın!");
+
+            btn.disabled = true;
+            btn.innerText = "Göndərilir...";
+
+            try {
+                // Fetch request
+                await fetch(`${scriptURL}?action=add&name=${encodeURIComponent(name)}&text=${encodeURIComponent(text)}`, {mode: 'no-cors'});
+                
+                alert("Rəyiniz göndərildi!");
+                nameInput.value = "";
+                textInput.value = "";
+                
+                // Məlumatın bazaya düşməsi üçün 1.5 saniyə gözləyib yeniləyirik
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+
+            } catch(e) {
+                alert("Xəta baş verdi!");
+                btn.disabled = false;
+                btn.innerText = "Rəy Yaz";
+            }
         }
 
         async function likeReview(id) {
             await fetch(`${scriptURL}?action=like&id=${id}`, {mode: 'no-cors'});
-            loadReviews();
+            // Like-dan sonra dərhal siyahını yeniləyirik
+            setTimeout(loadReviews, 500);
         }
 
         window.onload = loadReviews;
 
-        // Sənin digər funksiyaların (Menu, Admin Giriş və s.)
         function toggleMenu(){ const menu = document.getElementById("menu"); menu.classList.toggle("active"); }
         function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
         function closeAdminPopup() { document.getElementById("adminPopup").style.display = "none"; }
