@@ -205,8 +205,8 @@
             <div class="close-btn" onclick="closeLiveChat()">✕</div>
             <h2>Canlı Dəstək</h2>
             <div id="nickStep">
-                <label>Çata qoşulmaq üçün Nick yazın:</label>
-                <input type="text" id="chatNick" placeholder="Nickinizi bura yazın...">
+                <label>Çata qoşulmaq üçün adınızı yazın:</label>
+                <input type="text" id="chatNick" placeholder="Adınızı bura yazın...">
                 <button class="reserve-btn" onclick="startChat()" style="margin-top: 15px;">Daxil Ol</button>
             </div>
             <div id="chatStep" style="display: none; flex-direction: column; flex-grow: 1; height: 100%;">
@@ -322,7 +322,7 @@
             userNickname = nickInput;
             document.getElementById("nickStep").style.display = "none";
             document.getElementById("chatStep").style.display = "flex";
-            addMessageToChat("Sistem", `Xoş gəldiniz, ${userNickname}!`, "#ff4444");
+            addMessageToChat("Sistem", `Xoş gəldin, ${userNickname}! Buyurun...`, "#ff4444");
             setInterval(fetchTelegramMessages, 3000);
         }
 
