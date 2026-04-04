@@ -4,111 +4,212 @@
     <link rel="icon" type="image/png" href="logo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Müştəri Rəyləri - DARK Horror House</title>
+    <title>Qonaq Rəyləri - DARK Horror House</title>
+    
     <link rel="stylesheet" href="style.css">
+
     <style>
+        /* Səhifənin Ümumi Stilləri - DARK/Peşəkar format */
         body {
             background-color: #000;
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('logo.png'); /* Logo fon kimi solğun istifadə edilir */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin: 50px auto;
+
+        /* Topbar - Ana səhifəyə qayıt düyməsi və başlıq üçün */
+        .reviews-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #111;
+            border-bottom: 2px solid red;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+
+        /* Ana səhifəyə qayıt düyməsi */
+        .back-btn-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none !important;
+            background: #8b0000; /* Tünd qırmızı */
+            color: white !important;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid red;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .back-btn-top:hover {
+            background: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Başlıq səliqəli mərkəzdə */
+        h1.reviews-title {
+            color: #ff0000;
+            text-transform: uppercase;
+            font-size: 20px;
+            margin: 0;
+            text-shadow: 0 0 10px #ff0000;
+            flex-grow: 1;
             text-align: center;
         }
-        h1 {
-            color: red;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 2px solid red;
-            display: inline-block;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-        .review-item {
-            background: #111;
+
+        /* Rəylərin yerləşdiyi konteyner */
+        .reviews-main {
+            flex-grow: 1;
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
             padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            border-left: 5px solid red;
-            text-align: left;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.1);
         }
+
+        /* Rəy Qutusu Stilini Tam Dəyişirik */
+        .review-item {
+            background: rgba(30, 30, 30, 0.9);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border: 2px solid #ff0000;
+            border-left-width: 8px; /* Sol qırmızı cizgi */
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            text-align: left;
+            position: relative; /* Badge üçün */
+            transition: 0.3s;
+        }
+
+        .review-item:hover {
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            transform: scale(1.02);
+        }
+
+        /* Rəy başlığı - Ad və Badge */
         .review-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
         }
+
         .reviewer-name {
-            color: red;
+            color: #ff0000;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
+            text-shadow: 0 0 5px #ff0000;
         }
+
+        /* Admin Bəyənməsi - Badge formatında */
         .admin-badge {
-            background: red;
+            background: #ff0000;
             color: white;
             font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 5px;
+            padding: 4px 10px;
+            border-radius: 4px;
             font-weight: bold;
+            box-shadow: 0 0 10px #ff0000;
         }
+
+        /* Rəy mətni - Oxunaqlı */
         .review-text {
-            color: #ddd;
-            line-height: 1.6;
+            color: #f1f1f1;
             font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+            letter-spacing: 0.5px;
+            font-style: italic;
         }
+
+        /* Rəy ayağı - Tarix və Like */
         .review-footer {
-            margin-top: 15px;
-            font-size: 12px;
-            color: #666;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+            padding-top: 10px;
+            border-top: 1px solid #444;
         }
-        .like-count {
+
+        .review-date {
+            color: #ccc;
+        }
+
+        .like-section {
             color: #ff4444;
+            display: flex;
+            align-items: center;
+            gap: 5px;
             font-weight: bold;
         }
-        .back-btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 10px 25px;
-            background: red;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background: darkred;
-            transform: scale(1.05);
-        }
+
+        /* Səhifənin aşağısındakı düyməni silirik, yuxarıdakı bəsdir */
+
         #loading {
             color: gray;
             font-style: italic;
+            text-align: center;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Qonaqlarımızın Rəyləri</h1>
-        
-        <div id="allReviews">
-            <p id="loading">Rəylər yüklənir, zəhmət olmasa gözləyin...</p>
-        </div>
+    <div class="reviews-topbar">
+        <a href="index.html" class="back-btn-top">
+            <span>←</span> Ana Səhifəyə Qayıt
+        </a>
+        <h1 class="reviews-title">QONAQLLARIMIZIN RƏYLƏRİ</h1>
+        <div style="width: 170px;"></div> 
+    </div>
 
-        <a href="index.html" class="back-btn">← Ana Səhifəyə Qayıt</a>
+    <div class="reviews-main">
+        <div id="allReviews">
+            <p id="loading">Rəylər yüklənir, bir az gözləyin...</p>
+        </div>
     </div>
 
     <script>
         // Sənin Google Script URL-in
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzC2Or58ry4WSpllHfM58eG_gmFa5A4LGjv-NUnrT_Rk4mnm5BopssJ30q8YuOeaX9X/exec'; 
+
+        // Tarix Formatlayan Funksiya - "yyyy-mm-ddT...Z" yerinə "Gün Ay İl" formatında
+        function formatDate(dateStr) {
+            try {
+                if (!dateStr) return "";
+                // Əgər tarix string formatındadırsa, onu Date obyektinə çeviririk
+                let date = new Date(dateStr);
+                
+                // Əgər çevrilmə alınmasa, orijinalı qaytarırıq (və ya başqa bir xəta idarəsi)
+                if (isNaN(date.getTime())) return dateStr;
+
+                // Ayların adlarını Azərbaycanca qoyaq
+                const months = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+                
+                let day = date.getDate();
+                let monthIndex = date.getMonth();
+                let year = date.getFullYear();
+                
+                // "5 Aprel 2026" formatı
+                return `${day} ${months[monthIndex]} ${year}`;
+            } catch (e) {
+                return dateStr; // Hər ehtimala qarşı orijinalı qaytarırıq
+            }
+        }
 
         async function fetchAllReviews() {
             const div = document.getElementById("allReviews");
@@ -117,7 +218,7 @@
                 const data = await res.json();
                 
                 if (data.length === 0) {
-                    div.innerHTML = "<p>Hələ heç bir rəy yazılmayıb.</p>";
+                    div.innerHTML = "<p id='loading'>Hələ heç bir rəy yazılmayıb.</p>";
                     return;
                 }
 
@@ -125,17 +226,19 @@
                     <div class="review-item">
                         <div class="review-header">
                             <span class="reviewer-name">${r.name}</span>
-                            ${r.adminLike == "true" ? '<span class="admin-badge">❤ DARK TƏRƏFİNDƏN BƏYƏNİLİB</span>' : ''}
+                            ${r.adminLike == "true" ? '<span class="admin-badge">❤ DARK BƏYƏNİB</span>' : ''}
                         </div>
+                        
                         <p class="review-text">"${r.text}"</p>
+                        
                         <div class="review-footer">
-                            <span>Tarix: ${r.date}</span>
-                            <span class="like-count">❤ ${r.likes || 0} Bəyənmə</span>
+                            <span class="review-date">Tarix: ${formatDate(r.date)}</span>
+                            <span class="like-section">❤ ${r.likes || 0} Bəyənmə</span>
                         </div>
                     </div>
                 `).join('');
             } catch (e) {
-                div.innerHTML = "<p style='color:red;'>Rəyləri yükləmək mümkün olmadı. Yenidən yoxlayın.</p>";
+                div.innerHTML = "<p id='loading' style='color:red;'>Rəyləri yükləmək mümkün olmadı. Yenidən yoxlayın.</p>";
             }
         }
 
