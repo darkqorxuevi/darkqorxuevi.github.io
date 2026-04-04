@@ -7,29 +7,34 @@
     <title>Ana Səhifə</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Sənin köhnə stillərin olduğu kimi qalır */
         .live-support-btn { display: flex; align-items: center; justify-content: center; gap: 15px; width: 80%; max-width: 250px; margin: 40px auto 0 auto; padding: 10px 20px; font-size: 14px; border: none; }
         .live-support-icon { width: 35px; height: 35px; object-fit: contain; }
         #musicControl { cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
         #musicControl:hover { transform: scale(1.1); }
-        .game-info-container { background: rgba(30, 0, 0, 0.9); border: 2px solid #ff0000; border-radius: 15px; box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); color: white; text-align: center; width: 90%; max-width: 600px; margin: 40px auto; padding: 30px 20px; font-family: Arial, sans-serif; }
-        .game-info-container p { font-size: 18px; margin: 12px 0; letter-spacing: 1px; color: #e0e0e0; }
+        
+        /* OYUN MƏLUMATLARI - Daha aydın edildi */
+        .game-info-container { background: rgba(50, 0, 0, 0.85); border: 2px solid #ff0000; border-radius: 15px; box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); color: white; text-align: center; width: 90%; max-width: 600px; margin: 40px auto; padding: 30px 20px; font-family: Arial, sans-serif; }
+        .game-info-container p { font-size: 19px; margin: 12px 0; letter-spacing: 1px; color: #ffffff; font-weight: 500; }
         .customer-count { font-size: 32px; font-weight: bold; color: #ff0000; margin-top: 25px; text-shadow: 0 0 15px #ff0000; }
-        .address-container { background: rgba(35, 35, 35, 0.95); border: 2px dashed #ff0000; border-radius: 15px; color: white; text-align: center; width: 90%; max-width: 600px; margin: 20px auto 40px auto; padding: 25px; font-family: Arial, sans-serif; box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); }
+        
+        /* ÜNVAN - Daha aydın edildi */
+        .address-container { background: rgba(45, 45, 45, 0.98); border: 2px dashed #ff0000; border-radius: 15px; color: white; text-align: center; width: 90%; max-width: 600px; margin: 20px auto 40px auto; padding: 25px; font-family: Arial, sans-serif; box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); }
+        .address-container p { color: #ffffff; font-size: 18px; font-weight: 500; }
         .address-title { color: #ff0000; font-size: 22px; margin-bottom: 10px; text-transform: uppercase; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .maps-btn { display: inline-block; background: #8b0000; color: white !important; text-decoration: none !important; padding: 15px 30px; border-radius: 30px; margin-top: 20px; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); border: 1px solid #ff0000; cursor: pointer; position: relative; z-index: 99; }
         .maps-btn:hover { background: #ff0000; transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
-        .tiktok-live-badge { position: fixed; bottom: 20px; left: 20px; background: rgba(0, 0, 0, 0.8); border: 2px solid red; color: white; padding: 10px 15px; border-radius: 30px; display: flex; align-items: center; gap: 10px; text-decoration: none; z-index: 1000; transition: all 0.3s ease; font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; }
 
-        /* RƏY STILLƏRİ - Fix edildi */
-        .reviews-section { width: 90%; max-width: 600px; margin: 20px auto; padding: 20px; background: #000; border: 1px solid #ff0000; border-radius: 10px; color: white; position: relative; z-index: 10; }
-        .review-input { width: 100%; padding: 12px; margin-bottom: 10px; background: #111; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; font-family: Arial, sans-serif; }
-        .review-input:focus { border-color: red; outline: none; }
-        .review-item { background: #111; padding: 15px; margin-top: 15px; border-radius: 8px; border-left: 4px solid red; position: relative; text-align: left; }
-        .admin-badge { background: red; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 10px; vertical-align: middle; }
-        .like-section { margin-top: 10px; display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer; }
-        .like-btn { filter: grayscale(1); transition: 0.3s; }
-        .like-btn.active { filter: grayscale(0); transform: scale(1.2); }
+        /* RƏY BÖLMƏSİ - Daha aydın edildi */
+        .reviews-section { width: 90%; max-width: 600px; margin: 20px auto; padding: 20px; background: rgba(20, 20, 20, 0.95); border: 1px solid #ff0000; border-radius: 10px; color: white; position: relative; z-index: 10; }
+        .review-input { width: 100%; padding: 12px; margin-bottom: 10px; background: #222; border: 1px solid #ff0000; color: white; border-radius: 5px; box-sizing: border-box; font-family: Arial, sans-serif; }
+        .review-input:focus { background: #333; outline: none; }
+        .review-item { background: #1a1a1a; padding: 15px; margin-top: 15px; border-radius: 8px; border-left: 5px solid red; position: relative; text-align: left; }
+        .review-item strong { color: #ff3333; font-size: 16px; }
+        .review-item p { color: #ffffff; font-size: 15px; margin: 8px 0; }
+        
+        /* BÜTÜN RƏYLƏR DÜYMƏSİ */
+        .all-reviews-link { display: block; text-align: center; color: white; text-decoration: none; margin-top: 20px; padding: 12px; border: 1px solid red; border-radius: 5px; background: rgba(255,0,0,0.1); font-weight: bold; transition: 0.3s; }
+        .all-reviews-link:hover { background: red; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
     </style>
 </head>
 <body>
@@ -85,10 +90,13 @@
         <input type="text" id="revName" placeholder="Adınız" class="review-input">
         <textarea id="revText" placeholder="Rəyiniz..." class="review-input" rows="3"></textarea>
         <button id="sendBtn" onclick="sendReview()" class="reserve-btn" style="width: 100%; cursor: pointer;">Rəy Yaz</button>
+        
         <div id="displayReviews"></div>
+
+        <a href="reyler.html" class="all-reviews-link">Bütün rəyləri oxu (Hamısı) →</a>
     </div>
 
-     <footer class="main-footer">
+    <footer class="main-footer">
         <div class="footer-container">
             <div class="social-links">
                 <a href="https://www.instagram.com/darkqorxuevi" target="_blank" class="social-item">
@@ -110,23 +118,27 @@
             </div>
         </div>
     </footer>
+
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzC2Or58ry4WSpllHfM58eG_gmFa5A4LGjv-NUnrT_Rk4mnm5BopssJ30q8YuOeaX9X/exec'; 
 
-        // Rəyləri Yüklə
         async function loadReviews() {
             const div = document.getElementById("displayReviews");
             try {
                 const res = await fetch(`${scriptURL}?action=read`);
                 const data = await res.json();
-                div.innerHTML = data.map(r => `
+                
+                // YALNIZ SON 2 RƏYİ GÖSTƏRİRİK
+                const latestTwo = data.slice(0, 2);
+
+                div.innerHTML = latestTwo.map(r => `
                     <div class="review-item">
-                        <strong>${r.name}</strong> ${r.adminLike == "true" ? '<span class="admin-badge">❤ DARK Tərəfindən Bəyənilib</span>' : ''}
-                        <p style="margin: 5px 0; color: #ccc;">${r.text}</p>
-                        <div class="like-section" onclick="likeReview('${r.id}')">
-                            <span class="like-btn">❤</span> <span>${r.likes || 0} bəyənmə</span>
+                        <strong>${r.name}</strong> ${r.adminLike == "true" ? '<span class="admin-badge">❤ DARK Bəyənib</span>' : ''}
+                        <p>${r.text}</p>
+                        <div style="display:flex; justify-content: space-between; align-items:center; font-size:12px; color:gray;">
+                             <span>❤ ${r.likes || 0} bəyənmə</span>
+                             <small>${r.date.split('T')[0]}</small>
                         </div>
-                        <small style="color:gray; font-size:10px;">${r.date}</small>
                     </div>
                 `).join('');
             } catch(e) { div.innerHTML = "<p style='color:gray; font-size:12px; text-align:center;'>Rəylər yüklənir...</p>"; }
@@ -136,28 +148,19 @@
             const nameInput = document.getElementById("revName");
             const textInput = document.getElementById("revText");
             const btn = document.getElementById("sendBtn");
-
             const name = nameInput.value.trim();
             const text = textInput.value.trim();
 
             if(!name || !text) return alert("Ad və rəy hissəsini boş buraxmayın!");
-
             btn.disabled = true;
             btn.innerText = "Göndərilir...";
 
             try {
-                // Fetch request
                 await fetch(`${scriptURL}?action=add&name=${encodeURIComponent(name)}&text=${encodeURIComponent(text)}`, {mode: 'no-cors'});
-                
                 alert("Rəyiniz göndərildi!");
                 nameInput.value = "";
                 textInput.value = "";
-                
-                // Məlumatın bazaya düşməsi üçün 1.5 saniyə gözləyib yeniləyirik
-                setTimeout(() => {
-                    location.reload();
-                }, 1500);
-
+                setTimeout(() => { location.reload(); }, 1000);
             } catch(e) {
                 alert("Xəta baş verdi!");
                 btn.disabled = false;
@@ -165,14 +168,7 @@
             }
         }
 
-        async function likeReview(id) {
-            await fetch(`${scriptURL}?action=like&id=${id}`, {mode: 'no-cors'});
-            // Like-dan sonra dərhal siyahını yeniləyirik
-            setTimeout(loadReviews, 500);
-        }
-
         window.onload = loadReviews;
-
         function toggleMenu(){ const menu = document.getElementById("menu"); menu.classList.toggle("active"); }
         function openAdminPopup() { document.getElementById("adminPopup").style.display = "flex"; }
         function closeAdminPopup() { document.getElementById("adminPopup").style.display = "none"; }
