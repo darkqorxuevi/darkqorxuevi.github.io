@@ -5,74 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - DARK Horror</title>
     <style>
-        body {
-            background-color: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
-        .admin-box {
-            background: #222;
-            border: 2px solid red;
-            border-radius: 10px;
-            padding: 30px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .btn-live { background-color: #00ff00; color: #000; }
-        .btn-offline { background-color: #ff0000; color: #fff; }
-        .back-btn { background-color: #555; color: white; margin-top: 20px; }
-        #status-msg { margin-top: 15px; font-weight: bold; }
+        body { background-color: #111; color: white; font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .admin-box { background: #222; border: 2px solid red; border-radius: 10px; padding: 20px; max-width: 500px; margin: 0 auto; }
+        button { width: 100%; padding: 12px; margin: 10px 0; font-weight: bold; border-radius: 5px; cursor: pointer; border:none; }
+        .btn-live { background: #00ff00; }
+        .btn-offline { background: red; color: white; }
+        .review-admin-item { background: #000; border: 1px solid #444; padding: 10px; margin-top: 10px; text-align: left; }
+        .del-btn { background: darkred; color: white; width: auto; padding: 5px 10px; margin-right: 5px; }
+        .like-admin-btn { background: darkgreen; color: white; width: auto; padding: 5px 10px; }
     </style>
 </head>
 <body>
 
     <div class="admin-box">
-        <h2>🔥 Admin Panel 🔥</h2>
-        <p>TikTok Canlı Yayım Statusunu İdarə Et:</p>
+        <h2>🔥 DARK Admin Panel 🔥</h2>
         
-        <button class="btn-live" onclick="setLiveStatus('true')">🟢 Canlı Yayım AKTİV (True)</button>
-        <button class="btn-offline" onclick="setLiveStatus('false')">🔴 Canlı Yayım DEAKTİV (False)</button>
-        
-        <p id="status-msg"></p>
+        <div style="border-bottom: 1px solid red; padding-bottom: 20px;">
+            <p>TikTok Statusu:</p>
+            <button class="btn-live" onclick="setLiveStatus('true')">🟢 Canlı Yayım AKTİV</button>
+            <button class="btn-offline" onclick="setLiveStatus('false')">🔴 Canlı Yayım DEAKTİV</button>
+        </div>
 
-        <button class="back-btn" onclick="window.location.href='index.html'">Ana Səhifəyə Qayıt</button>
+        <div style="margin-top: 20px;">
+            <h3>💬 Rəyləri İdarə Et</h3>
+            <div id="adminReviewList">Yüklənir...</div>
+        </div>
+
+        <button style="background:#555; color:white; margin-top:20px;" onclick="window.location.href='index.html'">Çıxış</button>
     </div>
 
     <script>
-        // Səhifə açılanda mövcud vəziyyəti göstərmək üçün
-        window.onload = function() {
-            let currentStatus = localStorage.getItem('tiktokLiveStatus');
-            if(currentStatus === 'true') {
-                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🟢 Canlıdayıq";
-            } else {
-                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🔴 Canlıda Deyilik";
+        const scriptURL = 'BURAYA_KOPYALADIGIN_LINKI_YAPISDIR';
+
+        async function loadAdminReviews() {
+            const res = await fetch(`${scriptURL}?action=read`);
+            const data = await res.json();
+            document.getElementById("adminReviewList").innerHTML = data.map(r => `
+                <div class="review-admin-item">
+                    <strong>${r.name}</strong>: ${r.text}
+                    <div style="margin-top:10px;">
+                        <button class="del-btn" onclick="deleteReview('${r.id}')">Sil</button>
+                        <button class="like-admin-btn" onclick="adminLike('${r.id}')">Dark Bəyənməsi Ver</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteReview(id) {
+            if(confirm("Bu rəyi silmək istəyirsən?")) {
+                await fetch(`${scriptURL}?action=delete&id=${id}`, {mode: 'no-cors'});
+                loadAdminReviews();
             }
         }
 
-        // Butonlara basanda işləyən funksiya
-        function setLiveStatus(status) {
-            localStorage.setItem('tiktokLiveStatus', status);
-            
-            if(status === 'true') {
-                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🟢 Canlıdayıq (Yadda saxlanıldı)";
-                document.getElementById('status-msg').style.color = "#00ff00";
-            } else {
-                document.getElementById('status-msg').innerText = "Cari Vəziyyət: 🔴 Canlıda Deyilik (Yadda saxlanıldı)";
-                document.getElementById('status-msg').style.color = "#ff0000";
-            }
+        async function adminLike(id) {
+            await fetch(`${scriptURL}?action=adminLike&id=${id}`, {mode: 'no-cors'});
+            alert("Bəyənildi!");
+            loadAdminReviews();
         }
+
+        function setLiveStatus(s) { localStorage.setItem('tiktokLiveStatus', s); alert("Status dəyişdi!"); }
+        
+        window.onload = loadAdminReviews;
     </script>
 </body>
 </html>
