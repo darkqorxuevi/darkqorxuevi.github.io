@@ -1,1 +1,260 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyunlarımız</title>
+    <link rel="stylesheet" href="style.css">
 
+    <style>
+        /* --- KÖHNƏ DƏFTƏR POPUP DİZAYNI --- */
+        .popup-bg {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .popup-bg.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .popup-box {
+            background: #f4e4bc; /* Köhnə kağız rəngi */
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            border: 8px double #5d4037;
+            border-radius: 5px;
+            padding: 30px;
+            max-width: 650px;
+            width: 90%;
+            max-height: 85vh;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 60px rgba(93, 64, 55, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .popup-bg.active .popup-box {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 20px;
+            color: #5d4037;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        /* Hekayə sahəsi və Sürüşdürmə (Scroll) */
+        .story-container {
+            overflow-y: auto;
+            padding-right: 15px;
+            margin-top: 15px;
+        }
+
+        /* Scrollbar tənzimləmələri */
+        .story-container::-webkit-scrollbar {
+            width: 7px;
+        }
+        .story-container::-webkit-scrollbar-thumb {
+            background: #5d4037;
+            border-radius: 10px;
+        }
+
+        .story-box {
+            color: #2b1d0e;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 19px;
+            font-weight: bold;
+            line-height: 1.6;
+            text-align: left;
+            white-space: pre-wrap; /* Sətirləri və boşluqları olduğu kimi saxlayır */
+        }
+
+        /* Yazı makinası kursoru effekti */
+        .story-box::after {
+            content: "_";
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }
+        }
+
+        .game-title-popup {
+            font-family: 'Creepster', cursive;
+            color: #8b0000;
+            font-size: 35px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 2px solid #5d4037;
+            padding-bottom: 10px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="side-menu" id="menu">
+        <a href="index.html">Ana Səhifə</a>
+        <a href="about.html">Haqqımızda</a>
+        <a href="rejimler.html">Rejimlər</a>
+    </div>
+
+    <div class="topbar">
+        <div class="topbar-title">OYUNLARIMIZ</div>
+        <div class="burger" onclick="toggleMenu()" id="burger">☰</div>
+    </div>
+
+    <section class="games-container">
+        <div class="game-card" onclick="openPopup('murad')">
+            <img src="murad.jpg" class="game-img">
+            <div class="game-title">Murad</div>
+        </div>
+
+        <div class="game-card" onclick="openPopup('ezrayil')">
+            <img src="ezrail.jpg" class="game-img">
+            <div class="game-title">Əzrayıl</div>
+        </div>
+
+        <div class="game-card" onclick="openPopup('qaranliq')">
+            <img src="qaranliq.png" class="game-img">
+            <div class="game-title">Qaranlıq</div>
+        </div>
+
+        <div class="game-card" onclick="openPopup('sufyan')">
+            <img src="sufyan.PNG" class="game-img">
+            <div class="game-title" style="line-height: 1.2;">
+                Cin’ne Süfyan<br>
+                <span style="font-size: 0.75em; opacity: 0.9;">(Cin Vakası)</span>
+            </div>
+        </div>
+    </section>
+
+    <div id="storyPopup" class="popup-bg" onclick="closePopupExternal(event)">
+        <div class="popup-box">
+            <span class="close-btn" onclick="closePopup()">×</span>
+            <div id="popupTitle" class="game-title-popup"></div>
+            <div class="story-container">
+                <div id="storyBox" class="story-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu(){
+            const menu = document.getElementById("menu");
+            const burger = document.getElementById("burger");
+            menu.classList.toggle("active");
+            burger.innerHTML = menu.classList.contains("active") ? "✕" : "☰";
+        }
+
+        let typeIndex = 0;
+        let typingTimer;
+
+        function typeWriter(text) {
+            if (typeIndex < text.length) {
+                document.getElementById("storyBox").innerHTML += text.charAt(typeIndex);
+                typeIndex++;
+                
+                // Yazı yazıldıqca avtomatik aşağı sürüşdürür
+                const container = document.querySelector('.story-container');
+                container.scrollTop = container.scrollHeight;
+
+                typingTimer = setTimeout(() => typeWriter(text), 35); // Yazı sürəti (ms)
+            }
+        }
+
+        const stories = {
+            murad: `Muradın 10 yaşı var idi. 
+10 il qabaq Muradın anasına cin musallat oldu. 
+Bütün ailə üzvlərinin, yəni 6 yaşlı bacısını, atasını, nənəsini və babasını öldürdü. 
+
+Muradı öldürən zaman ruhuna aşiq oldu. İfrit Muradın ruhunu elə həmin evdə həbs etdi. 
+
+Paşa baba və Fatma nənə isə Muradın ruhunu azad etmək üçün ona kömək etmək məqsədilə ruhlarını evdə saxladılar. 
+
+Onların hamısı ifritin köləsi oldular...`,
+
+            ezrayil: `Bu ev adi qorxu evi deyil.
+Bura qışqırmaq, qaçmaq, gizlənmək üçün yaradılmayıb.
+Bura susmaq üçün tikilib. Bura etiraf etmək üçündür.
+
+Deyirlər, Əzrail hər zaman can almağa gəlmir. Bəzən gəlir… dinləmək üçün. Sənin səsini yox, vicdanının çırpınışını dinləmək üçün.
+
+Bu qapıdan içəri girən hər kəs bir dəfə yalan danışıb, birinin qəlbini qırıb, heç kimə demədiyi bir günahı özündə gizlədib.
+
+Burada gizlənən yoxdur. Burada susan daha tez tutulur. Çünki Əzrail sənin nə dediyini yox, nəyi gizlətdiyini bilir.
+
+Əgər günahını etiraf etməsən, Əzrail tək gəlməyəcək. O gecə Şeytan da bu evdə olacaq. Ya vicdanın danışacak… ya da onlar.`,
+
+            qaranliq: `Bu ev bir vaxtlar sadə bir zirzəmi deyildi…
+Bura “işıqdan qaçanların” sığınacağı idi.
+
+İllər əvvəl burada çalışan Rauf, qaranlığı sevdiyini deyirdi. Deyirdi ki: “Qaranlıq boş deyil… sadəcə biz görə bilmirik.”
+
+Bir gecə o, bütün işıq sistemini dəyişdi. O gündən sonra Rauf yoxa çıxdı. Son eşitdiyi cümlə bu idi: “Onlar gəldi… işığı söndür.”
+
+Bu evdə bir qayda var: İşıq varsa — sən varsan. İşıq yoxdursa — onlar var. Onlar səni görə bilməz… amma sən onları hiss etdikcə güclənirlər.`,
+
+            sufyan: `İllər əvvəl uzaq bir kənddə heç kimin danışmağa cürət etmədiyi bir hadisə baş verdi. 
+
+Süfyan adlı bir qadın qaranlıq qüvvələrlə təmas qurmağa çalışdı, lakin çağırdığı varlıqlar geri qayıtmadı. Bu, sadəcə bir əfsanə deyil, rəsmi sənədlərə "Cin Vakası" olaraq keçən real bir dəhşətdir.
+
+O gündən bəri o evdə sükut hökm sürür. Deyilənə görə, Süfyanın ruhu hələ də o qaranlıq künclərdə pıçıldayır. 
+
+Əgər qəfildən arxanda bir nəfəs hiss etsən, əsla geri dönmə. Çünki onlar artıq səni seçiblər. Süfyanın başladığı ayini tamamlamaq üçün sənə ehtiyacları var...`
+        };
+
+        function openPopup(game){
+            const popup = document.getElementById("storyPopup");
+            const box = document.getElementById("storyBox");
+            const title = document.getElementById("popupTitle");
+            
+            // Oyunun adını ekrana uyğunlaşdır
+            let displayTitle = "";
+            if(game === "murad") displayTitle = "MURAD";
+            else if(game === "ezrayil") displayTitle = "ƏZRAYIL";
+            else if(game === "qaranliq") displayTitle = "QARANLIQ";
+            else if(game === "sufyan") displayTitle = "CİN’NE SÜFYAN (Cin Vakası)";
+            
+            title.innerText = displayTitle;
+            
+            box.innerHTML = "";
+            typeIndex = 0;
+            clearTimeout(typingTimer);
+            
+            popup.style.display = "flex";
+            setTimeout(() => popup.classList.add("active"), 10);
+            
+            // Animasiya bitəndən bir az sonra yazmağa başla
+            setTimeout(() => typeWriter(stories[game]), 600);
+        }
+
+        function closePopup(){
+            const popup = document.getElementById("storyPopup");
+            popup.classList.remove("active");
+            setTimeout(() => {
+                popup.style.display = "none";
+                document.getElementById("storyBox").innerHTML = "";
+            }, 400);
+        }
+
+        function closePopupExternal(event) {
+            if (event.target.id === "storyPopup") closePopup();
+        }
+    </script>
+</body>
+</html>
