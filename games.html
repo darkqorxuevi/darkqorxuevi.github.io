@@ -110,8 +110,6 @@
     <div class="side-menu" id="menu">
         <a href="index.html">Ana Səhifə</a>
         <a href="about.html">Haqqımızda</a>
-
-    
         <a href="rejimler.html">Rejimlər</a>
     </div>
 
@@ -134,6 +132,11 @@
         <div class="game-card" onclick="openPopup('qaranliq')">
             <img src="qaranliq.jpg" class="game-img">
             <div class="game-title">Qaranlıq</div>
+        </div>
+
+        <div class="game-card" onclick="openPopup('sufyan')">
+            <img src="sufyan.jpg" class="game-img">
+            <div class="game-title">Cin’ne Süfyan</div>
         </div>
     </section>
 
@@ -192,7 +195,7 @@ Bu qapıdan içəri girən hər kəs bir dəfə yalan danışıb, birinin qəlbi
 
 Burada gizlənən yoxdur. Burada susan daha tez tutulur. Çünki Əzrail sənin nə dediyini yox, nəyi gizlətdiyini bilir.
 
-Əgər günahını etiraf etməsən, Əzrail tək gəlməyəcək. O gecə Şeytan da bu evdə olacaq. Ya vicdanın danışacaq… ya da onlar.`,
+Əgər günahını etiraf etməsən, Əzrail tək gəlməyəcək. O gecə Şeytan da bu evdə olacaq. Ya vicdanın danışacak… ya da onlar.`,
 
             qaranliq: `Bu ev bir vaxtlar sadə bir zirzəmi deyildi…
 Bura “işıqdan qaçanların” sığınacağı idi.
@@ -201,7 +204,15 @@ Bura “işıqdan qaçanların” sığınacağı idi.
 
 Bir gecə o, bütün işıq sistemini dəyişdi. O gündən sonra Rauf yoxa çıxdı. Son eşitdiyi cümlə bu idi: “Onlar gəldi… işığı söndür.”
 
-Bu evdə bir qayda var: İşıq varsa — sən varsan. İşıq yoxdursa — onlar var. Onlar səni görə bilməz… amma sən onları hiss etdikcə güclənirlər.`
+Bu evdə bir qayda var: İşıq varsa — sən varsan. İşıq yoxdursa — onlar var. Onlar səni görə bilməz… amma sən onları hiss etdikcə güclənirlər.`,
+
+            sufyan: `İllər əvvəl uzaq bir kənddə heç kimin danışmağa cürət etmədiyi bir hadisə baş verdi. 
+
+Süfyan adlı bir qadın qaranlıq qüvvələrlə təmas qurmağa çalışdı, lakin çağırdığı varlıqlar geri qayıtmadı. Bu, sadəcə bir əfsanə deyil, rəsmi sənədlərə "Cin Vakası" olaraq keçən real bir dəhşətdir.
+
+O gündən bəri o evdə sükut hökm sürür. Deyilənə görə, Süfyanın ruhu hələ də o qaranlıq künclərdə pıçıldayır. 
+
+Əgər qəfildən arxanda bir nəfəs hiss etsən, əsla geri dönmə. Çünki onlar artıq səni seçiblər. Süfyanın başladığı ayini tamamlamaq üçün sənə ehtiyacları var...`
         };
 
         function openPopup(game){
@@ -210,7 +221,12 @@ Bu evdə bir qayda var: İşıq varsa — sən varsan. İşıq yoxdursa — onla
             const title = document.getElementById("popupTitle");
             
             // Oyunun adını ekrana uyğunlaşdır
-            let displayTitle = game === "murad" ? "MURAD" : (game === "ezrayil" ? "ƏZRAYIL" : "QARANLIQ");
+            let displayTitle = "";
+            if(game === "murad") displayTitle = "MURAD";
+            else if(game === "ezrayil") displayTitle = "ƏZRAYIL";
+            else if(game === "qaranliq") displayTitle = "QARANLIQ";
+            else if(game === "sufyan") displayTitle = "CİN’NE SÜFYAN (Cin Vakası)";
+            
             title.innerText = displayTitle;
             
             box.innerHTML = "";
