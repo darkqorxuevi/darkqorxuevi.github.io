@@ -128,14 +128,27 @@
 
         <a href="reserve.html" class="reserve-btn">Rezervasiya Et</a>
 
-        <div class="competition-box" style="text-align: center; margin: 20px; padding: 20px; border: 2px solid #ff4d4d; background: #111; color: white; border-radius: 10px;">
-    <h3>🏆 Məktəblərarası Yarışma</h3>
-    <p>Sinifini qeydiyyatdan keçir və qorxu dolu anlar yaşa!</p>
-    <div style="display: flex; gap: 10px; justify-content: center;">
-        <button onclick="location.href='qeydiyyat.html'" style="padding: 12px 20px; background: #ff4d4d; border: none; color: white; font-weight: bold; cursor: pointer; border-radius: 5px;">Qeydiyyatdan Keç</button>
-        <button onclick="alert('Nəticələr tezliklə açıqlanacaq!')" style="padding: 12px 20px; background: #333; border: 1px solid #555; color: white; cursor: pointer; border-radius: 5px;">Nəticələrə Bax</button>
+
+
+        <div style="text-align: center; margin: 20px;">
+    <button onclick="openNavPopup()" style="padding: 15px 30px; background: #ff4d4d; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+        Yarışma Paneli
+    </button>
+</div>
+
+<div id="navPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; flex-direction:column;">
+    <div style="background:#1a1a1a; padding:30px; border-radius:10px; text-align:center; border:1px solid #444;">
+        <h2 style="color:white; margin-bottom:20px;">Siniflər Arası Yarışma</h2>
+        <button onclick="window.location.href='qeydiyyat.html'" style="display:block; width:200px; padding:12px; margin:10px auto; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer;">Qeydiyyatdan keç</button>
+        <button onclick="alert('Nəticələr tezliklə açıqlanacaq!')" style="display:block; width:200px; padding:12px; margin:10px auto; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">Nəticələrə bax</button>
+        <button onclick="closeNavPopup()" style="margin-top:15px; background:none; color:#aaa; border:none; cursor:pointer;">Geri dön</button>
     </div>
 </div>
+
+<script>
+    function openNavPopup() { document.getElementById('navPopup').style.display = 'flex'; }
+    function closeNavPopup() { document.getElementById('navPopup').style.display = 'none'; }
+</script>
 
         <button onclick="openLiveChat()" class="reserve-btn live-support-btn">
 
