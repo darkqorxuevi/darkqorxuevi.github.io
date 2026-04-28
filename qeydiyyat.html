@@ -15,7 +15,25 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            position: relative;
         }
+
+        /* GERİ DÖN BUTONU */
+        .back-nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid #444;
+            transition: 0.3s;
+        }
+        .back-nav:hover { background: #444; }
+
         .form-container { 
             width: 100%;
             max-width: 400px; 
@@ -24,6 +42,7 @@
             border-radius: 15px; 
             border: 1px solid #333; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-top: 50px;
         }
         h2 { text-align: center; color: #ff4d4d; margin-bottom: 25px; }
         
@@ -43,7 +62,6 @@
         }
         input:focus, select:focus { border-color: #ff4d4d; }
 
-        /* Sinif və İndex yan-yana olsun deyə */
         .grade-flex {
             display: flex;
             gap: 10px;
@@ -98,6 +116,8 @@
 </head>
 <body>
 
+<a href="index.html" class="back-nav">← Geri dön</a>
+
 <div class="form-container">
     <h2>Yarışma Qeydiyyatı</h2>
     
@@ -120,19 +140,31 @@
         <div>
             <label>Sinif*</label>
             <select id="grade" onchange="checkForm()">
-                <option value="">Seçin...</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
+                <option value="">...</option>
+                <option value="5-ci sinif">5</option>
+                <option value="6-cı sinif">6</option>
+                <option value="7-ci sinif">7</option>
+                <option value="8-ci sinif">8</option>
+                <option value="9-cu sinif">9</option>
+                <option value="10-cu sinif">10</option>
+                <option value="11-ci sinif">11</option>
             </select>
         </div>
         <div>
-            <label>İndeks (B, C...)*</label>
-            <input type="text" id="gradeIndex" placeholder="Məs: B" required oninput="validateLetters(this); checkForm();" maxlength="2">
+            <label>İndeks*</label>
+            <select id="gradeIndex" onchange="checkForm()">
+                <option value="">...</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="İ">İ</option>
+                <option value="R">R</option>
+            </select>
         </div>
     </div>
 
@@ -174,7 +206,7 @@
         const team = document.getElementById('teamName').value.trim();
         const school = document.getElementById('school').value.trim();
         const grade = document.getElementById('grade').value;
-        const gIndex = document.getElementById('gradeIndex').value.trim();
+        const gIndex = document.getElementById('gradeIndex').value;
         const phone = document.getElementById('phone').value.trim();
 
         const isReady = kapitan.length > 3 && team.length > 1 && school.length > 1 && grade !== "" && gIndex !== "" && phone.length >= 17;
