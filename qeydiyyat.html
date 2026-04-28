@@ -4,34 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yarışma Qeydiyyatı</title>
-    <link rel="stylesheet" href="style.css">
     <style>
-        body { background: #0b0b0b; color: white; font-family: sans-serif; padding: 20px; }
-        .form-container { max-width: 400px; margin: auto; background: #1a1a1a; padding: 20px; border-radius: 10px; border: 1px solid #333; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #111; color: white; border: 1px solid #444; border-radius: 5px; box-sizing: border-box; }
-        .phone-container { position: relative; }
-        #submitBtn:disabled { background: #444; cursor: not-allowed; }
-        #submitBtn { background: #ff4d4d; color: white; border: none; width: 100%; padding: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        .success-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; text-align: center; }
+        /* CSS KODLARI - Bura hər şeyi dizayn edir */
+        body { 
+            background: #0b0b0b; 
+            color: white; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .form-container { 
+            width: 100%;
+            max-width: 400px; 
+            background: #1a1a1a; 
+            padding: 30px; 
+            border-radius: 15px; 
+            border: 1px solid #333; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        h2 { text-align: center; color: #ff4d4d; margin-bottom: 25px; }
+        
+        label { display: block; margin-top: 15px; font-size: 14px; color: #aaa; }
+        
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 8px 0; 
+            background: #111; 
+            color: white; 
+            border: 1px solid #444; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            outline: none;
+            font-size: 16px;
+        }
+        input:focus, select:focus { border-color: #ff4d4d; }
+
+        #submitBtn { 
+            background: #ff4d4d; 
+            color: white; 
+            border: none; 
+            width: 100%; 
+            padding: 15px; 
+            font-weight: bold; 
+            font-size: 16px;
+            margin-top: 25px; 
+            cursor: pointer; 
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        #submitBtn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
+        #submitBtn:hover:not(:disabled) { background: #cc0000; }
+
+        /* UĞUR POPUPU */
+        .success-popup { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.95); 
+            z-index: 2000; 
+            align-items: center; 
+            justify-content: center; 
+            flex-direction: column; 
+            text-align: center; 
+        }
+        .popup-box {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #28a745;
+        }
+        .nav-btn {
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <h2 style="text-align: center;">Yarışma Qeydiyyatı</h2>
+    <h2>Yarışma Qeydiyyatı</h2>
     
-    <input type="text" id="muallim" placeholder="Müəllimin adı (Könüllü)" oninput="this.value = this.value.replace(/[^a-zA-ZəıöğçşüƏİÖĞÇŞÜ\s]/g, '')">
+    <label>Müəllimin adı (Könüllü)</label>
+    <input type="text" id="muallim" placeholder="Yalnız hərflər..." oninput="validateLetters(this)">
     
-    <input type="text" id="kapitan" placeholder="Komanda Kapitanı (Ad Soyad)*" required oninput="this.value = this.value.replace(/[^a-zA-ZəıöğçşüƏİÖĞÇŞÜ\s]/g, ''); checkForm();">
+    <label>Komanda Kapitanı (Ad Soyad)*</label>
+    <input type="text" id="kapitan" placeholder="Məcburi..." required oninput="validateLetters(this); checkForm();">
     
+    <label>Əlaqə nömrəsi*</label>
     <input type="text" id="phone" value="+994 " oninput="formatPhone(this); checkForm();">
     
-    <input type="text" id="teamName" placeholder="Komanda Adı*" required oninput="checkForm()">
+    <label>Komanda Adı*</label>
+    <input type="text" id="teamName" placeholder="Məs: Qorxmazlar" required oninput="checkForm()">
     
-    <input type="text" id="school" placeholder="Məktəb*" required oninput="checkForm()">
+    <label>Məktəb*</label>
+    <input type="text" id="school" placeholder="Məktəb nömrəsi və ya adı" required oninput="checkForm()">
 
+    <label>Sinif seçin*</label>
     <select id="grade" onchange="checkForm()">
-        <option value="">Sinif seçin*</option>
+        <option value="">Seçin...</option>
         <option value="5">5-ci sinif</option>
         <option value="6">6-cı sinif</option>
         <option value="7">7-ci sinif</option>
@@ -45,39 +127,57 @@
 </div>
 
 <div class="success-popup" id="successPopup">
-    <h2 style="color: #28a745;">Qeydiyyat Tamamlandı! ✅</h2>
-    <p>İndi oyun üçün vaxt seçə bilərsiniz.</p>
-    <button onclick="window.location.href='reserve.html'" style="padding:15px 30px; background:#ff4d4d; color:white; border:none; border-radius:5px; margin:10px; cursor:pointer;">Rezervasiya et</button>
-    <button onclick="window.location.href='index.html'" style="padding:15px 30px; background:#444; color:white; border:none; border-radius:5px; margin:10px; cursor:pointer;">Ana səhifəyə qayıt</button>
+    <div class="popup-box">
+        <h2 style="color: #28a745;">Qeydiyyat Tamamlandı! ✅</h2>
+        <p style="color: #ccc;">Məlumatlar uğurla bazaya əlavə edildi.</p>
+        <br>
+        <a href="reserve.html" class="nav-btn" style="background: #ff4d4d; color: white;">Rezervasiya et</a>
+        <a href="index.html" class="nav-btn" style="background: #444; color: white;">Ana səhifəyə qayıt</a>
+    </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "BURAYA_OZ_SCRIPT_URL_NU_YAPISDIR";
+    // Şəkildəki URL-ni buraya yapışdır:
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPMJ3Yf3CwYkIGahSdV1MMjk_4rdcWAIHD6clN18WWys8sHqrb-azr-ZBFWip8_EzRoA/exec";
 
+    // Yalnız hərf yazmağa icazə verən funksiya
+    function validateLetters(input) {
+        input.value = input.value.replace(/[^a-zA-ZəıöğçşüƏİÖĞÇŞÜ\s]/g, '');
+    }
+
+    // Telefon formatı: +994 XX XXX XX XX
     function formatPhone(input) {
-        if (!input.value.startsWith('+994 ')) input.value = '+994 ';
-        let val = input.value.replace(/\D/g, '').substring(3);
+        if (!input.value.startsWith('+994 ')) {
+            input.value = '+994 ';
+        }
+        let val = input.value.replace(/\D/g, '').substring(3); // İlk 3 rəqəmi (+994) at
         let formatted = '+994 ';
+        
         if (val.length > 0) formatted += val.substring(0, 2);
         if (val.length > 2) formatted += ' ' + val.substring(2, 5);
         if (val.length > 5) formatted += ' ' + val.substring(5, 7);
         if (val.length > 7) formatted += ' ' + val.substring(7, 9);
+        
         input.value = formatted;
     }
 
+    // Formun dolu olub-olmadığını yoxlayan funksiya
     function checkForm() {
         const kapitan = document.getElementById('kapitan').value.trim();
         const team = document.getElementById('teamName').value.trim();
         const school = document.getElementById('school').value.trim();
         const grade = document.getElementById('grade').value;
-        const phone = document.getElementById('phone').value.length;
+        const phone = document.getElementById('phone').value.trim();
 
-        document.getElementById('submitBtn').disabled = !(kapitan && team && school && grade && phone >= 17);
+        // Butonun aktivləşmə şərti (Müəllim vacib deyil, digərləri vacibdir)
+        const isReady = kapitan.length > 3 && team.length > 1 && school.length > 1 && grade !== "" && phone.length >= 17;
+        document.getElementById('submitBtn').disabled = !isReady;
     }
 
+    // Məlumatları Google Sheets-ə göndərən funksiya
     async function submitRegistration() {
         const btn = document.getElementById('submitBtn');
-        btn.innerText = "Yadda saxlanılır...";
+        btn.innerText = "Göndərilir...";
         btn.disabled = true;
 
         const data = {
@@ -91,14 +191,24 @@
         };
 
         try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+            // Google Script-ə POST istəyi
+            await fetch(SCRIPT_URL, { 
+                method: "POST", 
+                mode: "no-cors", // CORS xətası almamaları üçün mütləqdir
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data) 
+            });
+            
+            // Uğurlu olduqda popup-u göstər
             document.getElementById('successPopup').style.display = 'flex';
         } catch (e) {
-            alert("Xəta baş verdi!");
+            console.log(e);
+            alert("Xəta baş verdi! İnterneti yoxlayın.");
             btn.disabled = false;
             btn.innerText = "Qeydiyyatı Tamamla";
         }
     }
 </script>
+
 </body>
 </html>
