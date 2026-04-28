@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Qorxu Evi - Yarışma Qeydiyyatı</title>
+    <style>
+        body {
+            background-color: #0b0b0b;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #1a1a1a;
+            border: 2px solid #8b0000;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px #000;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #bbb;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background-color: #252525;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff0000;
+        }
+
+        .flex-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #8b0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        .optional {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Məktəblərarası Yarışma</h2>
+    <form id="registrationForm">
+        <div class="form-group">
+            <label>Qrup Rəhbəri *</label>
+            <input type="text" id="groupLeader" placeholder="Ad və Soyad" required>
+        </div>
+
+        <div class="form-group">
+            <label>Müəllim Adı <span class="optional">(istəyə bağlı)</span></label>
+            <input type="text" id="teacherName" placeholder="Müəllimin adı">
+        </div>
+
+        <div class="form-group">
+            <label>Məktəb *</label>
+            <input type="text" id="school" placeholder="Məktəb nömrəsi və ya adı" required>
+        </div>
+
+        <div class="flex-group">
+            <div class="form-group" style="flex: 1;">
+                <label>Sinif *</label>
+                <select id="grade" required>
+                    <option value="">Seçin</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                </select>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>İndeks *</label>
+                <select id="index" required>
+                    <option value="">Seçin</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="R">R</option>
+                    <option value="P">P</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Əlaqə nömrəsi *</label>
+            <input type="tel" id="phone" placeholder="994+ xx xxx xx xx" value="994" required>
+        </div>
+
+        <div class="form-group">
+            <label>Rezerv Edenin Adı *</label>
+            <input type="text" id="reserverName" placeholder="Adınız" required>
+        </div>
+
+        <div class="flex-group">
+            <div class="form-group" style="flex: 1;">
+                <label>Gün *</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>Saat *</label>
+                <input type="time" id="time" required>
+            </div>
+        </div>
+
+        <button type="submit" id="submitBtn">Qeydiyyatı Tamamla</button>
+    </form>
+</div>
+
+<script>
+    const token = "8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ";
+    const chat_id = "7766487634";
+
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "Göndərilir...";
+        btn.disabled = true;
+
+        // Məlumatları götürürük
+        const groupLeader = document.getElementById('groupLeader').value;
+        const teacherName = document.getElementById('teacherName').value || "Qeyd edilməyib";
+        const school = document.getElementById('school').value;
+        const grade = document.getElementById('grade').value;
+        const index = document.getElementById('index').value;
+        const phone = document.getElementById('phone').value;
+        const reserverName = document.getElementById('reserverName').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+
+        // Telegram mesaj formatı
+        const message = `
+🔥 *Yeni Yarışma Qeydiyyatı!* 🔥
+
+👤 *Qrup Rəhbəri:* ${groupLeader}
+👩‍🏫 *Müəllim:* ${teacherName}
+🏫 *Məktəb:* ${school}
+🎓 *Sinif:* ${grade}-${index}
+📞 *Əlaqə:* ${phone}
+📝 *Rezerv edən:* ${reserverName}
+📅 *Tarix:* ${date}
+⏰ *Saat:* ${time}
+        `;
+
+        const url = `https://api.telegram.org/bot${token}/sendMessage`;
+        
+        const params = {
+            chat_id: chat_id,
+            text: message,
+            parse_mode: "Markdown"
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Qeydiyyat uğurla tamamlandı! Sizinlə əlaqə saxlanılacaq.");
+                document.getElementById('registrationForm').reset();
+            } else {
+                alert("Xəta baş verdi. Yenidən yoxlayın.");
+            }
+        })
+        .catch(error => {
+            alert("Sistem xətası: " + error);
+        })
+        .finally(() => {
+            btn.innerText = "Qeydiyyatı Tamamla";
+            btn.disabled = false;
+        });
+    });
+</script>
+
+</body>
+</html>
