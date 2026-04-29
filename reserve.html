@@ -1,64 +1,29 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<link rel="icon" type="image/png" href="logo.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Online Rezervasiya</title>
 <link rel="stylesheet" href="style.css">
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCL_hdTb1Vi98heFRtzFOU7Fg_1pAVCPePDNyxazzawM7w_utNOyeCfEmpvTFFiewA/exec"; // Yeni Deployment URL-ni bura qoy!
+    // Yeni deploymentdən aldığın URL-i bura mütləq yapışdır!
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby07MZZIj1hrz-nhp4kbx89Gmbwiftb2fuKdtaiJRYRoSnPQxFHMJdecCt0xmbz-W4I/exec"; 
 </script>
 <style>
-    /* SAATLARIN ÜSLUBU */
-    .disabled-time {
-        background-color: #333 !important; 
-        color: #777 !important;
-        opacity: 0.5;
-        cursor: not-allowed !important;
-        pointer-events: none !important;
-        position: relative;
-        border: 1px solid #444 !important;
-    }
-    .disabled-time::after {
-        content: "DOLU";
-        font-size: 10px;
-        position: absolute; bottom: 3px; left: 50%;
-        transform: translateX(-50%); color: #ff4d4d; font-weight: bold;
-    }
+    .disabled-time { background-color: #333 !important; color: #777 !important; opacity: 0.5; pointer-events: none; position: relative; border: 1px solid #444 !important; }
+    .disabled-time::after { content: "DOLU"; font-size: 10px; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); color: #ff4d4d; font-weight: bold; }
 
-    /* POPUPLARIN QAT-QAT OLMASI (Z-INDEX) */
-    .popup { z-index: 1000; } /* Birinci popup */
-    
-    #teamPopup {
-        display: none;
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.96);
-        z-index: 9999 !important; /* Mütləq ən üstə çıxacaq */
-        align-items: center; justify-content: center;
-    }
-
-    .comp-btn {
-        background: #cc0000; color: white; width: 100%;
-        padding: 12px; border: none; border-radius: 5px;
-        cursor: pointer; font-weight: bold; margin-top: 10px;
-    }
-    .team-box {
-        background: #1a1a1a; padding: 20px; border-radius: 10px;
-        width: 85%; max-width: 320px; border: 1px solid #444;
-    }
-    .team-item {
-        display: block; width: 100%; padding: 12px; margin: 8px 0;
-        background: #333; color: white; border: 1px solid #555;
-        border-radius: 5px; cursor: pointer; text-align: left;
-    }
+    .popup { z-index: 1000; }
+    #teamPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 99999 !important; align-items: center; justify-content: center; }
+    .team-box { background: #1a1a1a; padding: 20px; border-radius: 10px; width: 85%; max-width: 320px; border: 1px solid #ff0000; }
+    .team-item { display: block; width: 100%; padding: 12px; margin: 8px 0; background: #333; color: white; border: 1px solid #555; border-radius: 5px; cursor: pointer; text-align: left; }
+    .comp-btn { background: #ff0000; color: white; width: 100%; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-    <div class="back-btn" onclick="goBack()">←</div>
+    <div class="back-btn" onclick="window.location.href='index.html'">←</div>
     <div class="topbar-title">Online Rezervasiya</div>
 </div>
 
@@ -69,12 +34,12 @@
 
 <div class="popup" id="popup">
     <div class="popup-box">
-        <h3 id="chosenTime" style="color:white;"></h3>
+        <h3 id="chosenTime" style="color:white; margin-bottom:10px;"></h3>
         <input type="text" id="name" placeholder="Ad Soyad">
         <input type="tel" id="phone" placeholder="Telefon">
-        <input type="number" id="people" placeholder="Nəfər">
+        <input type="number" id="people" placeholder="Neçə nəfər">
         
-        <select id="gameSelect" style="width:100%; padding:10px; margin-top:10px; background:#111; color:white;">
+        <select id="gameSelect" style="width:100%; padding:10px; margin-top:10px; background:#111; color:white; border:1px solid #444;">
             <option value="Seçilməyib">Oyun seçin</option>
             <option value="Murad">Murad</option>
             <option value="Əzrayıl">Əzrayıl</option>
@@ -84,16 +49,16 @@
 
         <button type="button" class="comp-btn" id="compBtnTrigger" onclick="openTeamPopup()">🏆 Yarışma Rezervi</button>
 
-        <button id="reserveBtn" disabled style="margin-top:20px;">Rezerv et</button>
-        <button onclick="closePopup()">Geri dön</button>
+        <button id="reserveBtn" disabled style="margin-top:20px; width:100%; padding:12px;">Rezerv et</button>
+        <button onclick="closePopup()" style="width:100%; margin-top:5px; background:none; color:#aaa;">Geri dön</button>
     </div>
 </div>
 
 <div id="teamPopup">
     <div class="team-box">
-        <h3 style="color:white;">Komandanı Seç</h3>
+        <h3 style="color:white; margin-bottom:15px;">Komandanı Seç</h3>
         <div id="teamList" style="max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
-        <button onclick="closeTeamPopup()" style="width:100%; padding:10px; background:#555; color:white; border:none; border-radius:5px;">Bağla</button>
+        <button onclick="closeTeamPopup()" style="width:100%; padding:10px; background:#444; color:white; border:none; border-radius:5px;">Bağla</button>
     </div>
 </div>
 
@@ -103,9 +68,7 @@ document.addEventListener("DOMContentLoaded", function(){
     let chosenTeam = "Fərdi";
     let selectedTime = "";
 
-    window.goBack = () => window.location.href="index.html";
-
-    // TARİX SİYAHISI
+    // 4 GÜNLÜK TARİX
     for(let i=0; i<4; i++){
         let d = new Date(); d.setDate(d.getDate()+i);
         let option = document.createElement("option");
@@ -114,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function(){
         document.getElementById("dateSelect").appendChild(option);
     }
 
+    // MƏLUMATLARI ÇƏKMƏK
     async function loadData() {
         document.getElementById("timeGrid").innerText = "Yüklənir...";
         try {
@@ -139,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function(){
             } else {
                 div.onclick = () => {
                     selectedTime = t;
-                    chosenTeam = "Fərdi";
+                    chosenTeam = "Fərdi"; // Hər dəfə sıfırla
                     document.getElementById("compBtnTrigger").innerText = "🏆 Yarışma Rezervi";
                     document.getElementById("popup").style.display="flex";
                     document.getElementById("chosenTime").innerText="Saat: " + t;
@@ -152,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function(){
     window.openTeamPopup = () => {
         let list = document.getElementById("teamList");
         list.innerHTML = "";
+        if(allTeams.length === 0) list.innerHTML = "<p style='color:#aaa;'>Komanda tapılmadı.</p>";
         allTeams.forEach(t => {
             let b = document.createElement("button");
             b.className = "team-item";
@@ -179,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("name").oninput = check;
     document.getElementById("phone").oninput = check;
 
+    // REZERV ET
     document.getElementById("reserveBtn").onclick = async () => {
         let btn = document.getElementById("reserveBtn");
         btn.innerText = "Göndərilir...";
@@ -196,10 +162,10 @@ document.addEventListener("DOMContentLoaded", function(){
         };
 
         try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
             
             // Telegram Mesajı
-            let msg = `🆕 Rezerv!\n👤: ${data.name}\n📞: ${data.phone}\n🎮: ${data.game}\n🏆: ${data.teamName}\n📅: ${data.dateText}\n⏰: ${data.time}`;
+            let msg = `🆕 REZERV!\n👤: ${data.name}\n📞: ${data.phone}\n🎮: ${data.game}\n🏆: ${data.teamName}\n👥: ${data.people}\n📅: ${data.dateText}\n⏰: ${data.time}`;
             await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage?chat_id=7766487634&text=${encodeURIComponent(msg)}`);
 
             alert("Rezervasiya tamamlandı! ✅");
