@@ -6,8 +6,8 @@
 <title>Online Rezervasiya</title>
 <link rel="stylesheet" href="style.css">
 <script>
-    // Yeni deploymentdən aldığın URL-i bura mütləq yapışdır!
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby07MZZIj1hrz-nhp4kbx89Gmbwiftb2fuKdtaiJRYRoSnPQxFHMJdecCt0xmbz-W4I/exec"; 
+    // SCRIPT_URL artıq sənin göndərdiyin koddakı kimidir
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybamAGNSNwc7Nuf86r-H-Dd_om-_nxOlqi5J0wcSnd3lLokRgjC3i2DsSsIwZJpaNM/exec"; 
 </script>
 <style>
     .disabled-time { background-color: #333 !important; color: #777 !important; opacity: 0.5; pointer-events: none; position: relative; border: 1px solid #444 !important; }
@@ -16,7 +16,8 @@
     .popup { z-index: 1000; }
     #teamPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 99999 !important; align-items: center; justify-content: center; }
     .team-box { background: #1a1a1a; padding: 20px; border-radius: 10px; width: 85%; max-width: 320px; border: 1px solid #ff0000; }
-    .team-item { display: block; width: 100%; padding: 12px; margin: 8px 0; background: #333; color: white; border: 1px solid #555; border-radius: 5px; cursor: pointer; text-align: left; }
+    .team-item { display: block; width: 100%; padding: 12px; margin: 8px 0; background: #333; color: white; border: 1px solid #555; border-radius: 5px; cursor: pointer; text-align: left; transition: 0.3s; }
+    .team-item:hover { background: #444; border-color: #ff0000; }
     .comp-btn { background: #ff0000; color: white; width: 100%; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
 </style>
 </head>
@@ -37,10 +38,10 @@
         <h3 id="chosenTime" style="color:white; margin-bottom:10px;"></h3>
         <input type="text" id="name" placeholder="Ad Soyad">
         <input type="tel" id="phone" placeholder="Telefon">
-        <input type="number" id="people" placeholder="Neçə nəfər">
+        <input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
         
         <select id="gameSelect" style="width:100%; padding:10px; margin-top:10px; background:#111; color:white; border:1px solid #444;">
-            <option value="Seçilməyib">Oyun seçin</option>
+            <option value="Seçilməyib">Oyun seçin (Məcburi deyil)</option>
             <option value="Murad">Murad</option>
             <option value="Əzrayıl">Əzrayıl</option>
             <option value="Qaranlıq">Qaranlıq</option>
@@ -50,7 +51,7 @@
         <button type="button" class="comp-btn" id="compBtnTrigger" onclick="openTeamPopup()">🏆 Yarışma Rezervi</button>
 
         <button id="reserveBtn" disabled style="margin-top:20px; width:100%; padding:12px;">Rezerv et</button>
-        <button onclick="closePopup()" style="width:100%; margin-top:5px; background:none; color:#aaa;">Geri dön</button>
+        <button onclick="closePopup()" style="width:100%; margin-top:5px; background:none; color:#aaa; border:none; cursor:pointer;">Geri dön</button>
     </div>
 </div>
 
@@ -58,7 +59,7 @@
     <div class="team-box">
         <h3 style="color:white; margin-bottom:15px;">Komandanı Seç</h3>
         <div id="teamList" style="max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
-        <button onclick="closeTeamPopup()" style="width:100%; padding:10px; background:#444; color:white; border:none; border-radius:5px;">Bağla</button>
+        <button onclick="closeTeamPopup()" style="width:100%; padding:10px; background:#444; color:white; border:none; border-radius:5px; cursor:pointer;">Bağla</button>
     </div>
 </div>
 
@@ -85,7 +86,10 @@ document.addEventListener("DOMContentLoaded", function(){
             let data = await res.json();
             allTeams = data.teams || [];
             renderGrid(data.reserved || []);
-        } catch (e) { renderGrid([]); }
+        } catch (e) { 
+            console.error("Məlumat yüklənərkən xəta:", e);
+            renderGrid([]); 
+        }
     }
 
     function renderGrid(reserved) {
@@ -103,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function(){
             } else {
                 div.onclick = () => {
                     selectedTime = t;
-                    chosenTeam = "Fərdi"; // Hər dəfə sıfırla
+                    chosenTeam = "Fərdi";
                     document.getElementById("compBtnTrigger").innerText = "🏆 Yarışma Rezervi";
                     document.getElementById("popup").style.display="flex";
                     document.getElementById("chosenTime").innerText="Saat: " + t;
@@ -113,21 +117,26 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
+    // KOMANDA POPUPUNU AÇAN FUNKSİYA
     window.openTeamPopup = () => {
         let list = document.getElementById("teamList");
-        list.innerHTML = "";
-        if(allTeams.length === 0) list.innerHTML = "<p style='color:#aaa;'>Komanda tapılmadı.</p>";
-        allTeams.forEach(t => {
-            let b = document.createElement("button");
-            b.className = "team-item";
-            b.innerText = "🏆 " + t;
-            b.onclick = () => {
-                chosenTeam = t;
-                document.getElementById("compBtnTrigger").innerText = "🏆 " + t;
-                closeTeamPopup();
-            };
-            list.appendChild(b);
-        });
+        list.innerHTML = ""; 
+        
+        if (allTeams.length === 0) {
+            list.innerHTML = "<p style='color:#aaa; text-align:center;'>Komanda yüklənir və ya siyahı boşdur...</p>";
+        } else {
+            allTeams.forEach(t => {
+                let b = document.createElement("button");
+                b.className = "team-item";
+                b.innerText = "🏆 " + t;
+                b.onclick = () => {
+                    chosenTeam = t;
+                    document.getElementById("compBtnTrigger").innerText = "🏆 " + t;
+                    closeTeamPopup();
+                };
+                list.appendChild(b);
+            });
+        }
         document.getElementById("teamPopup").style.display = "flex";
     };
 
@@ -162,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function(){
         };
 
         try {
+            // Google Sheets-ə göndərmək
             await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
             
             // Telegram Mesajı
