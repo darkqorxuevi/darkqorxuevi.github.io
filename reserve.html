@@ -7,11 +7,10 @@
 <title>Online Rezervasiya</title>
 <link rel="stylesheet" href="style.css">
 <script>
-    // BURA ÖZ YENİ SCRIPT URL-Nİ QOYMAĞI UNUTMA
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwN_HpeqJ3xBaQdFKWBLBMmpPY4SnxzlGH0eeRYRfU2RJ_b4XK3eLpwuYvS_osGJMey/exec";
+    const SCRIPT_URL = "BURA_YENİ_URL_YAPIŞDIR"; // Yeni Deployment URL-ni bura qoy!
 </script>
 <style>
-    /* DOLU SAATIN GÖRÜNÜŞÜ */
+    /* SAATLARIN ÜSLUBU */
     .disabled-time {
         background-color: #333 !important; 
         color: #777 !important;
@@ -24,78 +23,35 @@
     .disabled-time::after {
         content: "DOLU";
         font-size: 10px;
-        position: absolute;
-        bottom: 3px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: #ff4d4d;
-        font-weight: bold;
+        position: absolute; bottom: 3px; left: 50%;
+        transform: translateX(-50%); color: #ff4d4d; font-weight: bold;
     }
 
-    /* YARIŞMA ÜÇÜN ƏLAVƏ ÜSLUBLAR */
-    .competition-section {
-        margin-top: 15px;
-        padding-top: 10px;
-        border-top: 1px solid #333;
-    }
-    .comp-btn {
-        background: #ff0000; /* Şəkildəki qırmızı rəng */
-        color: white;
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
+    /* POPUPLARIN QAT-QAT OLMASI (Z-INDEX) */
+    .popup { z-index: 1000; } /* Birinci popup */
     
-    /* ƏSAS POPUP */
-    .popup {
-        z-index: 5000; /* Birinci popup */
-    }
-
-    /* KOMANDA POPUPU - ƏN ÜSTDƏ OLMALI */
     #teamPopup {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.96);
-        z-index: 99999 !important; /* Mütləq ən üstə çıxması üçün */
-        align-items: center;
-        justify-content: center;
+        z-index: 9999 !important; /* Mütləq ən üstə çıxacaq */
+        align-items: center; justify-content: center;
+    }
+
+    .comp-btn {
+        background: #cc0000; color: white; width: 100%;
+        padding: 12px; border: none; border-radius: 5px;
+        cursor: pointer; font-weight: bold; margin-top: 10px;
     }
     .team-box {
-        background: #111;
-        padding: 20px;
-        border-radius: 10px;
-        width: 85%;
-        max-width: 320px;
-        text-align: center;
-        border: 2px solid #ff0000; /* Qırmızı çərçivə */
+        background: #1a1a1a; padding: 20px; border-radius: 10px;
+        width: 85%; max-width: 320px; border: 1px solid #444;
     }
     .team-item {
-        display: block;
-        width: 100%;
-        padding: 14px;
-        margin: 8px 0;
-        background: #222;
-        color: white;
-        border: 1px solid #444;
-        border-radius: 5px;
-        cursor: pointer;
-        text-align: left;
-        font-size: 14px;
-    }
-    .team-item:hover {
-        background: #333;
-        border-color: #ff0000;
+        display: block; width: 100%; padding: 12px; margin: 8px 0;
+        background: #333; color: white; border: 1px solid #555;
+        border-radius: 5px; cursor: pointer; text-align: left;
     }
 </style>
 </head>
@@ -112,180 +68,148 @@
 </div>
 
 <div class="popup" id="popup">
-    <div class="popup-box" style="border: 1px solid red;">
-        <h3 id="chosenTime" style="color:white; margin-bottom:15px;"></h3>
+    <div class="popup-box">
+        <h3 id="chosenTime" style="color:white;"></h3>
         <input type="text" id="name" placeholder="Ad Soyad">
         <input type="tel" id="phone" placeholder="Telefon">
-        <input type="number" id="people" placeholder="Neçə nəfər (istəyə bağlı)">
+        <input type="number" id="people" placeholder="Nəfər">
         
-        <select id="gameSelect" style="width:100%; padding:10px; margin-top:10px; background:#111; color:white; border:1px solid #444;">
-            <option value="Seçilməyib">Oyun seçin (Məcburi deyil)</option>
+        <select id="gameSelect" style="width:100%; padding:10px; margin-top:10px; background:#111; color:white;">
+            <option value="Seçilməyib">Oyun seçin</option>
             <option value="Murad">Murad</option>
             <option value="Əzrayıl">Əzrayıl</option>
             <option value="Qaranlıq">Qaranlıq</option>
             <option value="Cin'ne Süfyan">Cin'ne Süfyan</option>
         </select>
 
-        <div class="competition-section">
-            <button type="button" class="comp-btn" id="compBtnTrigger" onclick="openTeamPopup()">🏆 Yarışma Rezervi</button>
-        </div>
+        <button type="button" class="comp-btn" id="compBtnTrigger" onclick="openTeamPopup()">🏆 Yarışma Rezervi</button>
 
-        <button id="reserveBtn" disabled style="margin-top:20px; background:#555;">Rezerv et</button>
-        <button onclick="closePopup()" style="background:#ff0000; color:white;">Geri dön</button>
+        <button id="reserveBtn" disabled style="margin-top:20px;">Rezerv et</button>
+        <button onclick="closePopup()">Geri dön</button>
     </div>
 </div>
 
 <div id="teamPopup">
     <div class="team-box">
-        <h3 style="color:white; margin-bottom:15px;">Komandanı Seç</h3>
-        <div id="teamList" style="max-height:300px; overflow-y:auto; margin-bottom:15px; padding-right:5px;">
-            </div>
-        <button onclick="closeTeamPopup()" style="background:#444; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; width:100%;">Bağla</button>
+        <h3 style="color:white;">Komandanı Seç</h3>
+        <div id="teamList" style="max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
+        <button onclick="closeTeamPopup()" style="width:100%; padding:10px; background:#555; color:white; border:none; border-radius:5px;">Bağla</button>
     </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+    let allTeams = [];
+    let chosenTeam = "Fərdi";
+    let selectedTime = "";
 
     window.goBack = () => window.location.href="index.html";
 
-    let dateSelect = document.getElementById("dateSelect");
-    let grid = document.getElementById("timeGrid");
-    let nameInput = document.getElementById("name");
-    let phoneInput = document.getElementById("phone");
-    let gameSelect = document.getElementById("gameSelect");
-    let reserveBtn = document.getElementById("reserveBtn");
-    let compBtnTrigger = document.getElementById("compBtnTrigger");
-    
-    let allTeams = []; 
-    let chosenTeam = ""; 
-    let selectedTime = "";
-
-    // 4 GÜNLÜK TARİX SİYAHISI
-    let today = new Date();
+    // TARİX SİYAHISI
     for(let i=0; i<4; i++){
-        let d = new Date();
-        d.setDate(today.getDate()+i);
+        let d = new Date(); d.setDate(d.getDate()+i);
         let option = document.createElement("option");
         option.value = d.toISOString().split('T')[0];
         option.innerText = d.toLocaleDateString("az-AZ", { day:"numeric", month:"long" });
-        dateSelect.appendChild(option);
+        document.getElementById("dateSelect").appendChild(option);
     }
 
-    const times = ["00:00","01:00","02:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
-
-    async function loadStatus() {
-        grid.innerHTML = "<div style='grid-column: 1/-1; text-align:center;'>Yüklənir...</div>";
+    async function loadData() {
+        document.getElementById("timeGrid").innerText = "Yüklənir...";
         try {
-            let response = await fetch(SCRIPT_URL);
-            let result = await response.json();
-            allTeams = result.teams || []; 
-            renderGrid(result.reserved || []);
-        } catch (error) {
-            renderGrid([]);
-        }
+            let res = await fetch(SCRIPT_URL);
+            let data = await res.json();
+            allTeams = data.teams || [];
+            renderGrid(data.reserved || []);
+        } catch (e) { renderGrid([]); }
     }
 
-    function renderGrid(reservedSlots) {
+    function renderGrid(reserved) {
+        let grid = document.getElementById("timeGrid");
         grid.innerHTML = "";
-        let selectedDate = dateSelect.value;
-        times.forEach(time => {
+        let times = ["00:00","01:00","02:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+        let selDate = document.getElementById("dateSelect").value;
+
+        times.forEach(t => {
             let div = document.createElement("div");
             div.className = "time-box";
-            div.innerText = time;
-            let slotKey = selectedDate + "_" + time;
-            if (reservedSlots.includes(slotKey)) {
+            div.innerText = t;
+            if (reserved.includes(selDate + "_" + t)) {
                 div.classList.add("disabled-time");
             } else {
-                div.addEventListener("click", () => {
-                    selectedTime = time;
-                    chosenTeam = ""; 
-                    compBtnTrigger.innerHTML = "🏆 Yarışma Rezervi"; 
+                div.onclick = () => {
+                    selectedTime = t;
+                    chosenTeam = "Fərdi";
+                    document.getElementById("compBtnTrigger").innerText = "🏆 Yarışma Rezervi";
                     document.getElementById("popup").style.display="flex";
-                    document.getElementById("chosenTime").innerText="Saat: " + time;
-                });
+                    document.getElementById("chosenTime").innerText="Saat: " + t;
+                };
             }
             grid.appendChild(div);
         });
     }
 
-    // KOMANDA POPUPU FUNKSİYALARI
-    window.openTeamPopup = function() {
+    window.openTeamPopup = () => {
         let list = document.getElementById("teamList");
         list.innerHTML = "";
-        
-        if(allTeams.length === 0) {
-            list.innerHTML = "<p style='color:#aaa;'>Yüklənir və ya tapılmadı...</p>";
-        } else {
-            allTeams.forEach(team => {
-                let btn = document.createElement("button");
-                btn.className = "team-item";
-                btn.innerText = "🏆 " + team;
-                btn.onclick = () => {
-                    chosenTeam = team;
-                    compBtnTrigger.innerHTML = "🏆 " + team; // Düymənin mətni seçilən komanda olur
-                    closeTeamPopup();
-                };
-                list.appendChild(btn);
-            });
-        }
+        allTeams.forEach(t => {
+            let b = document.createElement("button");
+            b.className = "team-item";
+            b.innerText = "🏆 " + t;
+            b.onclick = () => {
+                chosenTeam = t;
+                document.getElementById("compBtnTrigger").innerText = "🏆 " + t;
+                closeTeamPopup();
+            };
+            list.appendChild(b);
+        });
         document.getElementById("teamPopup").style.display = "flex";
-    }
+    };
 
     window.closeTeamPopup = () => document.getElementById("teamPopup").style.display = "none";
     window.closePopup = () => document.getElementById("popup").style.display="none";
 
-    dateSelect.addEventListener("change", loadStatus);
-    loadStatus();
+    document.getElementById("dateSelect").onchange = loadData;
+    loadData();
 
-    function checkInputs(){
-        reserveBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
-        reserveBtn.style.background = reserveBtn.disabled ? "#555" : "#007bff";
-    }
-    nameInput.addEventListener("input", checkInputs);
-    phoneInput.addEventListener("input", checkInputs);
+    // INPUT YOXLAMA
+    let check = () => {
+        document.getElementById("reserveBtn").disabled = !(document.getElementById("name").value.trim() && document.getElementById("phone").value.trim());
+    };
+    document.getElementById("name").oninput = check;
+    document.getElementById("phone").oninput = check;
 
-    reserveBtn.addEventListener("click", async function(){
+    document.getElementById("reserveBtn").onclick = async () => {
+        let btn = document.getElementById("reserveBtn");
+        btn.innerText = "Göndərilir...";
+        btn.disabled = true;
+
         let data = {
-            type: "reservation",
-            slotKey: dateSelect.value + "_" + selectedTime,
-            name: nameInput.value,
-            phone: phoneInput.value,
+            slotKey: document.getElementById("dateSelect").value + "_" + selectedTime,
+            name: document.getElementById("name").value,
+            phone: document.getElementById("phone").value,
             people: document.getElementById("people").value || "Qeyd edilməyib",
-            game: gameSelect.value, 
-            teamName: chosenTeam || "Fərdi",
-            dateText: dateSelect.options[dateSelect.selectedIndex].text,
+            game: document.getElementById("gameSelect").value,
+            teamName: chosenTeam,
+            dateText: document.getElementById("dateSelect").options[document.getElementById("dateSelect").selectedIndex].text,
             time: selectedTime
         };
 
-        reserveBtn.innerText = "Göndərilir...";
-        reserveBtn.disabled = true;
-
         try {
-            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-
-            let msg = `🆕 *YENİ REZERV*\n👤: ${data.name}\n📞: ${data.phone}\n🎮 Oyun: ${data.game}\n🏆 Komanda: ${data.teamName}\n👥: ${data.people}\n📅: ${data.dateText}\n⏰: ${data.time}`;
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
             
-            await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: "7766487634", text: msg, parse_mode: "Markdown" })
-            });
+            // Telegram Mesajı
+            let msg = `🆕 Rezerv!\n👤: ${data.name}\n📞: ${data.phone}\n🎮: ${data.game}\n🏆: ${data.teamName}\n📅: ${data.dateText}\n⏰: ${data.time}`;
+            await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage?chat_id=7766487634&text=${encodeURIComponent(msg)}`);
 
             alert("Rezervasiya tamamlandı! ✅");
-            closePopup();
-            loadStatus();
+            location.reload();
         } catch (e) {
             alert("Xəta baş verdi ❌");
-        } finally {
-            reserveBtn.innerText = "Rezerv et";
-            nameInput.value = "";
-            phoneInput.value = "";
-            chosenTeam = "";
-            compBtnTrigger.innerHTML = "🏆 Yarışma Rezervi";
-            checkInputs();
+            btn.disabled = false;
+            btn.innerText = "Rezerv et";
         }
-    });
+    };
 });
 </script>
 </body>
