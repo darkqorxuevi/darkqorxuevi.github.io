@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="style.css">
 <script>
     // BURA APPS SCRIPT-DƏN ALDIĞIN YENİ URL-İ YAPIŞDIR
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyjWjCY6w_Byalb0T_a9MSzGnR0xO6v9ZnLCuIyxYiV3usj0vydUPR7bipAC8_1QJiV5w/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2if_mG3jH30yhHYr83Fb2ghS11XvnFxeGWfkuAJxj7WWAKpjJ6Bwiul_EbjjJjxd7CA/exec";
 </script>
 <style>
     .disabled-time {
@@ -115,13 +115,14 @@ document.addEventListener("DOMContentLoaded", function(){
     async function loadData() {
         grid.innerHTML = "Yüklənir...";
         try {
+            // SCRIPT_URL-dən həm "reserved" həm də "teams" məlumatlarını çəkirik
             let res = await fetch(SCRIPT_URL);
             let data = await res.json();
-            // Apps Script-dən gələn datada həm rezervləri, həm komandaları alırıq
-            allTeams = data.teams || []; 
-            renderGrid(data.reserved || []);
+            
+            allTeams = data.teams || []; // Cədvəldəki komandaların siyahısı
+            renderGrid(data.reserved || []); // Dolu saatların siyahısı
         } catch (e) { 
-            console.log("Məlumat yükləmə xətası:", e);
+            console.error("Məlumat yükləmə xətası:", e);
             renderGrid([]); 
         }
     }
@@ -134,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function(){
             let div = document.createElement("div");
             div.className = "time-box";
             div.innerText = t;
+            // Əgər bu tarix və saat cədvəldə varsa, onu bağla
             if (reserved.includes(selDate + "_" + t)) {
                 div.classList.add("disabled-time");
             } else {
@@ -152,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function(){
     window.openTeamPopup = () => {
         let list = document.getElementById("teamList");
         list.innerHTML = "";
+        // Əgər heç bir komanda yoxdursa bildiriş göstər
         if(!allTeams || allTeams.length === 0) {
             list.innerHTML = "<p style='color:#aaa;'>Komanda tapılmadı.</p>";
         } else {
@@ -194,15 +197,25 @@ document.addEventListener("DOMContentLoaded", function(){
         reserveBtn.disabled = true;
 
         try {
-            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+            // Apps Script-ə məlumatı POST metodu ilə göndəririk
+            let response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
+            let resJson = await response.json();
+
+            if(resJson.status === "error") {
+                alert("Xəta: " + resJson.message);
+                reserveBtn.innerText = "Rezerv et";
+                reserveBtn.disabled = false;
+                return;
+            }
             
+            // Telegram Bildirişi
             let msg = `🆕 Rezerv!\n👤: ${data.name}\n📞: ${data.phone}\n🎮: ${data.game}\n🏆: ${data.teamName}\n⏰: ${selectedTime}\n📅: ${dateSelect.options[dateSelect.selectedIndex].text}`;
             await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage?chat_id=7766487634&text=${encodeURIComponent(msg)}`);
 
             alert("Rezervasiya tamamlandı! ✅");
             location.reload();
         } catch (e) {
-            alert("Xəta baş verdi ❌");
+            alert("Sistem xətası baş verdi ❌");
             reserveBtn.innerText = "Rezerv et";
             reserveBtn.disabled = false;
         }
