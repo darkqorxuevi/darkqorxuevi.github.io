@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="style.css">
 <script>
     // BURA APPS SCRIPT-DƏN ALDIĞIN YENİ URL-İ YAPIŞDIR
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzztEZrHX7Ct9ND973xHO-zFgYpQfE7KB2NgT21_Tnyjd6i7GZL6LQv--X5vgZirJZRiw/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby6K6ijt_-rZuod4f3Ccpbc53WGLtsPrMfgA-GlRjhKe1GWJKZ-aH_dyFPQAe52H24TsA/exec";
 </script>
 <style>
     .disabled-time {
@@ -176,8 +176,8 @@ document.addEventListener("DOMContentLoaded", function(){
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
             
-            // Telegram Mesajı
-            let msg = `🆕 Rezerv!\n👤: ${data.name}\n📞: ${data.phone}\n🎮: ${data.game}\n🏆: ${data.teamName}\n⏰: ${selectedTime}`;
+            // Telegram Mesajı (Sənin kodunla eynidir)
+            let msg = `🆕 Rezerv!\n👤: ${data.name}\n📞: ${data.phone}\n🎮: ${data.game}\n🏆: ${data.teamName}\n⏰: ${selectedTime}\n📅: ${dateSelect.options[dateSelect.selectedIndex].text}`;
             await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage?chat_id=7766487634&text=${encodeURIComponent(msg)}`);
 
             alert("Rezervasiya tamamlandı! ✅");
