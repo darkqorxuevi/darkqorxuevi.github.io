@@ -30,7 +30,20 @@
     }
     .competition-section { margin-top: 15px; padding-top: 10px; border-top: 1px solid #333; }
     .comp-btn { background: #007bff; color: white; width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-    #teamPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center; }
+    
+    /* POPUP-LARIN ÜST-ÜSTƏ DÜŞMƏSİNİ BURADA HƏLL ETDİK */
+    .popup { z-index: 9000 !important; } /* Rezerv popup-u */
+    
+    #teamPopup { 
+        display: none; 
+        position: fixed; 
+        top: 0; left: 0; 
+        width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.95); 
+        z-index: 10000 !important; /* Yarışma popup-u həmişə ən üstə çıxacaq */
+        align-items: center; 
+        justify-content: center; 
+    }
     .team-box { background: #1a1a1a; padding: 20px; border-radius: 10px; width: 85%; max-width: 300px; text-align: center; border: 1px solid #444; }
     .team-item { display: block; width: 100%; padding: 12px; margin: 5px 0; background: #333; color: white; border: 1px solid #555; border-radius: 5px; cursor: pointer; text-align: left; }
 </style>
@@ -104,9 +117,13 @@ document.addEventListener("DOMContentLoaded", function(){
         try {
             let res = await fetch(SCRIPT_URL);
             let data = await res.json();
-            allTeams = data.teams || [];
+            // Apps Script-dən gələn datada həm rezervləri, həm komandaları alırıq
+            allTeams = data.teams || []; 
             renderGrid(data.reserved || []);
-        } catch (e) { renderGrid([]); }
+        } catch (e) { 
+            console.log("Məlumat yükləmə xətası:", e);
+            renderGrid([]); 
+        }
     }
 
     function renderGrid(reserved) {
@@ -135,18 +152,21 @@ document.addEventListener("DOMContentLoaded", function(){
     window.openTeamPopup = () => {
         let list = document.getElementById("teamList");
         list.innerHTML = "";
-        if(allTeams.length === 0) list.innerHTML = "<p style='color:#aaa;'>Komanda tapılmadı.</p>";
-        allTeams.forEach(team => {
-            let b = document.createElement("button");
-            b.className = "team-item";
-            b.innerText = "🏆 " + team;
-            b.onclick = () => {
-                chosenTeam = team;
-                document.getElementById("compBtnDisplay").innerText = "🏆 " + team;
-                closeTeamPopup();
-            };
-            list.appendChild(b);
-        });
+        if(!allTeams || allTeams.length === 0) {
+            list.innerHTML = "<p style='color:#aaa;'>Komanda tapılmadı.</p>";
+        } else {
+            allTeams.forEach(team => {
+                let b = document.createElement("button");
+                b.className = "team-item";
+                b.innerText = "🏆 " + team;
+                b.onclick = () => {
+                    chosenTeam = team;
+                    document.getElementById("compBtnDisplay").innerText = "🏆 " + team;
+                    closeTeamPopup();
+                };
+                list.appendChild(b);
+            });
+        }
         document.getElementById("teamPopup").style.display = "flex";
     };
 
@@ -176,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function(){
         try {
             await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(data) });
             
-            // Telegram Mesajı (Sənin kodunla eynidir)
             let msg = `🆕 Rezerv!\n👤: ${data.name}\n📞: ${data.phone}\n🎮: ${data.game}\n🏆: ${data.teamName}\n⏰: ${selectedTime}\n📅: ${dateSelect.options[dateSelect.selectedIndex].text}`;
             await fetch(`https://api.telegram.org/bot8514260890:AAHatHZ8DIqInbJ3LkiBSv5hvjk971fLYvQ/sendMessage?chat_id=7766487634&text=${encodeURIComponent(msg)}`);
 
