@@ -158,6 +158,22 @@
         let userNickname = "";
         let lastUpdateId = 0;
 
+        // TİKTOK STATUSUNU YOXLAYAN FUNKSİYA
+        function checkTikTokLive() {
+            const status = localStorage.getItem('tiktokLiveStatus');
+            const badge = document.getElementById('tiktokLiveBadge');
+            const text = document.getElementById('tiktokText');
+
+            if (status === 'true') {
+                badge.classList.add('live-active');
+                text.innerText = "🔴 HAZIRDA CANLIDAYIQ!";
+            } else {
+                badge.classList.remove('live-active');
+                text.innerText = "Canlıda deyilik";
+            }
+        }
+        setInterval(checkTikTokLive, 2000); // Hər 2 saniyədən bir yoxla
+
         function toggleMenu(){ document.getElementById("menu").classList.toggle("active"); }
         function openNavPopup() { document.getElementById('navPopup').style.display = 'flex'; }
         function closeNavPopup() { document.getElementById('navPopup').style.display = 'none'; }
@@ -242,7 +258,10 @@
             else { audio.pause(); document.getElementById("musicIcon").innerText = "🔇"; }
         }
 
-        window.onload = loadReviews;
+        window.onload = function() {
+            loadReviews();
+            checkTikTokLive();
+        };
     </script>
 </body>
 </html>
