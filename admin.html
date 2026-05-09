@@ -13,6 +13,8 @@
         .login-box { width: 90%; max-width: 400px; padding: 40px; background: var(--card-bg); border: 1px solid var(--red); border-radius: 20px; text-align: center; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; background: #000; color: #fff; border: 1px solid #333; border-radius: 10px; box-sizing: border-box; }
         button { cursor: pointer; transition: 0.3s; }
+        .btn-home { width: 100%; padding: 12px; background: #222; color: #aaa; border: 1px solid #444; border-radius: 10px; margin-top: 10px; font-weight: bold; }
+        .btn-home:hover { background: #333; color: white; }
 
         /* Sidebar */
         .sidebar { width: 280px; background: var(--card-bg); border-right: 1px solid #222; display: flex; flex-direction: column; padding: 20px; z-index: 999; }
@@ -47,21 +49,24 @@
 </head>
 <body>
 
-    <!-- Giriş Mərhələləri -->
+    <!-- Giriş Mərhələsi 1 -->
     <div id="loginOverlay" class="overlay-screen">
         <div class="login-box">
             <h2 style="color:var(--red)">DARK LOGIN</h2>
             <input type="text" id="userInput" placeholder="Admin Adı">
             <input type="password" id="passInput" placeholder="Şifrə">
-            <button onclick="checkStep1()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px;">DAXİL OL</button>
+            <button onclick="checkStep1()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px; font-weight:bold;">DAXİL OL</button>
+            <button class="btn-home" onclick="window.location.href='index.html'">🏠 Ana Səhifəyə Qayıt</button>
         </div>
     </div>
 
+    <!-- Giriş Mərhələsi 2 -->
     <div id="twoFAOverlay" class="overlay-screen" style="display:none;">
         <div class="login-box">
             <h2 style="color:var(--red)">SECURITY</h2>
             <input type="password" id="twoFAPass" placeholder="Gizlilik Acharı">
-            <button onclick="checkStep2()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px;">PANELİ AÇ</button>
+            <button onclick="checkStep2()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px; font-weight:bold;">PANELİ AÇ</button>
+            <button class="btn-home" onclick="window.location.href='index.html'">🏠 Ana Səhifəyə Qayıt</button>
         </div>
     </div>
 
@@ -71,7 +76,7 @@
         <button class="menu-btn active" onclick="showPage('dashboard', this)">📊 DASHBOARD</button>
         <button class="menu-btn" onclick="showPage('blacklist', this)">🚫 BLACKLIST</button>
         <button class="menu-btn" onclick="showPage('logs', this)">🛠 SİSTEM LOQLARI</button>
-        <button onclick="location.reload()" style="margin-top:auto; padding:15px; background:var(--red); border:none; border-radius:10px; color:white; font-weight:bold;">ÇIXIŞ</button>
+        <button onclick="window.location.href='index.html'" style="margin-top:auto; padding:15px; background:#333; border:1px solid #555; border-radius:10px; color:white; font-weight:bold;">🏠 ANA SƏHİFƏ</button>
     </div>
 
     <div class="content">
@@ -83,8 +88,8 @@
                     <h4>TikTok Canlı</h4>
                     <div id="tiktokStatus" class="live-status"><div class="dot"></div> <span id="statusText">OFFLINE</span></div>
                     <div style="margin-top:10px;">
-                        <button onclick="toggleTikTok(true)" style="background:green; color:white; border:none; padding:5px 10px; border-radius:5px;">AÇ</button>
-                        <button onclick="toggleTikTok(false)" style="background:#444; color:white; border:none; padding:5px 10px; border-radius:5px;">BAĞLA</button>
+                        <button onclick="toggleTikTok(true)" style="background:green; color:white; border:none; padding:8px 15px; border-radius:5px; font-weight:bold;">AKTİV ET</button>
+                        <button onclick="toggleTikTok(false)" style="background:#880000; color:white; border:none; padding:8px 15px; border-radius:5px; font-weight:bold;">DEAKTİV ET</button>
                     </div>
                 </div>
                 <div class="stat-card"><h4>Ümumi Ziyarət</h4><span class="val" id="totalVisits">0</span></div>
@@ -97,7 +102,7 @@
             <h3>🚫 IP BAN SİSTEMİ</h3>
             <div style="background:#0a0a0a; padding:20px; border-radius:15px; border:1px solid #222;">
                 <input type="text" id="banIP" placeholder="Bloklanacaq IP">
-                <button onclick="addBan()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px;">IP-Nİ BLOKLA</button>
+                <button onclick="addBan()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px; font-weight:bold;">IP-Nİ BLOKLA</button>
             </div>
             <div id="bannedList" style="margin-top:20px; color:red; font-family:monospace;"></div>
         </div>
@@ -127,29 +132,25 @@
             visits: JSON.parse(localStorage.getItem('dark_visits')) || [],
             rezervs: JSON.parse(localStorage.getItem('dark_rezervs')) || [],
             bans: JSON.parse(localStorage.getItem('dark_bans')) || [],
-            isLive: localStorage.getItem('dark_live') === 'true'
+            isLive: localStorage.getItem('tiktokLiveStatus') === 'true' // Ana səhifə ilə əlaqə
         };
 
-        // Giriş Yoxlanışı
         function checkStep1() {
             if(document.getElementById("userInput").value === "dark" && document.getElementById("passInput").value === "dark123") {
                 document.getElementById("loginOverlay").style.display = "none";
                 document.getElementById("twoFAOverlay").style.display = "flex";
-            }
+            } else { alert("Yanlış məlumat!"); }
         }
 
         function checkStep2() {
             if(document.getElementById("twoFAPass").value === "dark170109") {
                 document.getElementById("twoFAOverlay").style.display = "none";
                 initPanel();
-            }
+            } else { alert("Açar yanlışdır!"); }
         }
 
-        // Paneli Başlat
         function initPanel() {
-            updateStats();
-            renderBans();
-            renderLogs();
+            updateStats(); renderBans(); renderLogs();
             toggleTikTok(storage.isLive);
         }
 
@@ -158,10 +159,12 @@
             document.getElementById("totalRezervs").innerText = storage.rezervs.length;
         }
 
-        // TikTok Status
+        // --- ƏSAS HİSSƏ: TİKTOK STATUSUNUN DƏYİŞDİRİLMƏSİ ---
         function toggleTikTok(status) {
             storage.isLive = status;
-            localStorage.setItem('dark_live', status);
+            // Ana səhifənin görəcəyi kodu (tiktokLiveStatus) yeniləyirik:
+            localStorage.setItem('tiktokLiveStatus', status ? 'true' : 'false'); 
+            
             const el = document.getElementById("tiktokStatus");
             if(status) {
                 el.classList.add("live");
@@ -172,22 +175,17 @@
             }
         }
 
-        // Ban Sistemi
         function addBan() {
             const ip = document.getElementById("banIP").value;
             if(ip && !storage.bans.includes(ip)) {
                 storage.bans.push(ip);
                 localStorage.setItem('dark_bans', JSON.stringify(storage.bans));
-                renderBans();
-                document.getElementById("banIP").value = "";
+                renderBans(); document.getElementById("banIP").value = "";
             }
         }
 
-        function renderBans() {
-            document.getElementById("bannedList").innerHTML = storage.bans.map(ip => `<div>[BANNED] ${ip}</div>`).join("");
-        }
+        function renderBans() { document.getElementById("bannedList").innerHTML = storage.bans.map(ip => `<div>[BANNED] ${ip}</div>`).join(""); }
 
-        // Loqların Göstərilməsi
         function renderLogs() {
             document.getElementById("visitLogs").innerHTML = storage.visits.map(v => `<tr><td>${v.ip}</td><td>${v.date}</td></tr>`).reverse().join("");
             document.getElementById("rezervLogs").innerHTML = storage.rezervs.map(r => `<tr><td>${r.ip}</td><td>${r.note}</td><td>${r.date}</td></tr>`).reverse().join("");
@@ -195,8 +193,7 @@
 
         function clearLogs() {
             if(confirm("Bütün loqlar silinsin?")) {
-                localStorage.setItem('dark_visits', '[]');
-                localStorage.setItem('dark_rezervs', '[]');
+                localStorage.setItem('dark_visits', '[]'); localStorage.setItem('dark_rezervs', '[]');
                 storage.visits = []; storage.rezervs = [];
                 updateStats(); renderLogs();
             }
@@ -207,15 +204,6 @@
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.menu-btn').forEach(m => m.classList.remove('active'));
             btn.classList.add('active');
-        }
-
-        // SİMULASİYA (Bu hissə realda saytın digər səhifələrindən bura data göndərəcək)
-        // Yoxlamaq üçün: kimsə sayta girəndə bu funksiya işə düşməlidir
-        function simulateVisit(ip) {
-            let now = new Date().toLocaleString('az-AZ');
-            storage.visits.push({ip: ip, date: now});
-            localStorage.setItem('dark_visits', JSON.stringify(storage.visits));
-            updateStats(); renderLogs();
         }
     </script>
 </body>
