@@ -3,354 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DARK | MASTER CONTROL PANEL</title>
+    <title>DARK | REAL-TIME CONTROL</title>
     <style>
-        :root {
-            --red: #ff0000;
-            --dark-bg: #050505;
-            --card-bg: #0d0d0d;
-            --text: #ffffff;
-            --gray: #888;
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text);
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* --- LOGIN & 2FA --- */
-        .overlay-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: all 0.5s ease;
-        }
-
-        .login-box {
-            width: 90%;
-            max-width: 400px;
-            padding: 40px;
-            background: var(--card-bg);
-            border: 1px solid var(--red);
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
-        }
-
-        .login-box h2 { color: var(--red); letter-spacing: 5px; margin-bottom: 30px; }
+        :root { --red: #ff0000; --dark-bg: #050505; --card-bg: #0d0d0d; --text: #ffffff; --gray: #888; }
+        body { background-color: var(--dark-bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
-        input {
-            width: 100%; padding: 15px; margin-bottom: 15px;
-            background: #000; color: #fff; border: 1px solid #333;
-            border-radius: 10px; box-sizing: border-box; outline: none;
-        }
+        /* Giriş Ekranları */
+        .overlay-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 10000; transition: 0.5s; }
+        .login-box { width: 90%; max-width: 400px; padding: 40px; background: var(--card-bg); border: 1px solid var(--red); border-radius: 20px; text-align: center; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; background: #000; color: #fff; border: 1px solid #333; border-radius: 10px; box-sizing: border-box; }
+        button { cursor: pointer; transition: 0.3s; }
 
-        /* --- SIDEBAR --- */
-        .sidebar {
-            width: 280px;
-            background: var(--card-bg);
-            border-right: 1px solid #222;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            transition: 0.3s;
-            z-index: 999;
-        }
+        /* Sidebar */
+        .sidebar { width: 280px; background: var(--card-bg); border-right: 1px solid #222; display: flex; flex-direction: column; padding: 20px; z-index: 999; }
+        .menu-btn { background: transparent; color: var(--text); border: none; padding: 15px; text-align: left; border-radius: 10px; margin-bottom: 5px; }
+        .menu-btn.active { background: rgba(255, 0, 0, 0.1); color: var(--red); font-weight: bold; }
 
-        .sidebar h2 { color: var(--red); font-size: 22px; text-align: center; margin-bottom: 5px; }
-        .sidebar p { color: var(--gray); font-size: 12px; text-align: center; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px; }
-
-        .menu-btn {
-            background: transparent; color: var(--text); border: none;
-            padding: 15px; text-align: left; cursor: pointer;
-            border-radius: 10px; margin-bottom: 5px; transition: 0.3s;
-            font-weight: 500;
-        }
-
-        .menu-btn:hover, .menu-btn.active { background: rgba(255, 0, 0, 0.1); color: var(--red); }
-
-        .exit-btn {
-            margin-top: auto; background: var(--red); color: white;
-            border: none; padding: 15px; border-radius: 10px; cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* --- CONTENT --- */
-        .content { flex: 1; padding: 40px; overflow-y: auto; position: relative; }
-        .page { display: none; max-width: 1100px; margin: 0 auto; }
-        .page.active { display: block; animation: fadeIn 0.4s ease; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        h3 { border-left: 4px solid var(--red); padding-left: 15px; margin-bottom: 30px; }
-
-        /* --- DASHBOARD CARDS --- */
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; 
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid #222;
-            text-align: center;
-        }
-
-        .stat-card h4 { margin: 0; color: var(--gray); font-size: 14px; text-transform: uppercase; }
-        .stat-card .val { font-size: 32px; font-weight: bold; color: var(--red); margin: 10px 0; display: block; }
+        /* Content */
+        .content { flex: 1; padding: 40px; overflow-y: auto; }
+        .page { display: none; }
+        .page.active { display: block; }
         
-        .live-status {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-size: 14px; font-weight: bold; padding: 5px 15px;
-            border-radius: 20px; background: #1a1a1a;
-        }
+        /* Stats & Tables */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid #222; text-align: center; }
+        .val { font-size: 32px; font-weight: bold; color: var(--red); display: block; margin: 10px 0; }
+        
+        .log-table { width: 100%; border-collapse: collapse; background: #0a0a0a; border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .log-table th, .log-table td { padding: 12px; text-align: left; border-bottom: 1px solid #111; font-size: 13px; }
+        .log-table th { color: var(--red); background: #111; }
+
+        .live-status { display: inline-flex; align-items: center; gap: 8px; font-weight: bold; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: #555; }
         .live .dot { background: #00ff00; box-shadow: 0 0 10px #00ff00; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
-        /* --- LOG TABLES --- */
-        .log-section { margin-bottom: 40px; background: #0a0a0a; border-radius: 15px; padding: 20px; border: 1px solid #222; }
-        .log-table-wrapper { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { text-align: left; padding: 12px; color: var(--red); border-bottom: 1px solid #222; }
-        td { padding: 12px; border-bottom: 1px solid #111; font-size: 13px; color: #ccc; }
-
-        /* --- MOBILE TOGGLE --- */
-        .mobile-header {
-            display: none; width: 100%; background: var(--card-bg);
-            padding: 15px 20px; box-sizing: border-box;
-            border-bottom: 1px solid var(--red);
-            justify-content: space-between; align-items: center;
-            position: fixed; top: 0; z-index: 1001;
-        }
-
         @media (max-width: 900px) {
-            .sidebar { position: fixed; left: -300px; height: 100%; }
+            .sidebar { position: fixed; left: -300px; height: 100%; transition: 0.3s; }
             .sidebar.open { left: 0; }
-            .mobile-header { display: flex; }
-            .content { padding: 100px 20px 40px; }
-            body { flex-direction: column; }
+            .content { padding: 80px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Mərhələ 1: Giriş -->
+    <!-- Giriş Mərhələləri -->
     <div id="loginOverlay" class="overlay-screen">
         <div class="login-box">
-            <h2 style="font-size: 24px;">DARK ADMIN</h2>
+            <h2 style="color:var(--red)">DARK LOGIN</h2>
             <input type="text" id="userInput" placeholder="Admin Adı">
             <input type="password" id="passInput" placeholder="Şifrə">
-            <button onclick="checkStep1()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">DAXİL OL</button>
-            <p id="err1" style="color:red; display:none; margin-top:15px; font-size:13px;">Giriş məlumatları yanlışdır!</p>
+            <button onclick="checkStep1()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px;">DAXİL OL</button>
         </div>
     </div>
 
-    <!-- Mərhələ 2: 2FA -->
-    <div id="twoFAOverlay" class="overlay-screen" style="display:none; opacity:0;">
+    <div id="twoFAOverlay" class="overlay-screen" style="display:none;">
         <div class="login-box">
-            <h2>GÜVƏNLİK</h2>
-            <p style="font-size:13px; color:var(--gray);">Gizlilik açarını daxil edin</p>
-            <input type="password" id="twoFAPass" placeholder="Security Key">
-            <button onclick="checkStep2()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">PANELİ AÇ</button>
-            <p id="err2" style="color:red; display:none; margin-top:15px; font-size:13px;">Açar yanlışdır!</p>
+            <h2 style="color:var(--red)">SECURITY</h2>
+            <input type="password" id="twoFAPass" placeholder="Gizlilik Acharı">
+            <button onclick="checkStep2()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px;">PANELİ AÇ</button>
         </div>
-    </div>
-
-    <!-- Mobile Header -->
-    <div class="mobile-header">
-        <span style="color:var(--red); font-weight:bold;">DARK CONTROL</span>
-        <button onclick="toggleSidebar()" style="background:none; border:1px solid var(--red); color:white; padding:5px 15px; border-radius:5px;">MENU</button>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <h2>DARK ADMIN</h2>
-        <p>Master Control v3.0</p>
+        <h2 style="color:var(--red); text-align:center">DARK PANEL</h2>
         <button class="menu-btn active" onclick="showPage('dashboard', this)">📊 DASHBOARD</button>
         <button class="menu-btn" onclick="showPage('blacklist', this)">🚫 BLACKLIST</button>
-        <button class="menu-btn" onclick="showPage('logs', this)">🛠 GİRİŞ LOQLARI</button>
-        <button class="exit-btn" onclick="location.reload()">ÇIXIŞ ET</button>
+        <button class="menu-btn" onclick="showPage('logs', this)">🛠 SİSTEM LOQLARI</button>
+        <button onclick="location.reload()" style="margin-top:auto; padding:15px; background:var(--red); border:none; border-radius:10px; color:white; font-weight:bold;">ÇIXIŞ</button>
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-        
-        <!-- DASHBOARD -->
+        <!-- Dashboard -->
         <div id="dashboard" class="page active">
-            <h3>PANELİN VƏZİYYƏTİ</h3>
+            <h3>CANLI STATİSTİKA</h3>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h4>TikTok Canlı Yayım</h4>
-                    <div id="tiktokStatus" class="live-status"><div class="dot"></div> <span>OFFLINE</span></div>
+                    <h4>TikTok Canlı</h4>
+                    <div id="tiktokStatus" class="live-status"><div class="dot"></div> <span id="statusText">OFFLINE</span></div>
+                    <div style="margin-top:10px;">
+                        <button onclick="toggleTikTok(true)" style="background:green; color:white; border:none; padding:5px 10px; border-radius:5px;">AÇ</button>
+                        <button onclick="toggleTikTok(false)" style="background:#444; color:white; border:none; padding:5px 10px; border-radius:5px;">BAĞLA</button>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>Bugünkü Ziyarətçi</h4>
-                    <span class="val">2,482</span>
-                </div>
-                <div class="stat-card">
-                    <h4>Bugünkü Rezervlər</h4>
-                    <span class="val">14</span>
-                </div>
-            </div>
-
-            <div class="log-section">
-                <h4 style="margin-top:0; color:var(--red);">TikTok Statusunu Dəyiş</h4>
-                <button onclick="setTikTok(true)" style="padding:10px 20px; background:green; color:white; border:none; border-radius:5px; cursor:pointer;">CANLI AÇ</button>
-                <button onclick="setTikTok(false)" style="padding:10px 20px; background:#444; color:white; border:none; border-radius:5px; cursor:pointer;">BAĞLA</button>
+                <div class="stat-card"><h4>Ümumi Ziyarət</h4><span class="val" id="totalVisits">0</span></div>
+                <div class="stat-card"><h4>Real Rezervlər</h4><span class="val" id="totalRezervs">0</span></div>
             </div>
         </div>
 
-        <!-- BLACKLIST -->
+        <!-- Blacklist -->
         <div id="blacklist" class="page">
             <h3>🚫 IP BAN SİSTEMİ</h3>
-            <div class="log-section">
-                <p style="font-size:13px; color:var(--gray);">Bura daxil edilən IP-lər sayta daxil ola bilməyəcək.</p>
-                <input type="text" id="banIP" placeholder="Bloklanacaq IP ünvanı">
-                <button onclick="addBan()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">IP BANLA</button>
+            <div style="background:#0a0a0a; padding:20px; border-radius:15px; border:1px solid #222;">
+                <input type="text" id="banIP" placeholder="Bloklanacaq IP">
+                <button onclick="addBan()" style="width:100%; padding:15px; background:var(--red); color:white; border:none; border-radius:10px;">IP-Nİ BLOKLA</button>
             </div>
-            <div class="log-section">
-                <h4>Banlanmış IP-lər</h4>
-                <div id="bannedList" style="font-family:monospace; font-size:12px; color:red;"></div>
-            </div>
+            <div id="bannedList" style="margin-top:20px; color:red; font-family:monospace;"></div>
         </div>
 
-        <!-- LOGS -->
+        <!-- Logs -->
         <div id="logs" class="page">
-            <h3>🛠 SİSTEM LOQLARI</h3>
+            <h3>🛠 REAL LOQLAR</h3>
+            <button onclick="clearLogs()" style="background:#444; color:white; border:none; padding:10px; border-radius:5px; margin-bottom:10px;">Loqları Təmizlə</button>
             
-            <div class="log-section">
-                <h4>1. Sayta Gələn Ziyarətçilər</h4>
-                <div class="log-table-wrapper">
-                    <table id="visitTable">
-                        <thead><tr><th>IP Ünvanı</th><th>Cihaz</th><th>Tarix</th></tr></thead>
-                        <tbody id="visitLogs"></tbody>
-                    </table>
-                </div>
-            </div>
+            <h4>Ziyarətçilər</h4>
+            <table class="log-table">
+                <thead><tr><th>IP</th><th>Tarix</th></tr></thead>
+                <tbody id="visitLogs"></tbody>
+            </table>
 
-            <div class="log-section">
-                <h4>2. Rezervasiya Edənlər</h4>
-                <div class="log-table-wrapper">
-                    <table id="rezervTable">
-                        <thead><tr><th>IP</th><th>Ad / Tarix / Saat</th><th>Rezerv Tarixi</th></tr></thead>
-                        <tbody id="rezervLogs"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="log-section">
-                <h4>3. Canlı Chat / Rəylər</h4>
-                <div class="log-table-wrapper">
-                    <table>
-                        <thead><tr><th>IP</th><th>Mesaj / Ad</th><th>Tarix</th></tr></thead>
-                        <tbody id="chatLogs"></tbody>
-                    </table>
-                </div>
-            </div>
+            <h4>Rezervasiyalar</h4>
+            <table class="log-table">
+                <thead><tr><th>IP</th><th>Məlumat</th><th>Tarix</th></tr></thead>
+                <tbody id="rezervLogs"></tbody>
+            </table>
         </div>
-
     </div>
 
     <script>
-        const ADMIN_USER = "dark", ADMIN_PASS = "dark123", SECURE_KEY = "dark170109";
-        let bannedIPs = ["192.168.1.1", "5.45.12.88"];
+        // --- REAL MƏLUMATLARIN İDARƏ EDİLMƏSİ ---
+        let storage = {
+            visits: JSON.parse(localStorage.getItem('dark_visits')) || [],
+            rezervs: JSON.parse(localStorage.getItem('dark_rezervs')) || [],
+            bans: JSON.parse(localStorage.getItem('dark_bans')) || [],
+            isLive: localStorage.getItem('dark_live') === 'true'
+        };
 
-        // GİRİŞ KONTROLU
+        // Giriş Yoxlanışı
         function checkStep1() {
-            const u = document.getElementById("userInput").value;
-            const p = document.getElementById("passInput").value;
-            if(u === ADMIN_USER && p === ADMIN_PASS) {
-                document.getElementById("loginOverlay").style.opacity = "0";
-                setTimeout(() => {
-                    document.getElementById("loginOverlay").style.display = "none";
-                    document.getElementById("twoFAOverlay").style.display = "flex";
-                    setTimeout(() => document.getElementById("twoFAOverlay").style.opacity = "1", 50);
-                }, 500);
-            } else {
-                document.getElementById("err1").style.display = "block";
+            if(document.getElementById("userInput").value === "dark" && document.getElementById("passInput").value === "dark123") {
+                document.getElementById("loginOverlay").style.display = "none";
+                document.getElementById("twoFAOverlay").style.display = "flex";
             }
         }
 
         function checkStep2() {
-            const k = document.getElementById("twoFAPass").value;
-            if(k === SECURE_KEY) {
-                document.getElementById("twoFAOverlay").style.opacity = "0";
-                setTimeout(() => {
-                    document.getElementById("twoFAOverlay").style.display = "none";
-                    loadInitialData();
-                }, 500);
-            } else {
-                document.getElementById("err2").style.display = "block";
+            if(document.getElementById("twoFAPass").value === "dark170109") {
+                document.getElementById("twoFAOverlay").style.display = "none";
+                initPanel();
             }
         }
 
-        // NAVİQASİYA
+        // Paneli Başlat
+        function initPanel() {
+            updateStats();
+            renderBans();
+            renderLogs();
+            toggleTikTok(storage.isLive);
+        }
+
+        function updateStats() {
+            document.getElementById("totalVisits").innerText = storage.visits.length;
+            document.getElementById("totalRezervs").innerText = storage.rezervs.length;
+        }
+
+        // TikTok Status
+        function toggleTikTok(status) {
+            storage.isLive = status;
+            localStorage.setItem('dark_live', status);
+            const el = document.getElementById("tiktokStatus");
+            if(status) {
+                el.classList.add("live");
+                document.getElementById("statusText").innerText = "LIVE NOW";
+            } else {
+                el.classList.remove("live");
+                document.getElementById("statusText").innerText = "OFFLINE";
+            }
+        }
+
+        // Ban Sistemi
+        function addBan() {
+            const ip = document.getElementById("banIP").value;
+            if(ip && !storage.bans.includes(ip)) {
+                storage.bans.push(ip);
+                localStorage.setItem('dark_bans', JSON.stringify(storage.bans));
+                renderBans();
+                document.getElementById("banIP").value = "";
+            }
+        }
+
+        function renderBans() {
+            document.getElementById("bannedList").innerHTML = storage.bans.map(ip => `<div>[BANNED] ${ip}</div>`).join("");
+        }
+
+        // Loqların Göstərilməsi
+        function renderLogs() {
+            document.getElementById("visitLogs").innerHTML = storage.visits.map(v => `<tr><td>${v.ip}</td><td>${v.date}</td></tr>`).reverse().join("");
+            document.getElementById("rezervLogs").innerHTML = storage.rezervs.map(r => `<tr><td>${r.ip}</td><td>${r.note}</td><td>${r.date}</td></tr>`).reverse().join("");
+        }
+
+        function clearLogs() {
+            if(confirm("Bütün loqlar silinsin?")) {
+                localStorage.setItem('dark_visits', '[]');
+                localStorage.setItem('dark_rezervs', '[]');
+                storage.visits = []; storage.rezervs = [];
+                updateStats(); renderLogs();
+            }
+        }
+
         function showPage(id, btn) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.menu-btn').forEach(m => m.classList.remove('active'));
             btn.classList.add('active');
-            if(window.innerWidth <= 900) toggleSidebar();
         }
 
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("open");
-        }
-
-        // FUNKSİYALAR
-        function setTikTok(status) {
-            const el = document.getElementById("tiktokStatus");
-            if(status) {
-                el.classList.add("live");
-                el.querySelector("span").innerText = "LIVE NOW";
-            } else {
-                el.classList.remove("live");
-                el.querySelector("span").innerText = "OFFLINE";
-            }
-        }
-
-        function addBan() {
-            const ip = document.getElementById("banIP").value;
-            if(ip) {
-                bannedIPs.push(ip);
-                renderBanList();
-                document.getElementById("banIP").value = "";
-                alert(ip + " ünvanı bloklandı!");
-            }
-        }
-
-        function renderBanList() {
-            document.getElementById("bannedList").innerHTML = bannedIPs.map(ip => `<div>[BANNED] ${ip}</div>`).join("");
-        }
-
-        function loadInitialData() {
-            renderBanList();
-            // Nümunə Loqlar
-            document.getElementById("visitLogs").innerHTML = `
-                <tr><td>85.132.10.45</td><td>iPhone / Chrome</td><td>Bugün 14:20</td></tr>
-                <tr><td>172.67.14.2</td><td>Windows / Edge</td><td>Bugün 13:05</td></tr>
-            `;
-            document.getElementById("rezervLogs").innerHTML = `
-                <tr><td>91.110.44.12</td><td>Eli M. / 12 May / 21:00</td><td>Bugün 12:44</td></tr>
-                <tr><td>82.194.12.99</td><td>Sanan / 15 May / 23:00</td><td>Dünən 22:10</td></tr>
-            `;
-            document.getElementById("chatLogs").innerHTML = `
-                <tr><td>185.44.12.1</td><td>"Super oyun idi!" - Murad</td><td>Dünən 18:30</td></tr>
-            `;
+        // SİMULASİYA (Bu hissə realda saytın digər səhifələrindən bura data göndərəcək)
+        // Yoxlamaq üçün: kimsə sayta girəndə bu funksiya işə düşməlidir
+        function simulateVisit(ip) {
+            let now = new Date().toLocaleString('az-AZ');
+            storage.visits.push({ip: ip, date: now});
+            localStorage.setItem('dark_visits', JSON.stringify(storage.visits));
+            updateStats(); renderLogs();
         }
     </script>
 </body>
