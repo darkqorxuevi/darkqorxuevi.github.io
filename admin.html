@@ -3,70 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - DARK Horror</title>
+    <title>KARANLIK YÖNETİCİ PANELİ | GÜVENLİ</title>
     <style>
-        body { background-color: #111; color: white; font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        .admin-box { background: #222; border: 2px solid red; border-radius: 10px; padding: 20px; max-width: 500px; margin: 0 auto; }
-        button { width: 100%; padding: 12px; margin: 10px 0; font-weight: bold; border-radius: 5px; cursor: pointer; border:none; }
-        .btn-live { background: #00ff00; }
-        .btn-offline { background: red; color: white; }
-        .review-admin-item { background: #000; border: 1px solid #444; padding: 10px; margin-top: 10px; text-align: left; }
-        .del-btn { background: darkred; color: white; width: auto; padding: 5px 10px; margin-right: 5px; }
-        .like-admin-btn { background: darkgreen; color: white; width: auto; padding: 5px 10px; }
+        body { 
+            background-color: #000; 
+            color: white; 
+            'Segoe UI', sans-serif; 
+            0; 
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- GİRİŞ VE 2FA KAPLAMALARI --- */
+        .overlay-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+
+        .login-box {
+            width: 350px;
+            padding: 50px;
+            background: #0a0a0a;
+            border: 2px solid red;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .login-box h2 { color: red; 35px; letter-spacing: 3px; text-transform: uppercase; font-size: 20px; }
+        .login-box p { color: #888; font-size: 13px; 20px; }
+
+        /* --- YAN ÇUBUK --- */
+        .sidebar {
+            width: 280px;
+            background: #0a0a0a;
+            border-right: 2px solid red;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar h2 { color: red; font-size: 26px; 10px; text-transform: uppercase; }
+        .sidebar p { color: #666; font-size: 14px; 40px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+
+        .menu-btn {
+            arka plan: şeffaf; renk: beyaz; kenarlık: 1 piksel düz #333;
+            dolgu: 16 piksel; 25 piksel; metin hizalaması: sola;
+            imleç: işaretçi; kenar yarıçapı: 10 piksel; yazı tipi kalınlığı: kalın; geçiş: 0,3 saniye;
+        }
+
+        .menu-btn.active { border-color: red; background: #220000; }
+
+        .exit-btn {
+            otomatik; arka plan: #660000; renk: beyaz;
+            kenarlık: yok; dolgu: 20 piksel; kenar yarıçapı: 10 piksel;
+            yazı tipi kalınlığı: kalın; imleç: işaretçi;
+        }
+
+        /* --- İÇERİK --- */
+        .content { flex: 1; padding: 50px; overflow-y: auto; background: #000; }
+        .page { display: none; width: 100%; max-width: 900px; 0 auto; }
+        .page.active { display: block; animation: pageFade 0.5s ease; }
+
+        @keyframes pageFade { from { opacity: 0; } to { opacity: 1; } }
+
+        h3 { border-left: 5px solid red; padding-left: 20px; color: red; 40px; text-transform: uppercase; }
+
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; 50px; }
+        .stat-card { background: #0a0a0a; border: 1px solid red; padding: 25px; border-radius: 12px; text-align: center; }
+        .stat-card span { font-size: 36px; font-weight: bold; color: red; display: block; 15px; }
+
+        input, textarea { 
+            width: 100%; padding: 18px; 20px; 
+            background: #0a0a0a; color: white; border: 1px solid #333; 
+            box-sizing: border-box; border-radius: 10px; font-size: 16px;
+        }
+
+        .action-btn { 
+            genişlik: 100%; dolgu: 22px; yazı tipi kalınlığı: kalın; 
+            kenar yarıçapı: 10px; imleç: işaretçi; kenarlık: yok; yazı tipi boyutu: 16px;
+        }
+
+        .btn-red { background: red; color: #fff; }
+        .btn-gray { background: #1a1a1a; color: #fff; border: 1px solid red; }
+
+        .log-box { monospace; color: #00ff00; height: 350px; overflow-y: scroll; background: #050505; padding: 20px; border: 1px solid #222; }
+
+        .burger-icon {
+            display: none; position: fixed; top: 25px; left: 25px; z-index: 1001;
+            background: red; color: white; padding: 15px 25px; border-radius: 10px; cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .burger-icon { display: block; }
+            .sidebar { position: fixed; left: 0; top: 0; height: 100%; z-index: 1000; transform: translateX(-100%); width: 300px; }
+            .sidebar.open { transform: translateX(0); }
+            .content { padding: 100px 25px; }
+            .stats-container { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="admin-box">
-        <h2>🔥 DARK Admin Panel 🔥</h2>
-        
-        <div style="border-bottom: 1px solid red; padding-bottom: 20px;">
-            <p>TikTok Statusu:</p>
-            <button class="btn-live" onclick="setLiveStatus('true')">🟢 Canlı Yayım AKTİV</button>
-            <button class="btn-offline" onclick="setLiveStatus('false')">🔴 Canlı Yayım DEAKTİV</button>
+    <!-- Mərhələ 1: Login -->
+    <div id="loginOverlay" class="overlay-screen">
+        <div class="login-box">
+            <h2>DARK ADMIN</h2>
+            <input type="text" id="userInput" placeholder="Kullanıcı Adı">
+            <input type="password" id="passInput" placeholder="Şifre">
+            <button class="action-btn btn-red" onclick="step1()">Giriş Yap</button>
+            <p id="err1" style="color: red; display: none; 10px;">Yönetim bilgileri yanlıştır!</p>
+        </div>
+    </div>
+
+    <!-- Mərhələ 2: 2FA -->
+    <div id="twoFAOverlay" class="overlay-screen" style="display: none; opacity: 0; görünürlük: gizli;">
+        <div class="login-box">
+            <h2>DOĞRULAMA</h2>
+            <p>Lütfen, şifresini daxil edin</p>
+            <input type="password" id = "twoFAPass" placeholder = "Gizlilik Anahtarı">
+            <button class = "action-btn btn-red" onclick = "step2 ()"> PANELİN KİLİDİNİ AÇ</button>
+            <p id = "err2" style = "color: red; display: none; 10px;">Gizlilik şifrəsi yanlıştır!</p>
+        </div>
+    </div>
+
+    <div class="burger-icon" id="burgerBtn" onclick="toggleMenu()">☰ MENÜ</div>
+
+    <div class="sidebar" id="sidebar">
+        <h2>DARK ADMIN</h2>
+        <p>Owner Control v2.0</p>
+        <button class="menu-btn active" onclick="showPage('dashboard', this)">DASHBOARD</button>
+        <button class="menu-btn" onclick="showPage('duyurular', this)">DUYURULLAR</button>
+        <button class="menu-btn" onclick="showPage('blacklist', this)">BLACKLIST</button>
+        <button class="menu-btn" onclick="showPage('loglar', this)">GİRİŞ LOQLARI</button>
+        <button class="exit-btn" onclick="location.reload()">OUTOUT</button>
+    </div>
+
+    <div class="content">
+        <div id="dashboard" class="page active">
+            <h3>PANEL</h3>
+            <div class="stats-container">
+                <div class="stat-card"><h4>Aktif İstifadəçi</h4><span>142</span></div>
+                <div class="stat-card"><h4>Rezervlər</h4><span>28</span></div>
+            </div>
         </div>
 
-        <div style="margin-top: 20px;">
-            <h3>💬 Rəyləri İdarə Et</h3>
-            <div id="adminReviewList">Yüklənir...</div>
+        <div id="duyurular" class="page">
+            <h3>📢DUYURULAR</h3>
+            <textarea id='dText' row="6" placeholder='Bura yazın..."></textarea>
+            <button class="action-btn btn-gray" onclick="addLog('Yeni paylaşıldı')">YAYIMLA</button>
         </div>
 
-        <button style="background:#555; color:white; margin-top:20px;" onclick="window.location.href='index.html'">Çıxış</button>
+        <div id="blacklist" class="page">
+            <h3>🚫 BLACKLIST</h3>
+            <input type="text" id="bInput" placeholder="İstifadəçi adı / IP">
+            <button class="action-btn btn-red" onclick="addLog('Siyahıya yeni üzv əlavə')">QARA SİYAHIYA SAL</button>
+        </div>
+
+        <div id="loglar" class="page">
+            <h3>🛠 GİRİŞ LOQLARI</h3>
+            <div class="log-box" id="systemLogs"></div>
+            <button class="action-btn btn-gray" style=" 20px;" onclick="document.getElementById('systemLogs').innerHTML=''">TƏMİZLƏ</button>
+        </div>
     </div>
 
     <script>
-        const scriptURL = 'BURAYA_KOPYALADIGIN_LINKI_YAPISDIR';
+        const U = "dark", P = "dark123", SECURE_KEY = "dark170109";
 
-        async function loadAdminReviews() {
-            const res = await fetch(`${scriptURL}?action=read`);
-            const data = await res.json();
-            document.getElementById("adminReviewList").innerHTML = data.map(r => `
-                <div class="review-admin-item">
-                    <strong>${r.name}</strong>: ${r.text}
-                    <div style="margin-top:10px;">
-                        <button class="del-btn" onclick="deleteReview('${r.id}')">Sil</button>
-                        <button class="like-admin-btn" onclick="adminLike('${r.id}')">Dark Bəyənməsi Ver</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function deleteReview(id) {
-            if(confirm("Bu rəyi silmək istəyirsən?")) {
-                await fetch(`${scriptURL}?action=delete&id=${id}`, {mode: 'no-cors'});
-                loadAdminReviews();
+        // Mərhələ 1
+        function step1() {
+            const user = document.getElementById("userInput").value;
+            const pass = document.getElementById("passInput").value;
+            if(user === U && pass === P) {
+                fadeEffect("loginOverlay", "twoFAOverlay");
+            } else {
+                document.getElementById("err1").style.display = "block";
             }
         }
 
-        async function adminLike(id) {
-            await fetch(`${scriptURL}?action=adminLike&id=${id}`, {mode: 'no-cors'});
-            alert("Bəyənildi!");
-            loadAdminReviews();
+        // Mərhələ 2
+        fonksiyonu step2() {
+            const key = document.getElementById("twoFAPass").value;
+            if(key === SECURE_KEY) {
+                const fa = document.getElementById("twoFAOverlay");
+                fa.style.opacity = "0";
+                setTimeout(() => { 
+                    fa.style.display = "none"; 
+                    captureAccess();
+                }, 600);
+            } else {
+                document.getElementById("err2").style.display = "block";
+            }
         }
 
-        function setLiveStatus(s) { localStorage.setItem('tiktokLiveStatus', s); alert("Status dəyişdi!"); }
-        
-        window.onload = loadAdminReviews;
+        // Keçid Animasiyası
+        function fadeEffect(hideId, showId) {
+            const hideEl = document.getElementById(hideId);
+            const showEl = document.getElementById(showId);
+            
+            hideEl.style.opacity = "0";
+            setTimeout(() => {
+                hideEl.style.display = "none";
+                showEl.style.display = "flex";
+                setTimeout(() => {
+                    showEl.style.opacity = "1";
+                    showEl.style.visibility = "visible";
+                }, 50);
+            }, 600);
+        }
+
+        async function captureAccess() {
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                addLog(`Admin Panelə Tam Giriş: IP ${data.ip}`);
+            } catch(e) { addLog("Admin giriş etdi."); }
+        }
+
+        function showPage(id, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.menu-btn').forEach(m => m.classList.remove('active'));
+            btn.classList.add('active');
+            if(window.innerWidth <= 768) toggleMenu();
+        }
+
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+
+        function addLog(msg) {
+            const box = document.getElementById("systemLogs");
+            const time = new Date().toLocaleString('az-AZ');
+            box.innerHTML = `<div style="10px;">[${time}] ${msg}</div>` + box.innerHTML;
+        }
     </script>
 </body>
 </html>
