@@ -1,218 +1,40 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <link rel="icon" type="image/png" href="logo.png">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sizin Rəyləriniz - DARK Horror House</title>
-    
-    <link rel="stylesheet" href="style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rəylər - DARK Horror House</title>
     <style>
-        body {
-            background-color: #000;
-            /* Arxa fon forest.jpg edildi və şəffaflıq artırıldı ki, işıqlı olsun */
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('forest.jpg'); 
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            background-attachment: fixed;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Üst panel */
-        .top-nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 5%;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid #ff0000;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        /* Geri butonu - Səliqəli və effektli */
-        .back-btn {
-            text-decoration: none !important;
-            color: white !important;
-            background: #ff0000;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: 0.3s;
-            border: 1px solid transparent;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-btn:hover {
-            background: transparent;
-            border-color: #ff0000;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-            transform: translateX(-5px);
-        }
-
-        .page-title {
-            color: #ff0000;
-            font-size: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 0;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
-            text-align: center;
-            flex-grow: 1;
-        }
-
-        /* Rəylər konteyneri */
-        .container {
-            width: 90%;
-            max-width: 700px;
-            margin: 40px auto;
-        }
-
-        /* Rəy qutusu - İşıqlı və səliqəli */
-        .review-card {
-            background: rgba(25, 25, 25, 0.9);
-            border: 1px solid #333;
-            border-left: 5px solid #ff0000;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-
-        .review-card:hover {
-            border-color: #ff0000;
-            transform: translateY(-5px);
-            background: rgba(35, 35, 35, 0.95);
-        }
-
-        .rev-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .user-name {
-            color: #ff3333;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .admin-tag {
-            background: #ff0000;
-            color: white;
-            font-size: 10px;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .rev-text {
-            color: #ffffff;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .rev-footer {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #bbb;
-            border-top: 1px solid #333;
-            padding-top: 12px;
-        }
-
-        .heart-icon {
-            color: #ff0000;
-            font-weight: bold;
-        }
-
-        /* Yüklənir mətni */
-        #loader {
-            text-align: center;
-            font-style: italic;
-            color: #ff0000;
-            margin-top: 100px;
-            font-size: 18px;
-        }
-
-        /* Sağ tərəfi balanslaşdırmaq üçün */
-        .spacer { width: 90px; }
-
-        @media (max-width: 600px) {
-            .spacer { display: none; }
-            .page-title { font-size: 16px; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+        :root { --bg: #030303; --surface: #0a0a0a; --primary: #d90000; --text: #ffffff; --border: #222222; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+        body { background: var(--bg); color: var(--text); }
+        .topbar { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(3,3,3,0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 100; border-bottom: 1px solid var(--border); }
+        .topbar-title { font-weight: 800; font-size: 1.1rem; text-transform: uppercase; margin: 0 auto; padding-left: 28px; }
+        .back-btn { font-size: 24px; color: var(--text); text-decoration: none; position: absolute; left: 20px; }
+        .app-container { width: 100%; max-width: 500px; margin: 0 auto; padding: 20px; padding-top: 100px; }
+        .review-item { background: var(--surface); padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 3px solid var(--primary); font-size: 14px; }
     </style>
 </head>
 <body>
-
-    <nav class="top-nav">
-        <a href="index.html" class="back-btn">← GERİ</a>
-        <h1 class="page-title">SİZİN RƏYLƏRİNİZ</h1>
-        <div class="spacer"></div>
-    </nav>
-
-    <div class="container">
-        <div id="reviewList">
-            <p id="loader">Rəylər hazırlanır...</p>
-        </div>
+    <div class="topbar">
+        <a href="index.html" class="back-btn">‹</a>
+        <div class="topbar-title">Bütün Rəylər</div>
     </div>
-
+    <div class="app-container" id="allReviews">
+        <p style="text-align:center; color: #888;">Yüklənir...</p>
+    </div>
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzC2Or58ry4WSpllHfM58eG_gmFa5A4LGjv-NUnrT_Rk4mnm5BopssJ30q8YuOeaX9X/exec'; 
-
-        function formatMyDate(d) {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzC2Or58ry4WSpllHfM58eG_gmFa5A4LGjv-NUnrT_Rk4mnm5BopssJ30q8YuOeaX9X/exec';
+        window.onload = async function() {
+            const div = document.getElementById("allReviews");
             try {
-                if (!d) return "";
-                let date = new Date(d);
-                const months = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
-                return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
-            } catch (e) { return d; }
-        }
-
-        async function getReviews() {
-            const list = document.getElementById("reviewList");
-            try {
-                const response = await fetch(`${scriptURL}?action=read`);
-                const data = await response.json();
-                
-                if (data.length === 0) {
-                    list.innerHTML = "<p style='text-align:center;'>Hələ rəy yoxdur.</p>";
-                    return;
-                }
-
-                list.innerHTML = data.map(r => `
-                    <div class="review-card">
-                        <div class="rev-header">
-                            <span class="user-name">${r.name}</span>
-                            ${r.adminLike == "true" ? '<span class="admin-tag">❤ DARK Bəyənib</span>' : ''}
-                        </div>
-                        <p class="rev-text">${r.text}</p>
-                        <div class="rev-footer">
-                            <span>📅 ${formatMyDate(r.date)}</span>
-                            <span><span class="heart-icon">❤</span> ${r.likes || 0} Bəyənmə</span>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (e) {
-                list.innerHTML = "<p style='text-align:center; color:red;'>Xəta: Rəylər yüklənmədi.</p>";
-            }
-        }
-
-        window.onload = getReviews;
+                const res = await fetch(`${scriptURL}?action=read`);
+                const data = await res.json();
+                div.innerHTML = data.map(r => `<div class="review-item"><strong>${r.name}</strong><p style="color:#888; margin-top:5px;">${r.text}</p></div>`).join('');
+                if(data.length === 0) div.innerHTML = "<p style='text-align:center;'>Hələ rəy yoxdur.</p>";
+            } catch(e) { div.innerHTML = "<p style='text-align:center; color:red;'>Xəta baş verdi!</p>"; }
+        };
     </script>
 </body>
 </html>
