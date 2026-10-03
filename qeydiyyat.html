@@ -1,247 +1,39 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <link rel="icon" type="image/png" href="logo.png">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yarışma Qeydiyyatı</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yarışma Qeydiyyatı - DARK Horror House</title>
     <style>
-        body { 
-            background: #0b0b0b; 
-            color: white; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            position: relative;
-        }
-
-        /* GERİ DÖN BUTONU */
-        .back-nav {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #333;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            border: 1px solid #444;
-            transition: 0.3s;
-        }
-        .back-nav:hover { background: #444; }
-
-        .form-container { 
-            width: 100%;
-            max-width: 400px; 
-            background: #1a1a1a; 
-            padding: 30px; 
-            border-radius: 15px; 
-            border: 1px solid #333; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            margin-top: 50px;
-        }
-        h2 { text-align: center; color: #ff4d4d; margin-bottom: 25px; }
-        
-        label { display: block; margin-top: 15px; font-size: 14px; color: #aaa; }
-        
-        input, select { 
-            width: 100%; 
-            padding: 12px; 
-            margin: 8px 0; 
-            background: #111; 
-            color: white; 
-            border: 1px solid #444; 
-            border-radius: 8px; 
-            box-sizing: border-box; 
-            outline: none;
-            font-size: 16px;
-        }
-        input:focus, select:focus { border-color: #ff4d4d; }
-
-        .grade-flex {
-            display: flex;
-            gap: 10px;
-        }
-        .grade-flex div { flex: 1; }
-
-        #submitBtn { 
-            background: #ff4d4d; 
-            color: white; 
-            border: none; 
-            width: 100%; 
-            padding: 15px; 
-            font-weight: bold; 
-            font-size: 16px;
-            margin-top: 25px; 
-            cursor: pointer; 
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-        #submitBtn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
-        #submitBtn:hover:not(:disabled) { background: #cc0000; }
-
-        .success-popup { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); 
-            z-index: 2000; 
-            align-items: center; 
-            justify-content: center; 
-            flex-direction: column; 
-            text-align: center; 
-        }
-        .popup-box {
-            background: #1a1a1a;
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid #28a745;
-        }
-        .nav-btn {
-            padding: 12px 25px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+        :root { --bg: #030303; --surface: #0a0a0a; --primary: #d90000; --text: #ffffff; --border: #222222; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+        body { background: var(--bg); color: var(--text); }
+        .topbar { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(3,3,3,0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 100; border-bottom: 1px solid var(--border); }
+        .topbar-title { font-weight: 800; font-size: 1.1rem; text-transform: uppercase; margin: 0 auto; padding-left: 28px; }
+        .back-btn { font-size: 24px; color: var(--text); text-decoration: none; position: absolute; left: 20px; }
+        .app-container { width: 100%; max-width: 500px; margin: 0 auto; padding: 20px; padding-top: 100px; text-align: center; }
+        .hero-img { width: 100%; height: 180px; background: url('https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=600&q=80') center/cover; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border); }
+        input { width: 100%; padding: 15px; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 8px; margin-bottom: 15px; outline: none; font-size: 14px; }
+        .btn { width: 100%; background: var(--primary); color: #fff; padding: 16px; border: none; border-radius: 8px; font-weight: 800; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
-
-<a href="index.html" class="back-nav">← Geri dön</a>
-
-<div class="form-container">
-    <h2>Yarışma Qeydiyyatı</h2>
-    
-    <label>Müəllimin adı (Könüllü)</label>
-    <input type="text" id="muallim" placeholder="Yalnız hərflər..." oninput="validateLetters(this)">
-    
-    <label>Komanda Kapitanı (Ad Soyad)*</label>
-    <input type="text" id="kapitan" placeholder="Məcburi..." required oninput="validateLetters(this); checkForm();">
-    
-    <label>Əlaqə nömrəsi*</label>
-    <input type="text" id="phone" value="+994 " oninput="formatPhone(this); checkForm();">
-    
-    <label>Komanda Adı*</label>
-    <input type="text" id="teamName" placeholder="Məs: Qorxmazlar" required oninput="checkForm()">
-    
-    <label>Məktəb*</label>
-    <input type="text" id="school" placeholder="Məktəb nömrəsi və ya adı" required oninput="checkForm()">
-
-    <div class="grade-flex">
-        <div>
-            <label>Sinif*</label>
-            <select id="grade" onchange="checkForm()">
-                <option value="">...</option>
-                <option value="5-ci sinif">5</option>
-                <option value="6-cı sinif">6</option>
-                <option value="7-ci sinif">7</option>
-                <option value="8-ci sinif">8</option>
-                <option value="9-cu sinif">9</option>
-                <option value="10-cu sinif">10</option>
-                <option value="11-ci sinif">11</option>
-            </select>
-        </div>
-        <div>
-            <label>İndeks*</label>
-            <select id="gradeIndex" onchange="checkForm()">
-                <option value="">...</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="E">E</option>
-                <option value="F">F</option>
-                <option value="G">G</option>
-                <option value="H">H</option>
-                <option value="İ">İ</option>
-                <option value="R">R</option>
-            </select>
-        </div>
+    <div class="topbar">
+        <a href="index.html" class="back-btn">‹</a>
+        <div class="topbar-title">Yarışma Qeydiyyatı</div>
     </div>
-
-    <button id="submitBtn" disabled onclick="submitRegistration()">Qeydiyyatı Tamamla</button>
-</div>
-
-<div class="success-popup" id="successPopup">
-    <div class="popup-box">
-        <h2 style="color: #28a745;">Qeydiyyat Tamamlandı! ✅</h2>
-        <p style="color: #ccc;">Məlumatlar uğurla bazaya əlavə edildi.</p>
-        <br>
-        <a href="reserve.html" class="nav-btn" style="background: #ff4d4d; color: white;">Rezervasiya et</a>
-        <a href="index.html" class="nav-btn" style="background: #444; color: white;">Ana səhifəyə qayıt</a>
+    <div class="app-container">
+        <div class="hero-img"></div>
+        <h2 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--primary);">Daha çox həyəcan!</h2>
+        <p style="font-size: 13px; color: #888; margin-bottom: 25px; padding: 0 10px;">Siniflər arası yarışmada iştirak edərək xüsusi hədiyyələr qazan.</p>
+        
+        <form onsubmit="event.preventDefault(); alert('Qeydiyyat uğurla tamamlandı!'); window.location.href='index.html';">
+            <input type="text" placeholder="Komanda adı" required>
+            <input type="text" placeholder="Məktəb / Sinif" required>
+            <input type="tel" placeholder="Əlaqə nömrəsi" required>
+            <button type="submit" class="btn">Qeydiyyat</button>
+        </form>
     </div>
-</div>
-
-<script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2if_mG3jH30yhHYr83Fb2ghS11XvnFxeGWfkuAJxj7WWAKpjJ6Bwiul_EbjjJjxd7CA/exec";
-    function validateLetters(input) {
-        input.value = input.value.replace(/[^a-zA-ZəıöğçşüƏİÖĞÇŞÜ\s]/g, '');
-    }
-
-    function formatPhone(input) {
-        if (!input.value.startsWith('+994 ')) {
-            input.value = '+994 ';
-        }
-        let val = input.value.replace(/\D/g, '').substring(3);
-        let formatted = '+994 ';
-        if (val.length > 0) formatted += val.substring(0, 2);
-        if (val.length > 2) formatted += ' ' + val.substring(2, 5);
-        if (val.length > 5) formatted += ' ' + val.substring(5, 7);
-        if (val.length > 7) formatted += ' ' + val.substring(7, 9);
-        input.value = formatted;
-    }
-
-    function checkForm() {
-        const kapitan = document.getElementById('kapitan').value.trim();
-        const team = document.getElementById('teamName').value.trim();
-        const school = document.getElementById('school').value.trim();
-        const grade = document.getElementById('grade').value;
-        const gIndex = document.getElementById('gradeIndex').value;
-        const phone = document.getElementById('phone').value.trim();
-
-        const isReady = kapitan.length > 3 && team.length > 1 && school.length > 1 && grade !== "" && gIndex !== "" && phone.length >= 17;
-        document.getElementById('submitBtn').disabled = !isReady;
-    }
-
-    async function submitRegistration() {
-        const btn = document.getElementById('submitBtn');
-        btn.innerText = "Göndərilir...";
-        btn.disabled = true;
-
-        const data = {
-            type: "registration",
-            muallim: document.getElementById('muallim').value,
-            kapitan: document.getElementById('kapitan').value,
-            phone: document.getElementById('phone').value,
-            teamName: document.getElementById('teamName').value,
-            school: document.getElementById('school').value,
-            grade: document.getElementById('grade').value + " " + document.getElementById('gradeIndex').value
-        };
-
-        try {
-            await fetch(SCRIPT_URL, { 
-                method: "POST", 
-                mode: "no-cors", 
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data) 
-            });
-            document.getElementById('successPopup').style.display = 'flex';
-        } catch (e) {
-            alert("Xəta baş verdi!");
-            btn.disabled = false;
-            btn.innerText = "Qeydiyyatı Tamamla";
-        }
-    }
-</script>
 </body>
 </html>
